@@ -9,6 +9,7 @@
     [ # Include the results of the hardware scan.
       ./hardware.nix
       ./xserver.nix
+      ./tmux.nix
       <home-manager/nixos>
     ];
 
@@ -73,7 +74,7 @@
       pkgs.docker
       pkgs.kubectl
       pkgs.vlc
-      pkgs.vlc
+      pkgs.ripgrep
     ];
     #shell = pkgs.zsh;
   };
