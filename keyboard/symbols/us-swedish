@@ -1,0 +1,11 @@
+xkb_symbols "us-swedish" {
+    name[Group1]="English (US, with åäö)";
+
+    include "us(basic)"
+    include "level3(ralt_switch)"
+
+    //           default               shift            altgr            shift altgr
+    key <AD11> {[bracketleft,          braceleft,       aring,           Aring ]};
+    key <AC10> {[semicolon,            colon,           odiaeresis,      Odiaeresis ]};
+    key <AC11> {[apostrophe,           quotedbl,        adiaeresis,      Adiaeresis ]};
+};
