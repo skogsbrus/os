@@ -10,7 +10,7 @@
       ./hardware.nix
       ./xserver.nix
       ./tmux.nix
-      <home-manager/nixos>
+      ./home.nix
     ];
 
   # Use the GRUB 2 boot loader.
@@ -52,32 +52,6 @@
   # Enable sound.
   sound.enable = true;
   hardware.pulseaudio.enable = true;
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.johanan = {
-    isNormalUser = true;
-    extraGroups = [ "wheel"  "networkmanager" "docker" ]; # wheel -> sudo
-  };
-
-  users.extraUsers.johanan = {
-    shell = pkgs.zsh;
-  };
-
-  programs.zsh.enable = true;
-
-  # home manager stuff
-  home-manager.users.johanan = { pkgs, ... }: {
-    home.packages = [
-      pkgs.neovim
-      pkgs.gimp
-      pkgs.zsh
-      pkgs.docker
-      pkgs.kubectl
-      pkgs.vlc
-      pkgs.ripgrep
-    ];
-    #shell = pkgs.zsh;
-  };
 
   # networking
   networking.networkmanager.enable = true;

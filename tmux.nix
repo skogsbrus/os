@@ -7,11 +7,15 @@
     escapeTime = 0;
     extraConfig = ''
 
+      # intuitive split bindings
       bind | split-window -h
-      bind - split-window -w
+      bind - split-window -v
 
       # theme
-      set-option status-style fg=#ffa500,bg=black
+      set-option status-style fg=black,bg=white
+
+      # enables pane resizing and text selection with mouse
+      set -g mouse on
 
       # set leader to Alt-a
       unbind C-b
