@@ -25,6 +25,7 @@
       pkgs.kubectl
       pkgs.vlc
       pkgs.ripgrep
+      pkgs.direnv
     ];
     gtk = {
       enable = true;
@@ -34,6 +35,5 @@
         package = pkgs.numix-gtk-theme;
       };
     };
-
   };
 }

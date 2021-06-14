@@ -10,6 +10,7 @@
       ./hardware.nix
       ./xserver.nix
       ./tmux.nix
+      ./zsh.nix
       ./home.nix
     ];
 
