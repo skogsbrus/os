@@ -24,4 +24,9 @@
 
   # high-resolution display
   hardware.video.hidpi.enable = lib.mkDefault true;
+
+  services.logind.extraConfig = ''
+    # Dock with lid closed, without suspending
+    HandleLidSwitchDocked=ignore
+  '';
 }
