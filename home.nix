@@ -6,6 +6,7 @@
       ./zsh.nix
       ./tmux.nix
       ./neovim.nix
+      ./steam.nix
     ];
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -28,6 +29,9 @@
       pkgs.vlc
       pkgs.ripgrep
       pkgs.direnv
+      pkgs.gnomeExtensions.material-shell
+      pkgs.gnome.gnome-tweaks
+      pkgs.gnome.gnome-shell-extensions
     ];
     programs.fzf = {
       enable = true;
