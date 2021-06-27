@@ -1,8 +1,12 @@
-
 { pkgs, ... }:
-
 {
-  imports = [ <home-manager/nixos> ];
+  imports =
+    [
+      <home-manager/nixos>
+      ./zsh.nix
+      ./tmux.nix
+      ./neovim.nix
+    ];
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.johanan = {
@@ -14,11 +18,8 @@
     shell = pkgs.zsh;
   };
 
-  programs.zsh.enable = true;
-
   home-manager.users.johanan = { pkgs, ... }: {
     home.packages = [
-      pkgs.neovim
       pkgs.gimp
       pkgs.zsh
       pkgs.docker
@@ -27,6 +28,10 @@
       pkgs.ripgrep
       pkgs.direnv
     ];
+    programs.fzf = {
+      enable = true;
+      # TODO: vim/shell integration?
+    };
     gtk = {
       enable = true;
       font.name = "Victor Mono SemiBold 10";

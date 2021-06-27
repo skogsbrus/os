@@ -9,8 +9,6 @@
     [ # Include the results of the hardware scan.
       ./hardware.nix
       ./xserver.nix
-      ./tmux.nix
-      ./zsh.nix
       ./home.nix
     ];
 
