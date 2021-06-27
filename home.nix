@@ -20,6 +20,7 @@
 
   home-manager.users.johanan = { pkgs, ... }: {
     home.packages = [
+      pkgs.tig
       pkgs.gimp
       pkgs.zsh
       pkgs.docker
