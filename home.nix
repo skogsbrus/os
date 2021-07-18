@@ -21,6 +21,7 @@
 
   home-manager.users.johanan = { pkgs, ... }: {
     home.packages = [
+      pkgs.ncspot # spotify
       pkgs.tig
       pkgs.gimp
       pkgs.zsh
