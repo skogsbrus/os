@@ -23,19 +23,37 @@
   home-manager.users.johanan = { pkgs, ... }: {
     nixpkgs.config.allowUnfree = true;
     home.packages = [
-      pkgs.ncspot # spotify
+      # dev-tools
       pkgs.tig
-      pkgs.gimp
       pkgs.zsh
-      pkgs.docker
       pkgs.kubectl
-      pkgs.vlc
+      pkgs.docker
       pkgs.ripgrep
       pkgs.direnv
-      pkgs.google-chrome
-      pkgs.gnomeExtensions.material-shell
-      pkgs.gnome.gnome-tweaks
-      pkgs.gnome.gnome-shell-extensions
+      pkgs.gdb
+      pkgs.valgrind
+      pkgs.ranger
+      pkgs.vscode
+
+      # build tools
+      pkgs.cmake
+      pkgs.gnumake
+      pkgs.
+
+      # media
+      pkgs.ncspot # spotify
+      pkgs.gimp
+      pkgs.vlc
+      pkgs.peek
+
+      # web
+      #pkgs.google-chrome
+      pkgs.chromium
+
+      # gnome
+      #pkgs.gnomeExtensions.material-shell
+      #pkgs.gnome.gnome-tweaks
+      #pkgs.gnome.gnome-shell-extensions
     ];
     programs.fzf = {
       enable = true;

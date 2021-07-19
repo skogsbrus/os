@@ -35,4 +35,19 @@
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+
+  # for vpn
+  services.strongswan = {
+    enable = true;
+    secrets = [
+      "ipsec.d/ipsec.nm-l2tp.secrets"
+    ];
+  };
+
+  # Install webex from local package (not published yet)
+  home-manager.users.johanan = { pkgs, ... }: {
+    home.packages = [
+      (pkgs.callPackage ../webex.nix {})
+    ];
+  };
 }

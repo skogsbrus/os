@@ -12,7 +12,11 @@
       ./devices/default.nix
     ];
 
+  # Allow installing unfree system packages
   nixpkgs.config.allowUnfree = true;
+
+  # run docker service
+  virtualisation.docker.enable = true;
 
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
