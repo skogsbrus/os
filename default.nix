@@ -10,7 +10,7 @@
     [ # Include the results of the hardware scan.
       ./xserver.nix
       ./home.nix
-      ./devices/samsung-ativbook9.nix
+      ./devices/default.nix
     ];
 
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
