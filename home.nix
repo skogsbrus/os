@@ -21,6 +21,7 @@
   };
 
   home-manager.users.johanan = { pkgs, ... }: {
+    nixpkgs.config.allowUnfree = true;
     home.packages = [
       pkgs.ncspot # spotify
       pkgs.tig
@@ -31,6 +32,7 @@
       pkgs.vlc
       pkgs.ripgrep
       pkgs.direnv
+      pkgs.google-chrome
       pkgs.gnomeExtensions.material-shell
       pkgs.gnome.gnome-tweaks
       pkgs.gnome.gnome-shell-extensions

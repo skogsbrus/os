@@ -5,13 +5,14 @@
 { config, pkgs, ... }:
 
 {
-  nixpkgs.config.allowUnfree = true;
   imports =
     [ # Include the results of the hardware scan.
       ./xserver.nix
       ./home.nix
       ./devices/default.nix
     ];
+
+  nixpkgs.config.allowUnfree = true;
 
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
