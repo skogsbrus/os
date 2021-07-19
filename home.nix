@@ -7,6 +7,7 @@
       ./tmux.nix
       ./neovim.nix
       ./steam.nix
+      ./syncthing.nix
     ];
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
