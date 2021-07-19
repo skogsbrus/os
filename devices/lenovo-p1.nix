@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 {
-  imports =
+  imports = [
       ./lenovo-p1-hw.nix
     ];
 

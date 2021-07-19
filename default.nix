@@ -38,7 +38,8 @@
     vim
     tmux
     git
-    dig
+    dig # used in split vpn script
+    htop
     wget
     curl
     busybox
