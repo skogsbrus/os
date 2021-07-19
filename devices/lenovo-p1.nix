@@ -1,12 +1,6 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, ... }:
-
 {
   imports =
-    [ # Include the results of the hardware scan.
       ./lenovo-p1-hw.nix
     ];
 
@@ -14,6 +8,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Encryption setup
   boot.initrd.luks.devices = {
     crypted = {
       device = "/dev/nvme0n1p2";
@@ -44,10 +39,15 @@
     ];
   };
 
-  # Install webex from local package (not published yet)
   home-manager.users.johanan = { pkgs, ... }: {
     home.packages = [
-      (pkgs.callPackage ../webex.nix {})
+      # Install webex from local package (unpublished)
+      (pkgs.callPackage ../local-pkgs/webex.nix {})
     ];
   };
+
+  services.logind.extraConfig = ''
+    # Enable docking with closed lid
+    HandleLidSwitchDocked=ignore
+  '';
 }

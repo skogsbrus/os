@@ -6,7 +6,7 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
       ./xserver.nix
       ./home.nix
       ./devices/default.nix
@@ -15,24 +15,12 @@
   # Allow installing unfree system packages
   nixpkgs.config.allowUnfree = true;
 
-  # run docker service
+  # docker settings
   virtualisation.docker.enable = true;
+  virtualisation.docker.enableNvidia = true;
 
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Set your time zone.
+  # Set local time
   time.timeZone = "Europe/Copenhagen";
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Select internationalisation properties.
-  # i18n.defaultLocale = "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  # };
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
@@ -41,19 +29,19 @@
   sound.enable = true;
   hardware.pulseaudio.enable = true;
 
-  # networking
+  # Networking
   networking.networkmanager.enable = true;
   programs.nm-applet.enable = true;
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
+  # System packages
   environment.systemPackages = with pkgs; [
-    # terminal stuff
     vim
     tmux
     git
+    dig
     wget
     curl
+    busybox
     firefox
     python3
   ];
@@ -67,9 +55,16 @@
   # };
 
   # List services that you want to enable:
-
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
+  services = {
+    syncthing = {
+      enable = true;
+      user = "johanan";
+      dataDir = "/home/johanan/syncthing";
+      configDir = "/home/johanan/syncthing/.config/syncting";
+    };
+  };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
@@ -85,5 +80,7 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "21.05"; # Did you read the comment?
 
+  system.autoUpgrade.enable = true;
+  system.autoUpgrade.allowReboot = false;
 }
 
