@@ -44,6 +44,7 @@
       pkgs.gimp
       pkgs.vlc
       pkgs.peek
+      pkgs.spotify
 
       # web
       #pkgs.google-chrome
