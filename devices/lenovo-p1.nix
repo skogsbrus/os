@@ -16,9 +16,8 @@
     };
   };
 
-  boot.kernelParams = [ "processor.max_cstate=4" "amd_iomu=soft" "idle=nomwait"];
+  boot.kernelParams = [ "processor.max_cstate=4" "amd_iomu=soft" "idle=nomwait" "intel_pstate=disable" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  #boot.extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
@@ -56,37 +55,35 @@
   services.xserver.videoDrivers = [ "modesetting" ];
 
   # power saving options
-  boot.kernelParams = ["intel_pstate=disable"];
+  services.power-profiles-daemon.enable = false;
   services.tlp = {
     enable = true;
-    extraConfig = ''
-      START_CHARGE_THRESH_BAT0=75
-      STOP_CHARGE_THRESH_BAT0=80
+    settings.START_CHARGE_THRESH_BAT0=75;
+    settings.STOP_CHARGE_THRESH_BAT0=80;
 
-      CPU_SCALING_GOVERNOR_ON_AC=schedutil
-      CPU_SCALING_GOVERNOR_ON_BAT=schedutil
+    settings.CPU_SCALING_GOVERNOR_ON_AC="schedutil";
+    settings.CPU_SCALING_GOVERNOR_ON_BAT="schedutil";
 
-      CPU_SCALING_MIN_FREQ_ON_AC=800000
-      CPU_SCALING_MAX_FREQ_ON_AC=3500000
-      CPU_SCALING_MIN_FREQ_ON_BAT=800000
-      CPU_SCALING_MAX_FREQ_ON_BAT=2300000
+    settings.CPU_SCALING_MIN_FREQ_ON_AC=800000;
+    settings.CPU_SCALING_MAX_FREQ_ON_AC=3500000;
+    settings.CPU_SCALING_MIN_FREQ_ON_BAT=800000;
+    settings.CPU_SCALING_MAX_FREQ_ON_BAT=2300000;
 
-      # Enable audio power saving for Intel HDA, AC97 devices (timeout in secs).
-      # A value of 0 disables, >=1 enables power saving (recommended: 1).
-      # Default: 0 (AC), 1 (BAT)
-      SOUND_POWER_SAVE_ON_AC=0
-      SOUND_POWER_SAVE_ON_BAT=1
+    # Enable audio power saving for Intel HDA, AC97 devices (timeout in secs).
+    # A value of 0 disables, >=1 enables power saving (recommended: 1).
+    # Default: 0 (AC), 1 (BAT)
+    settings.SOUND_POWER_SAVE_ON_AC=0;
+    settings.SOUND_POWER_SAVE_ON_BAT=1;
 
-      # Runtime Power Management for PCI(e) bus devices: on=disable, auto=enable.
-      # Default: on (AC), auto (BAT)
-      RUNTIME_PM_ON_AC=on
-      RUNTIME_PM_ON_BAT=auto
+    # Runtime Power Management for PCI(e) bus devices: on=disable, auto=enable.
+    # Default: on (AC), auto (BAT)
+    settings.RUNTIME_PM_ON_AC="on";
+    settings.RUNTIME_PM_ON_BAT="auto";
 
-      # Battery feature drivers: 0=disable, 1=enable
-      # Default: 1 (all)
-      NATACPI_ENABLE=1
-      TPACPI_ENABLE=1
-      TPSMAPI_ENABLE=1
-    '';
+    # Battery feature drivers: 0=disable, 1=enable
+    # Default: 1 (all)
+    settings.NATACPI_ENABLE=1;
+    settings.TPACPI_ENABLE=1;
+    settings.TPSMAPI_ENABLE=1;
   };
 }
