@@ -18,7 +18,7 @@
 
   boot.kernelParams = [ "processor.max_cstate=4" "amd_iomu=soft" "idle=nomwait"];
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
+  #boot.extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
@@ -50,4 +50,8 @@
     # Enable docking with closed lid
     HandleLidSwitchDocked=ignore
   '';
+
+  # Maybe prevents crash?
+  # Jul 20 11:17:33 voidm kernel: nouveau 0000:01:00.0: fifo: fault 01 [VIRT_WRITE] at 0000000008000000 engine 40 [gr] client 13 [GPC0/PROP_0] reason 00 [PDE] on channel 6 [00feff3000 Xwayland[1859]]
+  services.xserver.videoDrivers = [ "modesetting" ];
 }

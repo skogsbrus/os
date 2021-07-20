@@ -17,7 +17,7 @@
 
   # docker settings
   virtualisation.docker.enable = true;
-  virtualisation.docker.enableNvidia = true;
+  #virtualisation.docker.enableNvidia = true;
 
   # Set local time
   time.timeZone = "Europe/Copenhagen";
