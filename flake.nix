@@ -9,14 +9,20 @@
     nixosConfigurations.voidm = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
-        ./new.nix
+        # system level configs
+        ./default.nix
+        ./sys/tmux.nix
+        ./sys/steam.nix
+        ./sys/zsh.nix
+        ./sys/xserver.nix
         home-manager.nixosModules.home-manager {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.users.johanan = { ... }: {
             imports = [
-              ./home2.nix
-              ./neovim.nix
+              # Configs managed by home-manager
+              ./home/default.nix
+              ./home/neovim.nix
             ];
           };
         }

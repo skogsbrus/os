@@ -4,7 +4,7 @@
    enable = true;
    viAlias = true;
    vimAlias = true;
-   extraConfig = builtins.readFile ./init.vim;
+   extraConfig = builtins.readFile ../dotfiles/init.vim;
    plugins = with pkgs.vimPlugins; [
      vim-airline
      vim-fugitive

@@ -33,12 +33,15 @@
       pkgs.peek
       pkgs.spotify
 
+      # Webex from local package (unpublished)
+      (pkgs.callPackage ../local-pkgs/webex.nix {})
+
       # web
       pkgs.chromium
 
       # gnome
-      pkgs.gnome.gnome-tweaks
-      pkgs.gnome.gnome-shell-extensions
+      #pkgs.gnome.gnome-tweaks
+      #pkgs.gnome.gnome-shell-extensions
     ];
     programs.fzf = {
       enable = true;
