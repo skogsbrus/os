@@ -12,12 +12,19 @@
       pkgs.valgrind
       pkgs.ranger
       pkgs.vscode
-      pkgs.neovim
+
+      # Language servers
+      pkgs.pyright
+      pkgs.elixir_ls
+      pkgs.rnix-lsp
+      pkgs.solargraph
+      pkgs.cmake-language-server
+      pkgs.clang-tools # clangd included
 
       # build tools
       pkgs.cmake
       pkgs.gnumake
-      pkgs.
+      pkgs.gcc
 
       # media
       pkgs.ncspot # spotify
@@ -27,13 +34,11 @@
       pkgs.spotify
 
       # web
-      #pkgs.google-chrome
       pkgs.chromium
 
       # gnome
-      #pkgs.gnomeExtensions.material-shell
-      #pkgs.gnome.gnome-tweaks
-      #pkgs.gnome.gnome-shell-extensions
+      pkgs.gnome.gnome-tweaks
+      pkgs.gnome.gnome-shell-extensions
     ];
     programs.fzf = {
       enable = true;
@@ -41,7 +46,7 @@
     };
     gtk = {
       enable = true;
-      font.name = "Victor Mono SemiBold 10";
+      #font.name = "Victor Mono SemiBold 10";
       theme = {
         name = "Numix";
         package = pkgs.numix-gtk-theme;
