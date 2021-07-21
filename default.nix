@@ -7,10 +7,20 @@
 {
   imports =
     [
-      ./xserver.nix
-      ./home.nix
-      ./devices/default.nix
+        ./xserver.nix
+        ./home.nix
+        ./devices/lenovo-p1.nix
     ];
+
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.users.johanan = {
+    isNormalUser = true;
+    extraGroups = [ "wheel"  "networkmanager" "docker" ]; # wheel -> sudo
+  };
+
+  users.extraUsers.johanan = {
+    shell = pkgs.zsh;
+  };
 
   # Allow installing unfree system packages
   nixpkgs.config.allowUnfree = true;
@@ -33,9 +43,17 @@
   networking.networkmanager.enable = true;
   programs.nm-applet.enable = true;
 
+  nix = {
+    package = pkgs.nixUnstable;
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
+  };
+
   # System packages
   environment.systemPackages = with pkgs; [
     vim
+    neovim-nightly
     tmux
     git
     dig # used in split vpn script
@@ -45,9 +63,6 @@
     busybox
     firefox
     python3
-    (pkgs.writeShellScriptBin "nixFlakes" ''
-      exec ${pkgs.nixUnstable}/bin/nix --experimental-features "nix-command flakes" "$@"
-    '')
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
