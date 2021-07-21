@@ -45,6 +45,9 @@
     busybox
     firefox
     python3
+    (pkgs.writeShellScriptBin "nixFlakes" ''
+      exec ${pkgs.nixUnstable}/bin/nix --experimental-features "nix-command flakes" "$@"
+    '')
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
