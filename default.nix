@@ -59,7 +59,7 @@
   # services.openssh.enable = true;
   services = {
     syncthing = {
-      enable = true;
+      enable = false;
       user = "johanan";
       dataDir = "/home/johanan/syncthing";
       configDir = "/home/johanan/syncthing/.config/syncting";

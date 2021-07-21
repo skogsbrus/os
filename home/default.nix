@@ -12,6 +12,7 @@
       pkgs.valgrind
       pkgs.ranger
       pkgs.vscode
+      pkgs.awscli
 
       # Language servers
       pkgs.pyright
