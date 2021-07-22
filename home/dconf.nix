@@ -12,7 +12,7 @@ in
 
     "org/gnome/desktop/background" = {
       picture-options = "zoom";
-      picture-uri = "file:///nix/store/253dq48vx5h38q0vihxjjszqmxxq6fp5-gnome-backgrounds-40.1/share/backgrounds/gnome/Loveles.jpg";
+      picture-uri = "file:///home/johanan/Pictures/wallpapers/solarpunk.jpg";
       primary-color = "#ffffff";
       secondary-color = "#000000";
     };
@@ -52,6 +52,10 @@ in
       application-id = "spotify.desktop";
     };
 
+    "org/gnome/desktop/notifications/application/steam" = {
+      application-id = "steam.desktop";
+    };
+
     "org/gnome/desktop/peripherals/mouse" = {
       natural-scroll = true;
     };
@@ -70,6 +74,11 @@ in
       picture-uri = "file:///nix/store/253dq48vx5h38q0vihxjjszqmxxq6fp5-gnome-backgrounds-40.1/share/backgrounds/gnome/Loveles.jpg";
       primary-color = "#ffffff";
       secondary-color = "#000000";
+    };
+
+    "org/gnome/desktop/wm/keybindings" = {
+      maximize = [];
+      toggle-maximized = [ "<Super>f" ];
     };
 
     "org/gnome/eog/view" = {
@@ -123,6 +132,12 @@ in
       state = 87168;
     };
 
+    "org/gnome/gnome-screenshot" = {
+      delay = 0;
+      include-pointer = false;
+      last-save-directory = "file:///home/johanan/Pictures";
+    };
+
     "org/gnome/gnome-system-monitor" = {
       current-tab = "resources";
       maximized = false;
@@ -138,7 +153,7 @@ in
     };
 
     "org/gnome/maps" = {
-      last-viewed-location = [ 55.392030843679244 13.58133316040039 ];
+      last-viewed-location = [ 55.392031 13.581333 ];
       map-type = "MapsStreetSource";
       transportation-type = "pedestrian";
       window-maximized = false;
@@ -215,7 +230,7 @@ in
     };
 
     "org/gtk/settings/color-chooser" = {
-      custom-colors = [ (mkTuple [ 4.475555555555557e-2 0.14149037037037038 ]) (mkTuple [ 9.373333333333338e-2 0.296328888888889 ]) (mkTuple [ 1.7355555555555565e-2 0.17818370370370373 ]) (mkTuple [ 0.396078431372549 0.4823529411764706 ]) ];
+      custom-colors = [ (mkTuple [ 4.4756e-2 0.14149 ]) (mkTuple [ 9.3733e-2 0.296329 ]) (mkTuple [ 1.7356e-2 0.178184 ]) (mkTuple [ 0.396078 0.482353 ]) ];
       selected-color = mkTuple [ true 0.0 ];
     };
 
