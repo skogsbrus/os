@@ -21,7 +21,9 @@
           home-manager.users.johanan = { ... }: {
             imports = [
               # Configs managed by home-manager
-              ./home/default.nix
+              ./home/packages.nix
+              ./home/dconf.nix
+              ./home/gnome.nix
               ./home/neovim.nix
             ];
           };
