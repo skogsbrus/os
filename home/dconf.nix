@@ -7,7 +7,7 @@ in
 {
   dconf.settings = {
     "org/gnome/control-center" = {
-      last-panel = "keyboard";
+      last-panel = "display";
     };
 
     "org/gnome/desktop/background" = {
@@ -33,7 +33,11 @@ in
     };
 
     "org/gnome/desktop/notifications" = {
-      application-children = [ "gnome-power-panel" "gnome-network-panel" "org-gnome-fileroller" "spotify" ];
+      application-children = [ "gnome-power-panel" "gnome-network-panel" "org-gnome-fileroller" "spotify" "element-desktop" ];
+    };
+
+    "org/gnome/desktop/notifications/application/element-desktop" = {
+      application-id = "element-desktop.desktop";
     };
 
     "org/gnome/desktop/notifications/application/gnome-network-panel" = {
@@ -190,6 +194,10 @@ in
       ignore-phase2-ca-cert = false;
     };
 
+    "org/gnome/settings-daemon/plugins/color" = {
+      night-light-enabled = true;
+    };
+
     "org/gnome/settings-daemon/plugins/media-keys" = {
       custom-keybindings = [ "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/" "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/" ];
     };
@@ -208,7 +216,7 @@ in
 
     "org/gnome/shell" = {
       command-history = [ "r" ];
-      favorite-apps = [ "org.gnome.Calendar.desktop" "org.gnome.Photos.desktop" "org.gnome.Nautilus.desktop" "chromium-browser.desktop" "spotify.desktop" "org.gnome.Terminal.desktop" ];
+      favorite-apps = [ "org.gnome.Calendar.desktop" "org.gnome.Photos.desktop" "org.gnome.Nautilus.desktop" "chromium-browser.desktop" "spotify.desktop" "org.gnome.Terminal.desktop" "element-desktop.desktop" ];
       had-bluetooth-devices-setup = true;
       welcome-dialog-last-shown-version = "40.1";
     };
