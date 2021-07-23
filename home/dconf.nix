@@ -6,8 +6,17 @@ let
 in
 {
   dconf.settings = {
+    "org/gnome/cheese" = {
+      burst-delay = 1000;
+      camera = "USB 2.0 PC Camera: PC Camera";
+      photo-x-resolution = 640;
+      photo-y-resolution = 480;
+      video-x-resolution = 640;
+      video-y-resolution = 480;
+    };
+
     "org/gnome/control-center" = {
-      last-panel = "display";
+      last-panel = "mouse";
     };
 
     "org/gnome/desktop/background" = {
@@ -61,7 +70,7 @@ in
     };
 
     "org/gnome/desktop/peripherals/mouse" = {
-      natural-scroll = true;
+      natural-scroll = false;
     };
 
     "org/gnome/desktop/peripherals/touchpad" = {
@@ -253,7 +262,7 @@ in
       sort-directories-first = false;
       sort-order = "descending";
       type-format = "category";
-      window-position = mkTuple [ 398 120 ];
+      window-position = mkTuple [ 718 301 ];
       window-size = mkTuple [ 1124 822 ];
     };
 
