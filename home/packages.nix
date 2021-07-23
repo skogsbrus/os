@@ -40,6 +40,7 @@
 
     # web
     pkgs.chromium
+    pkgs.element-desktop
 
     # gnome
     #pkgs.gnome.gnome-tweaks
