@@ -1,7 +1,8 @@
-{ config, lib, pkgs, home-manager, ... }:
+{ config, lib, pkgs, unstable, home-manager, ... }:
 {
  programs.neovim = {
    enable = true;
+   package = with unstable.legacyPackages.${pkgs.system}; neovim-unwrapped;
    viAlias = true;
    vimAlias = true;
    extraConfig = builtins.readFile ../dotfiles/init.vim;
