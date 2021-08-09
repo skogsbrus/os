@@ -16,12 +16,12 @@ in
     };
 
     "org/gnome/control-center" = {
-      last-panel = "mouse";
+      last-panel = "background";
     };
 
     "org/gnome/desktop/background" = {
       picture-options = "zoom";
-      picture-uri = "file:///home/johanan/Pictures/wallpapers/solarpunk.jpg";
+      picture-uri = "file:///nix/store/msld2rsx4bcm21mdnihxwwiv4lb6pggk-gnome-backgrounds-40.1/share/backgrounds/gnome/Loveles.jpg";
       primary-color = "#ffffff";
       secondary-color = "#000000";
     };
@@ -84,7 +84,7 @@ in
 
     "org/gnome/desktop/screensaver" = {
       picture-options = "zoom";
-      picture-uri = "file:///nix/store/253dq48vx5h38q0vihxjjszqmxxq6fp5-gnome-backgrounds-40.1/share/backgrounds/gnome/Loveles.jpg";
+      picture-uri = "file:///nix/store/msld2rsx4bcm21mdnihxwwiv4lb6pggk-gnome-backgrounds-40.1/share/backgrounds/gnome/Loveles.jpg";
       primary-color = "#ffffff";
       secondary-color = "#000000";
     };
@@ -225,6 +225,8 @@ in
 
     "org/gnome/shell" = {
       command-history = [ "r" ];
+      disabled-extensions = [ "window-list@gnome-shell-extensions.gcampax.github.com" "native-window-placement@gnome-shell-extensions.gcampax.github.com" ];
+      enabled-extensions = [ "apps-menu@gnome-shell-extensions.gcampax.github.com" "workspace-indicator@gnome-shell-extensions.gcampax.github.com" "sound-output-device-chooser@kgshank.net" "bluetooth-quick-connect@bjarosze.gmail.com" ];
       favorite-apps = [ "org.gnome.Calendar.desktop" "org.gnome.Photos.desktop" "org.gnome.Nautilus.desktop" "chromium-browser.desktop" "spotify.desktop" "org.gnome.Terminal.desktop" "element-desktop.desktop" ];
       had-bluetooth-devices-setup = true;
       welcome-dialog-last-shown-version = "40.1";
