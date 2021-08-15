@@ -2,3 +2,5 @@
     name = Johan Andersson
     email = johan-andersson01@protonmail.com
 EDITOR=vim
+[alias]
+    quicklog = log --pretty=format:'%Cblue%h %Cred%cD %Creset%cn %Cgreen%s%Creset' --date-order --graph
