@@ -45,6 +45,10 @@ in
       application-children = [ "gnome-power-panel" "gnome-network-panel" "org-gnome-fileroller" "spotify" "element-desktop" ];
     };
 
+    "org/gnome/desktop/notifications/application/chromium-browser" = {
+      application-id = "chromium-browser.desktop";
+    };
+
     "org/gnome/desktop/notifications/application/element-desktop" = {
       application-id = "element-desktop.desktop";
     };
@@ -89,9 +93,17 @@ in
       secondary-color = "#000000";
     };
 
+    "org/gnome/desktop/search-providers" = {
+      sort-order = [ "org.gnome.Contacts.desktop" "org.gnome.Documents.desktop" "org.gnome.Nautilus.desktop" ];
+    };
+
     "org/gnome/desktop/wm/keybindings" = {
       maximize = [];
       toggle-maximized = [ "<Super>f" ];
+    };
+
+    "org/gnome/desktop/wm/preferences" = {
+      button-layout = "appmenu:minimize,maximize,close";
     };
 
     "org/gnome/eog/view" = {
@@ -225,11 +237,15 @@ in
 
     "org/gnome/shell" = {
       command-history = [ "r" ];
-      disabled-extensions = [ "window-list@gnome-shell-extensions.gcampax.github.com" "native-window-placement@gnome-shell-extensions.gcampax.github.com" ];
-      enabled-extensions = [ "apps-menu@gnome-shell-extensions.gcampax.github.com" "workspace-indicator@gnome-shell-extensions.gcampax.github.com" "sound-output-device-chooser@kgshank.net" "bluetooth-quick-connect@bjarosze.gmail.com" ];
-      favorite-apps = [ "org.gnome.Calendar.desktop" "org.gnome.Photos.desktop" "org.gnome.Nautilus.desktop" "chromium-browser.desktop" "spotify.desktop" "org.gnome.Terminal.desktop" "element-desktop.desktop" ];
+      disabled-extensions = [ "native-window-placement@gnome-shell-extensions.gcampax.github.com" "workspace-indicator@gnome-shell-extensions.gcampax.github.com" ];
+      enabled-extensions = [ "apps-menu@gnome-shell-extensions.gcampax.github.com" "sound-output-device-chooser@kgshank.net" "bluetooth-quick-connect@bjarosze.gmail.com" "window-list@gnome-shell-extensions.gcampax.github.com" ];
+      favorite-apps = [ "org.gnome.Calendar.desktop" "org.gnome.Photos.desktop" "org.gnome.Nautilus.desktop" "chromium-browser.desktop" "spotify.desktop" "org.gnome.Terminal.desktop" "element-desktop.desktop" "slack.desktop" ];
       had-bluetooth-devices-setup = true;
       welcome-dialog-last-shown-version = "40.1";
+    };
+
+    "org/gnome/shell/extensions/sound-output-device-chooser" = {
+      ports-settings = "'{"version":2,"ports":[]}'";
     };
 
     "org/gnome/shell/world-clocks" = {

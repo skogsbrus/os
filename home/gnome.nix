@@ -6,6 +6,7 @@
     theme = {
       name = "Numix";
       package = pkgs.numix-gtk-theme;
+      #package = pkgs.pop-gtk-theme;
     };
   };
 }
