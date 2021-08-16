@@ -35,11 +35,13 @@
 }:
 stdenv.mkDerivation {
   pname = "webex";
-  version = "41.8.0.19732";
+  version = "41.5.0.18815";
 
   src = fetchurl {
-    url = "https://web.archive.org/web/20210812165638/https://binaries.webex.com/WebexDesktop-Ubuntu-Official-Package/Webex.deb"
-    sha256 = "a80a379dea851dfc634a9b44d5da2b7cb6f3b86945576f9cddd1aee423ddfb81";
+    # Official link: https://binaries.webex.com/WebexDesktop-Ubuntu-Official-Package/Webex.deb
+    # New versions get uploaded to same link, so lock url for this version in archive.org
+    url = "https://web.archive.org/web/20210529010325/https://binaries.webex.com/WebexDesktop-Ubuntu-Official-Package/Webex.deb";
+    sha256 = "sha256-U/m2pO+H1GqXyJ6k0Df0h1iynD13y3PPy/HPlHAXx2k=";
   };
 
   nativeBuildInputs = [
