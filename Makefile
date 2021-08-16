@@ -4,4 +4,4 @@ rb-switch:
 
 .PHONY: install
 install:
-	ln -s $(pwd)/dotfiles/gitconfig ~/.gitconfig
+	ln -s $(PWD)/dotfiles/git/gitconfig ~/.gitconfig
