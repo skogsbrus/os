@@ -244,10 +244,6 @@ in
       welcome-dialog-last-shown-version = "40.1";
     };
 
-    "org/gnome/shell/extensions/sound-output-device-chooser" = {
-      ports-settings = "'{"version":2,"ports":[]}'";
-    };
-
     "org/gnome/shell/world-clocks" = {
       locations = "@av []";
     };
