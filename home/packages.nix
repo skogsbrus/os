@@ -14,6 +14,7 @@
     pkgs.vscode
     pkgs.awscli
     pkgs.dconf2nix # syntax converter: dconf -> home manager
+    pkgs.psql
 
     # Language servers
     pkgs.pyright
