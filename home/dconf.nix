@@ -65,6 +65,14 @@ in
       application-id = "org.gnome.FileRoller.desktop";
     };
 
+    "org/gnome/desktop/notifications/application/org-gnome-nautilus" = {
+      application-id = "org.gnome.Nautilus.desktop";
+    };
+
+    "org/gnome/desktop/notifications/application/slack" = {
+      application-id = "slack.desktop";
+    };
+
     "org/gnome/desktop/notifications/application/spotify" = {
       application-id = "spotify.desktop";
     };
@@ -98,6 +106,7 @@ in
     };
 
     "org/gnome/desktop/wm/keybindings" = {
+      close = [ "<Super>q" ];
       maximize = [];
       toggle-maximized = [ "<Super>f" ];
     };
@@ -180,6 +189,7 @@ in
     "org/gnome/maps" = {
       last-viewed-location = [ 55.392031 13.581333 ];
       map-type = "MapsStreetSource";
+      night-mode = false;
       transportation-type = "pedestrian";
       window-maximized = false;
       window-position = [ 26 23 ];
@@ -236,7 +246,7 @@ in
     };
 
     "org/gnome/shell" = {
-      command-history = [ "r" ];
+      command-history = [ "r" "webex" ];
       disabled-extensions = [ "native-window-placement@gnome-shell-extensions.gcampax.github.com" "workspace-indicator@gnome-shell-extensions.gcampax.github.com" ];
       enabled-extensions = [ "apps-menu@gnome-shell-extensions.gcampax.github.com" "sound-output-device-chooser@kgshank.net" "bluetooth-quick-connect@bjarosze.gmail.com" "window-list@gnome-shell-extensions.gcampax.github.com" ];
       favorite-apps = [ "org.gnome.Calendar.desktop" "org.gnome.Photos.desktop" "org.gnome.Nautilus.desktop" "chromium-browser.desktop" "spotify.desktop" "org.gnome.Terminal.desktop" "element-desktop.desktop" "slack.desktop" ];
