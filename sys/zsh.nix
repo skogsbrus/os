@@ -24,6 +24,7 @@
       fi
 
       export EDITOR=vim
+      unsetopt share_history
     '';
   };
 }
