@@ -22,6 +22,8 @@
         source "$(fzf-share)/key-bindings.zsh"
         source "$(fzf-share)/completion.zsh"
       fi
+
+      export EDITOR=vim
     '';
   };
 }
