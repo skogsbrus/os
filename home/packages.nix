@@ -7,7 +7,6 @@
     pkgs.kubectl
     pkgs.docker
     pkgs.ripgrep
-    pkgs.direnv
     pkgs.gdb
     pkgs.valgrind
     pkgs.ranger
@@ -53,5 +52,10 @@
   programs.fzf = {
     enable = true;
     # TODO: vim/shell integration?
+  };
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+    nix-direnv.enableFlakes = true;
   };
 }
