@@ -12,6 +12,7 @@
     pkgs.ranger
     pkgs.vscode
     pkgs.awscli
+    pkgs.aws-vault
     pkgs.dconf2nix # syntax converter: dconf -> home manager
     pkgs.postgresql
 
