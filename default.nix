@@ -25,10 +25,6 @@
   # Set local time
   time.timeZone = "Europe/Copenhagen";
 
-  # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
-
   # Networking
   networking.networkmanager.enable = true;
   programs.nm-applet.enable = true;
