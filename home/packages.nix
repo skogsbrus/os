@@ -35,6 +35,9 @@
     pkgs.vlc
     pkgs.peek
     pkgs.spotify
+    # for better audio quality via bluetooth
+    pkgs.pulseaudio-modules-bt
+    pkgs.ldacbt
 
     # Webex from local package (unpublished)
     (pkgs.callPackage ../local-pkgs/webex.nix {})
