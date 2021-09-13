@@ -12,7 +12,7 @@
       modules = [
         # system level configs
         ./default.nix
-        ./sys/sound.nix
+        ./sys/pipewire.nix
         ./sys/tmux.nix
         ./sys/steam.nix
         ./sys/zsh.nix
