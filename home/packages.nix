@@ -46,6 +46,7 @@
 
     # gnome
     pkgs.gnome.gnome-tweaks
+    pkgs.gnome.pomodoro
     #pkgs.gnome.gnome-shell-extensions
     pkgs.gnomeExtensions.sound-output-device-chooser
     pkgs.gnomeExtensions.bluetooth-quick-connect
