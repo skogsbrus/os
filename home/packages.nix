@@ -30,14 +30,13 @@
     pkgs.gcc
 
     # media
-    pkgs.ncspot # spotify
     pkgs.gimp
     pkgs.vlc
     pkgs.peek
     pkgs.spotify
 
-    # Webex from local package (unpublished)
-    (pkgs.callPackage ../local-pkgs/webex.nix {})
+    # Local packages (unpublished)
+    (pkgs.callPackage ../local-pkgs/webex {})
 
     # web
     pkgs.chromium
@@ -47,14 +46,14 @@
     # gnome
     pkgs.gnome.gnome-tweaks
     pkgs.gnome.pomodoro
-    #pkgs.gnome.gnome-shell-extensions
     pkgs.gnomeExtensions.sound-output-device-chooser
     pkgs.gnomeExtensions.bluetooth-quick-connect
   ];
+
   programs.fzf = {
     enable = true;
-    # TODO: vim/shell integration?
   };
+
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;

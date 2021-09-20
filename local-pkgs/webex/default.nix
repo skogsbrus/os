@@ -35,7 +35,7 @@
 }:
 stdenv.mkDerivation {
   pname = "webex";
-  version = "41.9.0.19961";
+  version = "41.9.0.19961-j1";
 
   src = fetchurl {
     # Official link: https://binaries.webex.com/WebexDesktop-Ubuntu-Official-Package/Webex.deb
@@ -95,6 +95,7 @@ stdenv.mkDerivation {
     wrapProgram $out/opt/Webex/bin/CiscoCollabHost \
       --prefix LD_LIBRARY_PATH : $out/opt/Webex/lib
     ln -s $out/opt/Webex/bin/CiscoCollabHost $out/bin/webex
+    ln -s $out/opt/Webex/bin/sparlogosmall.png $out/bin/sparklogosmall.png
     substitute $out/opt/Webex/bin/webex.desktop $out/share/applications/webex.desktop \
       --replace /opt/Webex/bin/ $out/opt/Webex/bin/
     runHook postInstall
