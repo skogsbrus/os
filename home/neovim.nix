@@ -13,6 +13,7 @@
      fzf-vim
      nvim-treesitter
      nvim-lspconfig
+     vim-terraform
    ];
  };
 }
