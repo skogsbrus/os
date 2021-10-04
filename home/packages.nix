@@ -48,6 +48,9 @@
     pkgs.gnome.pomodoro
     pkgs.gnomeExtensions.sound-output-device-chooser
     pkgs.gnomeExtensions.bluetooth-quick-connect
+
+    # misc
+    pkgs.wineWowPackages.stable # 32- and 64-bit
   ];
 
   programs.fzf = {
