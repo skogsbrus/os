@@ -15,6 +15,7 @@
     pkgs.aws-vault
     pkgs.dconf2nix # syntax converter: dconf -> home manager
     pkgs.postgresql
+    pkgs.coz
 
     # Language servers
     pkgs.pyright
