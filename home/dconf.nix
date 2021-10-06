@@ -15,8 +15,18 @@ in
       video-y-resolution = 480;
     };
 
+    "org/gnome/clocks" = {
+      world-clocks = "[{'location': <(uint32 2, <('San Francisco', 'KOAK', true, [(0.65832848982162007, -2.133408063190589)], [(0.659296885757089, -2.1366218601153339)])>)>}, {'location': <(uint32 2, <('New York', 'KNYC', true, [(0.71180344078725644, -1.2909618758762367)], [(0.71059804659265924, -1.2916478949920254)])>)>}]";
+    };
+
+    "org/gnome/clocks/state/window" = {
+      panel-id = "world";
+      size = mkTuple [ 870 690 ];
+      state = 87168;
+    };
+
     "org/gnome/control-center" = {
-      last-panel = "background";
+      last-panel = "keyboard";
     };
 
     "org/gnome/desktop/background" = {
@@ -42,7 +52,7 @@ in
     };
 
     "org/gnome/desktop/notifications" = {
-      application-children = [ "gnome-power-panel" "gnome-network-panel" "org-gnome-fileroller" "spotify" "element-desktop" ];
+      application-children = [ "gnome-power-panel" "gnome-network-panel" "org-gnome-fileroller" "spotify" "element-desktop" "chromium-browser" ];
     };
 
     "org/gnome/desktop/notifications/application/chromium-browser" = {
@@ -108,6 +118,8 @@ in
     "org/gnome/desktop/wm/keybindings" = {
       close = [ "<Super>q" ];
       maximize = [];
+      switch-input-source = [];
+      switch-input-source-backward = [];
       toggle-maximized = [ "<Super>f" ];
     };
 
@@ -205,6 +217,10 @@ in
       workspaces-only-on-primary = true;
     };
 
+    "org/gnome/nautilus/compression" = {
+      default-compression-format = "zip";
+    };
+
     "org/gnome/nautilus/preferences" = {
       default-folder-viewer = "icon-view";
       search-filter-time-type = "last_modified";
@@ -225,12 +241,26 @@ in
       ignore-phase2-ca-cert = false;
     };
 
+    "org/gnome/pomodoro/plugins/gnome" = {
+      hide-system-notifications = false;
+    };
+
+    "org/gnome/pomodoro/state" = {
+      timer-date = "2021-09-20T11:32:33+0000";
+      timer-elapsed = 0.0;
+      timer-paused = false;
+      timer-score = 1.0;
+      timer-state = "null";
+      timer-state-date = "2021-09-20T11:32:33+0000";
+      timer-state-duration = 0.0;
+    };
+
     "org/gnome/settings-daemon/plugins/color" = {
       night-light-enabled = true;
     };
 
     "org/gnome/settings-daemon/plugins/media-keys" = {
-      custom-keybindings = [ "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/" "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/" ];
+      custom-keybindings = [ "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/" "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/" "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/" ];
     };
 
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
@@ -245,6 +275,16 @@ in
       name = "Launch ranger";
     };
 
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2" = {
+      binding = "<Super>space";
+      command = "'gnome-terminal -e "vim --cmd startinsert"'";
+      name = "Launch scratchpad";
+    };
+
+    "org/gnome/settings-daemon/plugins/power" = {
+      sleep-inactive-ac-timeout = 7200;
+    };
+
     "org/gnome/shell" = {
       command-history = [ "r" "webex" ];
       disabled-extensions = [ "native-window-placement@gnome-shell-extensions.gcampax.github.com" "workspace-indicator@gnome-shell-extensions.gcampax.github.com" ];
@@ -254,8 +294,17 @@ in
       welcome-dialog-last-shown-version = "40.1";
     };
 
+    "org/gnome/shell/extensions/sound-output-device-chooser" = {
+      ports-settings = "'{"version":2,"ports":[]}'";
+    };
+
+    "org/gnome/shell/weather" = {
+      automatic-location = true;
+      locations = "[<(uint32 2, <('Lund, Sweden', '', false, [(0.97219952452660785, 0.23026032653919404)], [(0.97040306410884714, 0.22689280275926285)])>)>]";
+    };
+
     "org/gnome/shell/world-clocks" = {
-      locations = "@av []";
+      locations = "[<(uint32 2, <('San Francisco', 'KOAK', true, [(0.65832848982162007, -2.133408063190589)], [(0.659296885757089, -2.1366218601153339)])>)>, <(uint32 2, <('New York', 'KNYC', true, [(0.71180344078725644, -1.2909618758762367)], [(0.71059804659265924, -1.2916478949920254)])>)>]";
     };
 
     "org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9" = {
