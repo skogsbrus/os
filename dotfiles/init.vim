@@ -17,10 +17,9 @@ nnoremap <leader>fr :Rg<CR>
 
 " Git
 nnoremap <leader>gb <cmd>Git blame<cr>
-nnoremap <leader>gr <cmd>Git rebase -i
-nnoremap <leader>gd <cmd>Git diff
-nnoremap <leader>gc <cmd>Git cherry-pick
 nnoremap <leader>ga <cmd>Git add -p<cr>
+nnoremap <leader>gdd <cmd>Git diff<cr>
+nnoremap <leader>gdc <cmd>Git diff --cached<cr>
 nnoremap <leader>gs <cmd>Git<cr>
 
 " Tabs vs spaces
