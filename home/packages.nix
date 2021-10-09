@@ -2,39 +2,39 @@
 {
   home.packages = [
     # dev-tools
-    pkgs.tig
-    pkgs.zsh
-    pkgs.kubectl
-    pkgs.docker
-    pkgs.ripgrep
-    pkgs.gdb
-    pkgs.valgrind
-    pkgs.ranger
-    pkgs.vscode
-    pkgs.awscli
     pkgs.aws-vault
-    pkgs.dconf2nix # syntax converter: dconf -> home manager
-    pkgs.postgresql
+    pkgs.awscli
     pkgs.coz
+    pkgs.dconf2nix # syntax converter: dconf -> home manager
+    pkgs.docker
+    pkgs.gdb
+    pkgs.kubectl
+    pkgs.postgresql
+    pkgs.ranger
+    pkgs.ripgrep
+    pkgs.tig
+    pkgs.valgrind
+    pkgs.vscode
+    pkgs.zsh
 
     # Language servers
-    pkgs.pyright
+    pkgs.clang-tools # clangd included
+    pkgs.cmake-language-server
     pkgs.elixir_ls
+    pkgs.pyright
     pkgs.rnix-lsp
     pkgs.solargraph
-    pkgs.cmake-language-server
-    pkgs.clang-tools # clangd included
 
     # build tools
     pkgs.cmake
-    pkgs.gnumake
     pkgs.gcc
+    pkgs.gnumake
 
     # media
     pkgs.gimp
-    pkgs.vlc
     pkgs.peek
     pkgs.spotify
+    pkgs.vlc
 
     # Local packages (unpublished)
     (pkgs.callPackage ../local-pkgs/webex {})
@@ -47,10 +47,10 @@
     # gnome
     pkgs.gnome.gnome-tweaks
     pkgs.gnome.pomodoro
-    pkgs.gnomeExtensions.sound-output-device-chooser
     pkgs.gnomeExtensions.bluetooth-quick-connect
+    pkgs.gnomeExtensions.sound-output-device-chooser
 
-    # misc
+    # tooling
     pkgs.wineWowPackages.stable # 32- and 64-bit
   ];
 

@@ -1,7 +1,12 @@
 { pkgs, ... }:
 {
   imports = [
-    hosts/lenovo-p1.nix
+    ./pipewire.nix
+    ./steam.nix
+    ./tlp.nix
+    ./tmux.nix
+    ./xserver.nix
+    ./zsh.nix
   ];
 
   # Allow installing unfree system packages
