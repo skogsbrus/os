@@ -28,6 +28,9 @@
   # Networking
   networking.networkmanager.enable = true;
   networking.nameservers = [ "1.1.1.1" "9.9.9.9" ];
+  networking.firewall.trustedInterfaces = [
+    "enp0s20f0u4u1" # reMarkable via USB C
+  ];
   programs.nm-applet.enable = true;
 
   nix = {
