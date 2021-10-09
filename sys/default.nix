@@ -1,37 +1,49 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, ... }:
-
+{ pkgs, ... }:
 {
-  imports =
-    [
-      ./xserver.nix
-      ./home.nix
-      ./devices/default.nix
-    ];
+  imports = [
+    ./pipewire.nix
+    ./steam.nix
+    ./tlp.nix
+    ./tmux.nix
+    ./xserver.nix
+    ./zsh.nix
+  ];
 
   # Allow installing unfree system packages
   nixpkgs.config.allowUnfree = true;
+
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.users.johanan = {
+    isNormalUser = true;
+    extraGroups = [ "wheel"  "networkmanager" "docker" ]; # wheel -> sudo
+  };
 
   # docker settings
   virtualisation.docker.enable = true;
   #virtualisation.docker.enableNvidia = true;
 
+
+  users.extraUsers.johanan = {
+    shell = pkgs.zsh;
+  };
+
   # Set local time
   time.timeZone = "Europe/Copenhagen";
 
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
-
-  # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
-
   # Networking
   networking.networkmanager.enable = true;
+  networking.nameservers = [ "1.1.1.1" "9.9.9.9" ];
+  networking.firewall.trustedInterfaces = [
+    "enp0s20f0u4u1" # reMarkable via USB C
+  ];
   programs.nm-applet.enable = true;
+
+  nix = {
+    package = pkgs.nixUnstable;
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
+  };
 
   # System packages
   environment.systemPackages = with pkgs; [
@@ -47,31 +59,17 @@
     python3
   ];
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
   # List services that you want to enable:
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
   services = {
     syncthing = {
-      enable = true;
+      enable = false;
       user = "johanan";
       dataDir = "/home/johanan/syncthing";
       configDir = "/home/johanan/syncthing/.config/syncting";
     };
   };
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -79,9 +77,8 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "21.05"; # Did you read the comment?
+  system.stateVersion = "21.05";
 
   system.autoUpgrade.enable = true;
   system.autoUpgrade.allowReboot = false;
 }
-

@@ -1,0 +1,10 @@
+[include]
+    path = ~/os/dotfiles/git/gituser-default
+[includeIf "gitdir:~/code/meraki/**"]
+    path = ~/os/dotfiles/git/gituser-meraki
+[includeIf "gitdir:~/code/modcam/**"]
+    path = ~/os/dotfiles/git/gituser-meraki
+[alias]
+    quicklog = log --pretty=format:'%Cblue%h %Cred%cD %Creset%cn %Cgreen%s%Creset' --date-order --graph
+[core]
+    editor=vim

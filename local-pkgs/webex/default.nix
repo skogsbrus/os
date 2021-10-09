@@ -35,13 +35,14 @@
 }:
 stdenv.mkDerivation {
   pname = "webex";
-  #version = "41.5.0.18815";
-  version = "41.7.0.19440";
+  version = "41.9.0.19961-j1";
 
   src = fetchurl {
+    # Official link: https://binaries.webex.com/WebexDesktop-Ubuntu-Official-Package/Webex.deb
+    # New versions get uploaded to same link, so lock url for this version in archive.org
+    #url = "https://web.archive.org/web/20210529010325/https://binaries.webex.com/WebexDesktop-Ubuntu-Official-Package/Webex.deb";
     url = "https://binaries.webex.com/WebexDesktop-Ubuntu-Official-Package/Webex.deb";
-    #sha256 = "sha256-mq4Q1UAm+T2gNLrytfEWeh5vgNe59v/NGxudtm4f8nQ=";
-    sha256 = "5b15f4f71024685baa3675e2e1f33d0572cb75943b618ccf67673b04c70904cc";
+    sha256 = "c3d7c81ce5e0c01dff1aa97f15c68bfc870734fad155788cd2bb8c543ee36556";
   };
 
   nativeBuildInputs = [
@@ -94,6 +95,7 @@ stdenv.mkDerivation {
     wrapProgram $out/opt/Webex/bin/CiscoCollabHost \
       --prefix LD_LIBRARY_PATH : $out/opt/Webex/lib
     ln -s $out/opt/Webex/bin/CiscoCollabHost $out/bin/webex
+    ln -s $out/opt/Webex/bin/sparlogosmall.png $out/bin/sparklogosmall.png
     substitute $out/opt/Webex/bin/webex.desktop $out/share/applications/webex.desktop \
       --replace /opt/Webex/bin/ $out/opt/Webex/bin/
     runHook postInstall

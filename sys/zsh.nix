@@ -16,6 +16,15 @@
       alias gd="git diff"
       alias gdc="git diff --cached"
       HIST_STAMPS="dd.mm.yyyy"
+
+      # enable fzf
+      if command -v fzf-share >/dev/null; then
+        source "$(fzf-share)/key-bindings.zsh"
+        source "$(fzf-share)/completion.zsh"
+      fi
+
+      export EDITOR=vim
+      unsetopt share_history
     '';
   };
 }
