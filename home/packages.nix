@@ -37,7 +37,7 @@
     pkgs.vlc
 
     # Local packages (unpublished)
-    (pkgs.callPackage ../local-pkgs/webex {})
+    (pkgs.callPackage pkgs/webex {})
 
     # web
     pkgs.chromium
