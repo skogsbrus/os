@@ -7,6 +7,7 @@
     ./tmux.nix
     ./xserver.nix
     ./zsh.nix
+    ./postgres.nix
   ];
 
   # Allow installing unfree system packages

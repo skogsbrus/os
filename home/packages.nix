@@ -16,6 +16,7 @@
     pkgs.valgrind
     pkgs.vscode
     pkgs.zsh
+    pkgs.arp-scan
 
     # Language servers
     pkgs.clang-tools # clangd included
@@ -35,6 +36,7 @@
     pkgs.peek
     pkgs.spotify
     pkgs.vlc
+    pkgs.mixxx
 
     # Local packages (unpublished)
     (pkgs.callPackage pkgs/webex {})
