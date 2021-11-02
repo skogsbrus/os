@@ -1,20 +1,10 @@
-#with import <nixpkgs> {};
-
-#let
-  #sources = fetchFromGitHub {
-  #  owner = "ActivityWatch";
-  #  repo = "activitywatch";
-  #  rev = "9ac2e2fab448cd83edf76bed2fd371089250f338";
-  #  sha256 = "HWVy9FjxFFDoDmVJdslji5ckSlA76Ut+NUYFouQ9ckI=";
-  #  fetchSubmodules = true;
-  #};
-#in
-{ stdenv
-, python3
-, lib
-, libsForQt5
-, xdg-utils
-}:
+with import <nixpkgs> {};
+#{ stdenv
+#, python3
+#, lib
+#, libsForQt5
+#, xdg-utils
+#}:
 stdenv.mkDerivation rec {
   pname = "activitywatch";
   version = "johanan-beta1";
@@ -259,11 +249,12 @@ stdenv.mkDerivation rec {
       sed -E 's#flask-cors = "\^3.0.8"#flask-cors = "*"#g' -i pyproject.toml
     '';
 
-    #postFixup = ''
-    #    wrapProgram "$out/bin/aw-server" \
-    #      --prefix XDG_DATA_DIRS : "$out/share"
-    #    mkdir -p "$out/share/aw-server"
-    #  '';
+    postFixup = ''
+        wrapProgram "$out/bin/aw-server" \
+          --prefix XDG_DATA_DIRS : "$out/share"
+        mkdir -p "$out/share/aw-server"
+        ln -s "${aw-webui}" "$out/share/aw-server/static"
+      '';
 
     meta = with lib; {
       description = "ActivityWatch server for storage of all your Quantified Self data.";
@@ -273,26 +264,39 @@ stdenv.mkDerivation rec {
     };
   };
 
-  #aw-webui = mkDerivation {
-  #  name = "aw-webui";
-  #  src = "${sources}/aw-webui/.";
-  #  buildinputs = [ nodejs ];
-  #  buildPhase = ''
-  #    ln -s ${nodeDependencies}/lib/node_modules ./node_modules
-  #    export PATH="${nodeDependencies}/bin:$PATH"
-  #    
-  #  '';
+  aw-webui = mkYarnPackage rec {
+    name = "aw-webui";
+    src = "${sources}/aw-server/aw-webui/.";
+    packageJSON = "${src}/package.json";
+    yarnLock = ./yarn.lock;
+    yarnNix = ./yarn.nix;
+    sourceRoot = "./";
+    nativeBuildInputs = [ nodejs yarn ];
 
-  #  preInstall = ''
-  #    yarn install
-  #  '';
+    buildPhase = ''
+      yarn --offline build
+    '';
 
-  #  installPhase = ''
-  #    runHook preInstall
-  #    mv dist $out
-  #    runHook postInstall
-  #  '';
-  #};
+    doCheck = true;
+    checkPhase = ''
+      yarn --offline test
+    '';
+      #ln -s ${nodeDependencies}/lib/node_modules ./node_modules
+      #export PATH="${nodeDependencies}/bin:$PATH"
+
+    postInstall = ''
+      echo post install
+    '';
+
+    distPhase = "true";
+
+    #installPhase = ''
+    #  echo install
+    #  runHook preInstall
+    #  mv dist $out
+    #  runHook postInstall
+    #'';
+  };
 
   aw-qt = python3.pkgs.buildPythonApplication rec {
     pname = "aw-qt";
@@ -352,6 +356,5 @@ stdenv.mkDerivation rec {
     cp ${aw-server}/bin/aw-server $out/bin
     cp ${aw-watcher-window}/bin/aw-watcher-window $out/bin
     cp ${aw-watcher-afk}/bin/aw-watcher-afk $out/bin
-    ls -alh ${aw-server}/**/*
   '';
 }
