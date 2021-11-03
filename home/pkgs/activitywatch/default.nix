@@ -8,7 +8,7 @@
 }:
 stdenv.mkDerivation rec {
   pname = "activitywatch";
-  version = "johanan-beta1";
+  version = "johanan-beta8";
 
   unpackPhase = "true";
 
@@ -250,13 +250,13 @@ stdenv.mkDerivation rec {
       sed -E 's#flask = "\^1.1.1"#flask = "*"#g' -i pyproject.toml
       sed -E 's#flask-restx = "\^0.2.0"#flask-restx = "*"#g' -i pyproject.toml
       sed -E 's#flask-cors = "\^3.0.8"#flask-cors = "*"#g' -i pyproject.toml
-    '';
 
-    postFixup = ''
-        wrapProgram "$out/bin/aw-server" \
-          --prefix XDG_DATA_DIRS : "$out/share"
-        mkdir -p "$out/share/aw-server"
-        ln -s "${aw-webui}" "$out/share/aw-server/static"
+      sed -i '6iinclude = ["static"]' pyproject.toml
+	  mkdir -p aw_server/static
+      ln -s "${aw-webui}" aw_server/static
+
+      mkdir -p "$out/share/aw-server"
+      ln -s "${aw-webui}" "$out/share/aw-server/static"
       '';
 
     meta = with lib; {
@@ -274,7 +274,7 @@ stdenv.mkDerivation rec {
     yarnLock = ./yarn.lock;
 
     buildPhase = ''
-      yarn --offline build
+      yarn build --offline
     '';
 
     installPhase = ''
@@ -337,7 +337,7 @@ stdenv.mkDerivation rec {
       license = licenses.mpl20;
     };
   };
-  # Why is this needed? Shoud be enough to install the modules separately...?
+  # Why is this needed? Should be enough to install the modules separately...?
   installPhase = ''
     mkdir -p $out/bin
     ln -s ${aw-qt}/bin/aw-qt $out/bin/aw-qt
