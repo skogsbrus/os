@@ -1,10 +1,11 @@
-with import <nixpkgs> {};
-#{ stdenv
-#, python3
-#, lib
-#, libsForQt5
-#, xdg-utils
-#}:
+#with import <nixpkgs> {};
+{ stdenv
+, python3
+, lib
+, libsForQt5
+, xdg-utils
+, mkYarnPackage
+}:
 stdenv.mkDerivation rec {
   pname = "activitywatch";
   version = "johanan-beta1";
@@ -227,6 +228,8 @@ stdenv.mkDerivation rec {
 
     format = "pyproject";
 
+    out = "./out";
+
     src = "${sources}/aw-server";
 
     nativeBuildInputs = [
@@ -266,36 +269,20 @@ stdenv.mkDerivation rec {
 
   aw-webui = mkYarnPackage rec {
     name = "aw-webui";
-    src = "${sources}/aw-server/aw-webui/.";
+    src = "${sources}/aw-server/aw-webui";
     packageJSON = "${src}/package.json";
     yarnLock = ./yarn.lock;
-    yarnNix = ./yarn.nix;
-    sourceRoot = "./";
-    nativeBuildInputs = [ nodejs yarn ];
 
     buildPhase = ''
       yarn --offline build
     '';
 
-    doCheck = true;
-    checkPhase = ''
-      yarn --offline test
-    '';
-      #ln -s ${nodeDependencies}/lib/node_modules ./node_modules
-      #export PATH="${nodeDependencies}/bin:$PATH"
-
-    postInstall = ''
-      echo post install
+    installPhase = ''
+      mkdir -p $out
+      mv deps/aw-webui/dist/* $out
     '';
 
     distPhase = "true";
-
-    #installPhase = ''
-    #  echo install
-    #  runHook preInstall
-    #  mv dist $out
-    #  runHook postInstall
-    #'';
   };
 
   aw-qt = python3.pkgs.buildPythonApplication rec {
@@ -350,11 +337,12 @@ stdenv.mkDerivation rec {
       license = licenses.mpl20;
     };
   };
+  # Why is this needed? Shoud be enough to install the modules separately...?
   installPhase = ''
     mkdir -p $out/bin
-    cp ${aw-qt}/bin/aw-qt $out/bin
-    cp ${aw-server}/bin/aw-server $out/bin
-    cp ${aw-watcher-window}/bin/aw-watcher-window $out/bin
-    cp ${aw-watcher-afk}/bin/aw-watcher-afk $out/bin
+    ln -s ${aw-qt}/bin/aw-qt $out/bin/aw-qt
+    ln -s ${aw-server}/bin/aw-server $out/bin/aw-server
+    ln -s ${aw-watcher-window}/bin/aw-watcher-window $out/bin/aw-watcher-window
+    ln -s ${aw-watcher-afk}/bin/aw-watcher-afk $out/bin/aw-watcher-afk
   '';
 }
