@@ -17,6 +17,7 @@
     pkgs.vscode
     pkgs.zsh
     pkgs.arp-scan
+    pkgs.go-jira
 
     # Language servers
     pkgs.clang-tools # clangd included
