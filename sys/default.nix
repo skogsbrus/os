@@ -58,8 +58,6 @@
     busybox
     firefox
     python3
-    ecryptfs
-    ecryptfs-helper
   ];
 
   # List services that you want to enable:
