@@ -32,10 +32,12 @@
 , at-spi2-core
 , at-spi2-atk
 , harfbuzz
+, pango
+, cairo
 }:
 stdenv.mkDerivation {
   pname = "webex";
-  version = "41.9.0.19961-j1";
+  version = "41.10.0.20371-j1";
 
   src = fetchurl {
     # Official link: https://binaries.webex.com/WebexDesktop-Ubuntu-Official-Package/Webex.deb
@@ -76,6 +78,8 @@ stdenv.mkDerivation {
     dbus
     glib
     libpulseaudio
+    pango
+    cairo
     alsaLib
     at-spi2-core
     at-spi2-atk
