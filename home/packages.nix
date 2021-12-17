@@ -18,6 +18,8 @@
     pkgs.zsh
     pkgs.arp-scan
     pkgs.go-jira
+    pkgs.google-cloud-sdk
+    pkgs.jq
 
     # Language servers
     pkgs.clang-tools # clangd included

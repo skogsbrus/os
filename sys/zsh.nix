@@ -21,9 +21,6 @@
       setopt PROMPT_SUBST
       PROMPT='%n@%m%f %F{yellow}$vcs_info_msg_0_ %F{green}%~%f %F{reset}'
 
-      autoload predict-on
-      predict-on
-
       alias gs="git status"
       alias gd="git diff"
       alias gdc="git diff --cached"

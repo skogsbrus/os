@@ -58,6 +58,9 @@
     busybox
     firefox
     python3
+    man-db
+    manpages
+    openssl
   ];
 
   # List services that you want to enable:
