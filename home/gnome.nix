@@ -14,5 +14,5 @@
     pkgs.gnomeExtensions.bluetooth-quick-connect
     pkgs.gnomeExtensions.sound-output-device-chooser
     pkgs.gnomeExtensions.material-shell
-  ]
+  ];
 }
