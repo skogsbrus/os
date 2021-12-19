@@ -30,6 +30,9 @@
       bind j select-pane -D
       bind k select-pane -U
       bind l select-pane -R
+
+      bind -T copy-mode-vi v send-keys -X begin-selection
+      bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "xclip -in -selection clipboard"
     '';
   };
 }

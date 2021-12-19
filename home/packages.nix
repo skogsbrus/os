@@ -20,6 +20,7 @@
     pkgs.go-jira
     pkgs.google-cloud-sdk
     pkgs.jq
+    pkgs.xclip
 
     # Language servers
     pkgs.clang-tools # clangd included
