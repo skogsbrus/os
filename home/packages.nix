@@ -49,12 +49,6 @@
     pkgs.element-desktop
     pkgs.slack
 
-    # gnome
-    pkgs.gnome.gnome-tweaks
-    pkgs.gnome.pomodoro
-    pkgs.gnomeExtensions.bluetooth-quick-connect
-    pkgs.gnomeExtensions.sound-output-device-chooser
-
     # tooling
     pkgs.wineWowPackages.stable # 32- and 64-bit
   ];

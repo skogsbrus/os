@@ -6,7 +6,13 @@
     theme = {
       name = "Numix";
       package = pkgs.numix-gtk-theme;
-      #package = pkgs.pop-gtk-theme;
     };
   };
+  home.packages = [
+    pkgs.gnome.gnome-tweaks
+    pkgs.gnome.pomodoro
+    pkgs.gnomeExtensions.bluetooth-quick-connect
+    pkgs.gnomeExtensions.sound-output-device-chooser
+    pkgs.gnomeExtensions.material-shell
+  ]
 }
