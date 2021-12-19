@@ -73,6 +73,10 @@
       dataDir = "/home/johanan/syncthing";
       configDir = "/home/johanan/syncthing/.config/syncting";
     };
+    printing = {
+      enable = true;
+      drivers = [ pkgs.hplip ];
+    };
   };
 
   # This value determines the NixOS release from which the default
