@@ -33,10 +33,6 @@ in
     };
 
     "org/gnome/desktop/interface" = {
-      clock-show-date = true;
-      clock-show-seconds = false;
-      clock-show-weekday = false;
-      enable-hot-corners = false;
       font-antialiasing = "grayscale";
       font-hinting = "slight";
       font-name = "Source Sans Variable 10";
@@ -110,21 +106,13 @@ in
     };
 
     "org/gnome/desktop/wm/keybindings" = {
-      close = [ "" ];
+      close = [ "<Super>q" ];
       maximize = [];
-      switch-input-source = [];
-      switch-input-source-backward = [];
       toggle-maximized = [ "<Super>f" ];
     };
 
     "org/gnome/desktop/wm/preferences" = {
-      button-layout = "appmenu:close";
-      focus-mode = "sloppy";
-      num-workspaces = 2;
-    };
-
-    "org/gnome/eog/ui" = {
-      sidebar = false;
+      button-layout = "appmenu:minimize,maximize,close";
     };
 
     "org/gnome/eog/view" = {
@@ -132,11 +120,6 @@ in
       use-background-color = true;
     };
 
-    "org/gnome/epiphany/state" = {
-      is-maximized = true;
-      window-position = mkTuple [ (-1) (-1) ];
-      window-size = mkTuple [ 1024 768 ];
-    };
     "org/gnome/evolution-data-server" = {
       migrated = true;
       network-monitor-gio-name = "";
@@ -262,61 +245,15 @@ in
       name = "Launch ranger";
     };
 
-    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2" = {
-      binding = "<Super>space";
-      command = "'gnome-terminal -e \"vim --cmd startinsert\"'";
-      name = "Launch scratchpad";
-    };
-
-    "org/gnome/settings-daemon/plugins/power" = {
-      sleep-inactive-ac-timeout = 7200;
-    };
-
     "org/gnome/shell" = {
       command-history = [ "r" "webex" ];
       disabled-extensions = [ "native-window-placement@gnome-shell-extensions.gcampax.github.com" "workspace-indicator@gnome-shell-extensions.gcampax.github.com" ];
-      enabled-extensions = [ "apps-menu@gnome-shell-extensions.gcampax.github.com" "sound-output-device-chooser@kgshank.net" "bluetooth-quick-connect@bjarosze.gmail.com" "window-list@gnome-shell-extensions.gcampax.github.com" "material-shell@papyelgringo" ];
+      enabled-extensions = [ "apps-menu@gnome-shell-extensions.gcampax.github.com" "sound-output-device-chooser@kgshank.net" "bluetooth-quick-connect@bjarosze.gmail.com" "window-list@gnome-shell-extensions.gcampax.github.com" ];
       favorite-apps = [ "org.gnome.Calendar.desktop" "org.gnome.Photos.desktop" "org.gnome.Nautilus.desktop" "chromium-browser.desktop" "spotify.desktop" "org.gnome.Terminal.desktop" "element-desktop.desktop" "slack.desktop" ];
       had-bluetooth-devices-setup = true;
       welcome-dialog-last-shown-version = "40.1";
     };
 
-    "org/gnome/shell/extensions/materialshell/layouts" = {
-      gap = 4;
-      screen-gap = 0;
-      simple = false;
-      simple-vertical = false;
-      tween-time = 0.1;
-    };
-
-    "org/gnome/shell/extensions/materialshell/theme" = {
-      clock-app-launcher = true;
-      clock-horizontal = true;
-      panel-icon-color = false;
-      panel-icon-style = "hybrid";
-      panel-size = 48;
-      primary-color = "#3d3846";
-      theme = "dark";
-      vertical-panel-position = "left";
-    };
-
-    "org/gnome/shell/extensions/materialshell/tweaks" = {
-      disable-notifications = true;
-    };
-
-    "org/gnome/shell/keybindings" = {
-      switch-to-application-1 = [ "" ];
-      switch-to-application-2 = [ "" ];
-      switch-to-application-3 = [ "" ];
-      switch-to-application-4 = [ "" ];
-      switch-to-application-5 = [ "" ];
-      switch-to-application-6 = [ "" ];
-      switch-to-application-7 = [ "" ];
-      switch-to-application-8 = [ "" ];
-      switch-to-application-9 = [ "" ];
-      toggle-application-view = [ "" ];
-      toggle-overview = [ "" ];
-    };
     "org/gnome/shell/world-clocks" = {
       locations = "@av []";
     };
@@ -331,11 +268,6 @@ in
 
     "org/gnome/tweaks" = {
       show-extensions-notice = false;
-    };
-
-    "org/gtk/gtk4/settings/color-chooser" = {
-      custom-colors = [ (mkTuple [ 0.24705882370471954 0.3176470696926117 ]) ];
-      selected-color = mkTuple [ true 0.239215686917305 ];
     };
 
     "org/gtk/settings/color-chooser" = {
