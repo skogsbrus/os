@@ -47,8 +47,6 @@ set foldmethod=manual
 " set foldmethod=expr
 " set foldexpr=nvim_treesitter#foldexpr()
 
-" LSP clients
-" :lua require('./lsp.lua')
 lua << EOF
 local nvim_lsp = require('lspconfig')
 
@@ -97,8 +95,8 @@ for _, lsp in ipairs(servers) do
   }
 end
 
--- do this one manually due to cmd
-nvim_lsp['elixirls'].setup{
+-- do this one manually due to custom cmd
+nvim_lsp['elixirls'].setup {
   cmd = {
     "/nix/store/xsqkhiz0c1vdrgwm4grvc5jdhvwimyif-elixir-ls-0.7.0/lib/language_server.sh"
   },
