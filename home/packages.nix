@@ -29,6 +29,7 @@
     pkgs.pyright
     pkgs.rnix-lsp
     pkgs.solargraph
+    pkgs.terraform-ls
 
     # build tools
     pkgs.cmake

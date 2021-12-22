@@ -83,9 +83,12 @@ local on_attach = function(client, bufnr)
 
 end
 
+-- Server names must match in this doc to get default settings
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+local servers = { 'pyright', 'solargraph', 'cmake', 'clangd', 'terraformls', 'rnix' }
+
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { 'pyright', 'solargraph', 'cmake', 'clangd' }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
