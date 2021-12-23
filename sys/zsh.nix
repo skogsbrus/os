@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 {
   programs.zsh = {
-  
+
     enable = true;
     #shellInit = ''
     #'';
@@ -24,6 +24,14 @@
       alias gs="git status"
       alias gd="git diff"
       alias gdc="git diff --cached"
+      alias gac="git commit --amend"
+      alias gap="git add --patch"
+      alias gpfw='CMD="git push origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease" ; echo "$CMD" ; echo "Confirm [y/n]" && read && if [[ $REPLY =~ ^[Yy]$ ]]; then eval $CMD ; else echo "Aborted." ; fi'
+      alias gp='git push origin $(git rev-parse --abbrev-ref HEAD)'
+
+      # Edit line in vim
+      autoload edit-command-line; zle -N edit-command-line
+      bindkey '^e' edit-command-line
 
       # Add timestamps in history
       HIST_STAMPS="dd.mm.yyyy"
