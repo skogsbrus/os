@@ -33,6 +33,8 @@
     pkgs.rnix-lsp
     pkgs.solargraph
     pkgs.terraform-ls
+    pkgs.sumneko-lua-language-server
+    pkgs.yaml-language-server
 
     # build tools
     pkgs.cmake
