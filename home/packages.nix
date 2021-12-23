@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, unstable, ... }:
 {
   home.packages = [
     # dev-tools
@@ -21,6 +21,9 @@
     pkgs.google-cloud-sdk
     pkgs.jq
     pkgs.xclip
+    # Cleaner way to do this?
+    unstable.legacyPackages.${pkgs.system}.terraform
+    unstable.legacyPackages.${pkgs.system}.tflint
 
     # Language servers
     pkgs.clang-tools # clangd included
