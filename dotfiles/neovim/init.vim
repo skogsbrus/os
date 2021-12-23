@@ -1,6 +1,7 @@
 set nocompatible
 set number relativenumber
 let mapleader = " "
+set hidden
 
 " Tabs
 map <leader>t :tab new<CR>
