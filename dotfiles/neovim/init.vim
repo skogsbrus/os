@@ -138,6 +138,10 @@ require('Comment').setup {
     line = "gc",
     block = "gb",
   },
+  toggler = {
+    line = "gcc",
+    block = "gbc",
+  },
   basic = true,
   extra = true,
 }
