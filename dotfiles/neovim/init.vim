@@ -3,6 +3,14 @@ set number relativenumber
 let mapleader = " "
 set hidden
 
+" Ignore files
+set wildignore+=*.pyc
+set wildignore+=*build/*
+set wildignore+=**/coverage/*
+set wildignore+=**/node_modules/*
+set wildignore+=**/venv/*
+set wildignore+=**/.git/*
+
 " Tabs
 map <leader>t :tab new<CR>
 
@@ -22,6 +30,11 @@ nnoremap <leader>ga <cmd>Git add -p<cr>
 nnoremap <leader>gdd <cmd>Git diff<cr>
 nnoremap <leader>gdc <cmd>Git diff --cached<cr>
 nnoremap <leader>gs <cmd>Git<cr>
+
+" Keep it centered (thanks Prime)
+nnoremap n nzzzv
+nnoremap N Nzzzv
+nnoremap J mzJ`z
 
 " Highlight traling whitespaces
 " highlight ExtraWhitespace ctermbg=red guibg=red
@@ -94,7 +107,6 @@ local servers = {
     'terraformls',
     'rnix',
     'clangd',
-    'vimls',
     'sumneko_lua',
     'yamlls',
 }
