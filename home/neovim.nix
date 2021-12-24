@@ -14,6 +14,7 @@
      nvim-treesitter
      nvim-lspconfig
      vim-terraform
+     comment-nvim
    ];
  };
 }

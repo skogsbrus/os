@@ -132,4 +132,13 @@ nvim_lsp['elixirls'].setup {
     debounce_text_changes = 150,
   }
 }
+
+require('Comment').setup {
+  opleader = {
+    line = "gc",
+    block = "gb",
+  },
+  basic = true,
+  extra = true,
+}
 EOF
