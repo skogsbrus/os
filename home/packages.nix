@@ -49,7 +49,7 @@
     pkgs.mixxx
 
     # Local packages (unpublished)
-    (pkgs.callPackage pkgs/webex {})
+    #(pkgs.callPackage pkgs/webex {})
 
     # web
     pkgs.chromium
