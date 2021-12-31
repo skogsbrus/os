@@ -3,7 +3,6 @@
   imports = [
     ./pipewire.nix
     ./steam.nix
-    ./tlp.nix
     ./tmux.nix
     ./xserver.nix
     ./zsh.nix
