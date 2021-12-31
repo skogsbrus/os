@@ -5,4 +5,3 @@ rb-switch:
 .PHONY: install
 install:
 	ln -T -fs $(PWD)/dotfiles/git/gitconfig ~/.gitconfig
-	ln -T -fs $(PWD)/dotfiles/neovim ~/.config/nvim
