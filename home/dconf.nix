@@ -21,7 +21,7 @@ in
 
     "org/gnome/desktop/background" = {
       picture-options = "zoom";
-      picture-uri = "file:///nix/store/msld2rsx4bcm21mdnihxwwiv4lb6pggk-gnome-backgrounds-40.1/share/backgrounds/gnome/Loveles.jpg";
+      picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/Loveles.jpg";
       primary-color = "#ffffff";
       secondary-color = "#000000";
     };
@@ -96,7 +96,7 @@ in
 
     "org/gnome/desktop/screensaver" = {
       picture-options = "zoom";
-      picture-uri = "file:///nix/store/msld2rsx4bcm21mdnihxwwiv4lb6pggk-gnome-backgrounds-40.1/share/backgrounds/gnome/Loveles.jpg";
+      picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/Loveles.jpg";
       primary-color = "#ffffff";
       secondary-color = "#000000";
     };
