@@ -12,7 +12,8 @@
       bind - split-window -v
 
       # theme
-      set-option status-style fg=black,bg=white
+      set -g status-fg white
+      set -g status-bg ${if config.networking.hostName == "workstation" then "blue" else "green"}
 
       # enables pane resizing and text selection with mouse
       set -g mouse on
