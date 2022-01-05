@@ -21,6 +21,7 @@
     pkgs.google-cloud-sdk
     pkgs.jq
     pkgs.xclip
+
     # Cleaner way to do this?
     unstable.legacyPackages.${pkgs.system}.terraform
     unstable.legacyPackages.${pkgs.system}.tflint
