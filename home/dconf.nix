@@ -20,10 +20,15 @@ in
     };
 
     "org/gnome/desktop/background" = {
+      color-shading-type = "solid";
       picture-options = "zoom";
       picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/Loveles.jpg";
       primary-color = "#ffffff";
       secondary-color = "#000000";
+    };
+
+    "org/gnome/desktop/calendar" = {
+      show-weekdate = true;
     };
 
     "org/gnome/desktop/input-sources" = {
@@ -95,6 +100,7 @@ in
     };
 
     "org/gnome/desktop/screensaver" = {
+      color-shading-type = "solid";
       picture-options = "zoom";
       picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/Loveles.jpg";
       primary-color = "#ffffff";
