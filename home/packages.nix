@@ -48,6 +48,7 @@
     pkgs.spotify
     pkgs.vlc
     pkgs.mixxx
+    pkgs.sc-controller
 
     # Local packages (unpublished)
     #(pkgs.callPackage pkgs/webex {})
