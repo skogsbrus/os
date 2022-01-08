@@ -23,7 +23,7 @@
       set-option -g prefix M-a
 
       # for fast & predictable navigation
-      set-option repeat-time 0
+      set-option -g repeat-time 0
 
       # vim-like navigation
       setw -g mode-keys vi
