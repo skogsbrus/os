@@ -2,7 +2,7 @@ set nocompatible
 set number relativenumber
 let mapleader = " "
 set hidden
-set syntax on
+syntax on
 
 " Ignore files
 set wildignore+=*.pyc
