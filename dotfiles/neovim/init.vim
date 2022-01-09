@@ -2,6 +2,7 @@ set nocompatible
 set number relativenumber
 let mapleader = " "
 set hidden
+set syntax on
 
 " Ignore files
 set wildignore+=*.pyc
@@ -124,9 +125,7 @@ end
 
 -- do this one manually due to custom cmd
 nvim_lsp['elixirls'].setup {
-  cmd = {
-    "/nix/store/xsqkhiz0c1vdrgwm4grvc5jdhvwimyif-elixir-ls-0.7.0/lib/language_server.sh"
-  },
+  cmd = { "elixir-ls" },
   on_attach = on_attach,
   flags = {
     debounce_text_changes = 150,
