@@ -239,26 +239,27 @@ stdenv.mkDerivation rec {
     propagatedBuildInputs = with python3.pkgs; [
       aw-core
       aw-client
+      aw-webui
       appdirs
       flask
       flask-restx
       flask-cors
-      setuptools
+      setuptools # for pkg_resources
     ];
 
     # can't pin versions?
     postPatch = ''
-      sed -E 's#flask = "\^1.1.1"#flask = "*"#g' -i pyproject.toml
-      sed -E 's#flask-restx = "\^0.2.0"#flask-restx = "*"#g' -i pyproject.toml
-      sed -E 's#flask-cors = "\^3.0.8"#flask-cors = "*"#g' -i pyproject.toml
-
-      sed -i '6iinclude = ["static"]' pyproject.toml
 	  mkdir -p aw_server/static
       ln -s "${aw-webui}" aw_server/static
 
       mkdir -p "$out/share/aw-server"
       ln -s "${aw-webui}" "$out/share/aw-server/static"
-      '';
+
+      sed -E 's#flask = "\^1.1.1"#flask = "*"#g' -i pyproject.toml
+      sed -E 's#flask-restx = "\^0.2.0"#flask-restx = "*"#g' -i pyproject.toml
+      sed -E 's#flask-cors = "\^3.0.8"#flask-cors = "*"#g' -i pyproject.toml
+      sed -i '/\[tool.poetry\]/a include = ["aw_server/static"]' pyproject.toml
+    '';
 
     meta = with lib; {
       description = "ActivityWatch server for storage of all your Quantified Self data.";
@@ -346,5 +347,6 @@ stdenv.mkDerivation rec {
     ln -s ${aw-server}/bin/aw-server $out/bin/aw-server
     ln -s ${aw-watcher-window}/bin/aw-watcher-window $out/bin/aw-watcher-window
     ln -s ${aw-watcher-afk}/bin/aw-watcher-afk $out/bin/aw-watcher-afk
+    ln -s ${aw-webui} $out/bin/aw-webui
   '';
 }
