@@ -8,7 +8,7 @@
 }:
 stdenv.mkDerivation rec {
   pname = "activitywatch";
-  version = "johanan-beta8";
+  version = "johanan-beta10";
 
   unpackPhase = "true";
 
@@ -152,7 +152,7 @@ stdenv.mkDerivation rec {
     ];
 
     postPatch = ''
-      sed -E 's#click = "\^8.0"#click = "^9.0"#g' -i pyproject.toml
+      sed -E 's#click = "\^7.1.1"#click = "^8.0"#g' -i pyproject.toml
     '';
 
     meta = with lib; {
@@ -243,6 +243,7 @@ stdenv.mkDerivation rec {
       flask
       flask-restx
       flask-cors
+      setuptools
     ];
 
     # can't pin versions?
@@ -310,8 +311,8 @@ stdenv.mkDerivation rec {
     dontWrapQtApps = true;
 
     postPatch = ''
-      sed -E 's#click = "\^8.0"#click = "^9.0"#g' -i pyproject.toml
       sed -E 's#PyQt5 = "5.15.2"#PyQt5 = "^5.15.2"#g' -i pyproject.toml
+      sed -E 's#click = "\^7.1.2"#click = "^8.0"#g' -i pyproject.toml
     '';
 
     preBuild = ''
@@ -337,6 +338,7 @@ stdenv.mkDerivation rec {
       license = licenses.mpl20;
     };
   };
+
   # Why is this needed? Should be enough to install the modules separately...?
   installPhase = ''
     mkdir -p $out/bin
