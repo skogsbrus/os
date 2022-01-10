@@ -249,16 +249,16 @@ stdenv.mkDerivation rec {
 
     # can't pin versions?
     postPatch = ''
-	  mkdir -p aw_server/static
-      ln -s "${aw-webui}" aw_server/static
-
-      mkdir -p "$out/share/aw-server"
-      ln -s "${aw-webui}" "$out/share/aw-server/static"
-
       sed -E 's#flask = "\^1.1.1"#flask = "*"#g' -i pyproject.toml
       sed -E 's#flask-restx = "\^0.2.0"#flask-restx = "*"#g' -i pyproject.toml
       sed -E 's#flask-cors = "\^3.0.8"#flask-cors = "*"#g' -i pyproject.toml
-      sed -i '/\[tool.poetry\]/a include = ["aw_server/static"]' pyproject.toml
+    '';
+
+    # Couldn't get the static folder to be copied correctly with pyproject.toml#include,
+    # so copy manually instead.
+    # TODO: can we symlink this without relying on the python version?
+    postInstall = ''
+      ln -s ${aw-webui} $out/lib/python3.9/site-packages/aw_server/static
     '';
 
     meta = with lib; {
@@ -324,6 +324,12 @@ stdenv.mkDerivation rec {
       install -Dt $out/etc/xdg/autostart resources/aw-qt.desktop
       xdg-icon-resource install --novendor --size 32 media/logo/logo.png activitywatch
       xdg-icon-resource install --novendor --size 512 media/logo/logo.png activitywatch
+
+      # Bundle all binaries with aw-qt, so it can find & launch them
+      # TODO: python version agnostic paths?
+      ln -s ${aw-watcher-window}/bin/aw-watcher-window $out/lib/python3.9/site-packages/aw_qt/aw-watcher-window
+      ln -s ${aw-watcher-afk}/bin/aw-watcher-afk $out/lib/python3.9/site-packages/aw_qt/aw-watcher-afk
+      ln -s ${aw-server}/bin/aw-server $out/lib/python3.9/site-packages/aw_qt/aw-server
     '';
 
     preFixup = ''
