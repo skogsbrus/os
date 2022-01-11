@@ -1,6 +1,8 @@
 #with import <nixpkgs> {};
 { stdenv
 , python3
+, makeWrapper
+, xorg
 , lib
 , libsForQt5
 , xdg-utils
@@ -104,7 +106,7 @@ stdenv.mkDerivation rec {
     nativeBuildInputs = [
       python3.pkgs.poetry
     ];
-    
+
     propagatedBuildInputs = with python3.pkgs; [
       jsonschema
       peewee
@@ -346,6 +348,14 @@ stdenv.mkDerivation rec {
     };
   };
 
+  nativeBuildInputs = [
+    makeWrapper
+  ];
+
+  propagatedBuildInputs = [
+    xorg.xauth
+  ];
+
   # Why is this needed? Should be enough to install the modules separately...?
   installPhase = ''
     mkdir -p $out/bin
@@ -354,5 +364,10 @@ stdenv.mkDerivation rec {
     ln -s ${aw-watcher-window}/bin/aw-watcher-window $out/bin/aw-watcher-window
     ln -s ${aw-watcher-afk}/bin/aw-watcher-afk $out/bin/aw-watcher-afk
     ln -s ${aw-webui} $out/bin/aw-webui
+
+    # TODO: move to respective package?
+    # https://bugs.launchpad.net/ubuntu/+source/python-xlib/+bug/1885304
+    wrapProgram $out/bin/aw-qt \
+      --run 'xauth add $DISPLAY $(xauth list $DISPLAY | cut -d: -f2- | tail -1)'
   '';
 }
