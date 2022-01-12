@@ -21,6 +21,22 @@ stdenv.mkDerivation rec {
     submodules = true;
   };
 
+  installPhase = ''
+    mkdir -p $out/bin
+    ln -s ${aw-qt}/bin/aw-qt $out/bin/aw-qt
+
+    # Include these as well, if users want to only use a subset of the services (e.g. everything but the system tray)
+    ln -s ${aw-server}/bin/aw-server $out/bin/aw-server
+    ln -s ${aw-watcher-window}/bin/aw-watcher-window $out/bin/aw-watcher-window
+    ln -s ${aw-watcher-afk}/bin/aw-watcher-afk $out/bin/aw-watcher-afk
+    ln -s ${aw-webui} $out/bin/aw-webui
+  '';
+
+  meta = with lib; {
+    description = "Records what you do so that you can know how you've spent your time. All in a secure way where you control the data.";
+    homepage = "https://github.com/ActivityWatch";
+  };
+
   persist-queue = python3.pkgs.buildPythonPackage rec {
     version = "0.6.0";
     pname = "persist-queue";
@@ -262,7 +278,7 @@ stdenv.mkDerivation rec {
       # Couldn't get this configured correctly with
       # https://python-poetry.org/docs/pyproject/#include-and-exclude.
       # Symlink manually instead
-      ln -s ${aw-webui} "$out"/lib/python*/site-packages/aw_server/static
+      ln -s ${aw-webui} "$out"/lib/python3*/site-packages/aw_server/static
     '';
 
     meta = with lib; {
@@ -348,10 +364,9 @@ stdenv.mkDerivation rec {
       xdg-icon-resource install --novendor --size 512 media/logo/logo.png activitywatch
 
       # Bundle all binaries with aw-qt, so it can find & launch them
-      # TODO: python version agnostic paths?
-      ln -s ${aw-watcher-window}/bin/aw-watcher-window $out/lib/python3.9/site-packages/aw_qt/aw-watcher-window
-      ln -s ${aw-watcher-afk}/bin/aw-watcher-afk $out/lib/python3.9/site-packages/aw_qt/aw-watcher-afk
-      ln -s ${aw-server}/bin/aw-server $out/lib/python3.9/site-packages/aw_qt/aw-server
+      ln -s ${aw-watcher-window}/bin/aw-watcher-window "$out"/lib/python3*/site-packages/aw_qt/aw-watcher-window
+      ln -s ${aw-watcher-afk}/bin/aw-watcher-afk "$out"/lib/python3*/site-packages/aw_qt/aw-watcher-afk
+      ln -s ${aw-server}/bin/aw-server "$out"/lib/python3*/site-packages/aw_qt/aw-server
 
       # https://bugs.launchpad.net/ubuntu/+source/python-xlib/+bug/1885304
       wrapProgram $out/bin/aw-qt \
@@ -366,14 +381,4 @@ stdenv.mkDerivation rec {
     };
   };
 
-
-  # Packages that should be added to path
-  installPhase = ''
-    mkdir -p $out/bin
-    ln -s ${aw-qt}/bin/aw-qt $out/bin/aw-qt
-    ln -s ${aw-server}/bin/aw-server $out/bin/aw-server
-    ln -s ${aw-watcher-window}/bin/aw-watcher-window $out/bin/aw-watcher-window
-    ln -s ${aw-watcher-afk}/bin/aw-watcher-afk $out/bin/aw-watcher-afk
-    ln -s ${aw-webui} $out/bin/aw-webui
-  '';
 }
