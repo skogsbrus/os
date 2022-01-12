@@ -10,7 +10,7 @@
 }:
 stdenv.mkDerivation rec {
   pname = "activitywatch";
-  version = "johanan-beta10";
+  version = "0.11.0-alpha";
 
   unpackPhase = "true";
 
@@ -21,11 +21,16 @@ stdenv.mkDerivation rec {
     submodules = true;
   };
 
-
   persist-queue = python3.pkgs.buildPythonPackage rec {
     version = "0.6.0";
     pname = "persist-queue";
     format = "pyproject";
+
+    meta = with lib; {
+      description = "Thread-safe disk based persistent queue in Python";
+      homepage = "https://github.com/peter-wangxu/persist-queue";
+      license = licenses.bsd3;
+    };
 
     src = python3.pkgs.fetchPypi {
       inherit pname version;
@@ -42,12 +47,6 @@ stdenv.mkDerivation rec {
       nose2
       runHook postCheck
     '';
-
-    meta = with lib; {
-      description = "Thread-safe disk based persistent queue in Python";
-      homepage = "https://github.com/peter-wangxu/persist-queue";
-      license = licenses.bsd3;
-    };
   };
 
   TakeTheTime = python3.pkgs.buildPythonPackage rec {
@@ -93,15 +92,22 @@ stdenv.mkDerivation rec {
       description = "Data type for representing time slots with a start and end";
       homepage = "https://github.com/ErikBjare/timeslot";
       maintainers = with maintainers; [ skogsbrus jtojnar ];
-      license = licenses.mit;
+      license = licenses.mit; # TODO: no license
     };
   };
 
   aw-core = python3.pkgs.buildPythonPackage rec {
-    pname = "aw-core";
-    inherit version;
     format = "pyproject";
+    inherit version;
+    pname = "aw-core";
     src = "${sources}/aw-core";
+
+    meta = with lib; {
+      description = "Core library for ActivityWatch";
+      homepage = "https://github.com/ActivityWatch/aw-core";
+      maintainers = with maintainers; [ skogsbrus jtojnar ];
+      license = licenses.mpl20;
+    };
 
     nativeBuildInputs = [
       python3.pkgs.poetry
@@ -121,26 +127,28 @@ stdenv.mkDerivation rec {
       timeslot
     ];
 
+    # TODO: pin versions
     postPatch = ''
-      sed -E 's#python-json-logger = "\^0.1.11"#python-json-logger = "^2.0"#g' -i pyproject.toml
-      sed -E 's#tomlkit = "\^0.6.0"#tomlkit = "*"#g' -i pyproject.toml
-    '';
+      substituteInPlace pyproject.toml \
+        --replace 'python-json-logger = "^0.1.11"' 'python-json-logger = "^2.0"'
 
-    meta = with lib; {
-      description = "Core library for ActivityWatch";
-      homepage = "https://github.com/ActivityWatch/aw-core";
-      maintainers = with maintainers; [ skogsbrus jtojnar ];
-      license = licenses.mpl20;
-    };
+      substituteInPlace pyproject.toml \
+        --replace 'tomlkit = "^0.6.0"' 'tomlkit = "*"'
+    '';
   };
 
   aw-client = python3.pkgs.buildPythonPackage rec {
-    pname = "aw-client";
-    inherit version;
-
     format = "pyproject";
-
+    inherit version;
+    pname = "aw-client";
     src = "${sources}/aw-client";
+
+    meta = with lib; {
+      description = "Client library for ActivityWatch";
+      homepage = "https://github.com/ActivityWatch/aw-client";
+      maintainers = with maintainers; [ skogsbrus jtojnar ];
+      license = licenses.mpl20;
+    };
 
     nativeBuildInputs = [
       python3.pkgs.poetry
@@ -154,24 +162,23 @@ stdenv.mkDerivation rec {
     ];
 
     postPatch = ''
-      sed -E 's#click = "\^7.1.1"#click = "^8.0"#g' -i pyproject.toml
+      substituteInPlace pyproject.toml \
+        --replace 'click = "^7.1.1"' 'click = "^8.0"'
     '';
-
-    meta = with lib; {
-      description = "Client library for ActivityWatch";
-      homepage = "https://github.com/ActivityWatch/aw-client";
-      maintainers = with maintainers; [ skogsbrus jtojnar ];
-      license = licenses.mpl20;
-    };
   };
 
   aw-watcher-afk = python3.pkgs.buildPythonApplication rec {
-    pname = "aw-watcher-afk";
-    inherit version;
-
     format = "pyproject";
-
+    inherit version;
+    pname = "aw-watcher-afk";
     src = "${sources}/aw-watcher-afk";
+
+    meta = with lib; {
+      description = "Watches keyboard and mouse activity to determine if you are AFK or not (for use with ActivityWatch)";
+      homepage = "https://github.com/ActivityWatch/aw-watcher-afk";
+      maintainers = with maintainers; [ skogsbrus jtojnar ];
+      license = licenses.mpl20;
+    };
 
     nativeBuildInputs = [
       python3.pkgs.poetry
@@ -184,24 +191,23 @@ stdenv.mkDerivation rec {
     ];
 
     postPatch = ''
-      sed -E 's#python-xlib = \{ version = "\^0.28"#python-xlib = \{ version = "^0.29"#g' -i pyproject.toml
+      substituteInPlace pyproject.toml \
+        --replace 'python-xlib = { version = "^0.28"' 'python-xlib = { version = "^0.29"'
     '';
-
-    meta = with lib; {
-      description = "Watches keyboard and mouse activity to determine if you are AFK or not (for use with ActivityWatch)";
-      homepage = "https://github.com/ActivityWatch/aw-watcher-afk";
-      maintainers = with maintainers; [ skogsbrus jtojnar ];
-      license = licenses.mpl20;
-    };
   };
 
   aw-watcher-window = python3.pkgs.buildPythonApplication rec {
-    pname = "aw-watcher-window";
-    inherit version;
-
     format = "pyproject";
-
+    inherit version;
+    pname = "aw-watcher-window";
     src = "${sources}/aw-watcher-window";
+
+    meta = with lib; {
+      description = "Cross-platform window watcher (for use with ActivityWatch)";
+      homepage = "https://github.com/ActivityWatch/aw-watcher-window";
+      maintainers = with maintainers; [ skogsbrus jtojnar ];
+      license = licenses.mpl20;
+    };
 
     nativeBuildInputs = [
       python3.pkgs.poetry
@@ -213,25 +219,16 @@ stdenv.mkDerivation rec {
     ];
 
     postPatch = ''
-      sed -E 's#python-xlib = \{version = "\^0.28"#python-xlib = \{ version = "^0.29"#g' -i pyproject.toml
+      substituteInPlace pyproject.toml \
+        --replace 'python-xlib = {version = "^0.28"' 'python-xlib = {version = "^0.29"'
     '';
-
-    meta = with lib; {
-      description = "Cross-platform window watcher (for use with ActivityWatch)";
-      homepage = "https://github.com/ActivityWatch/aw-watcher-window";
-      maintainers = with maintainers; [ skogsbrus jtojnar ];
-      license = licenses.mpl20;
-    };
   };
 
   aw-server = python3.pkgs.buildPythonApplication rec {
     pname = "aw-server";
     inherit version;
-
     format = "pyproject";
-
     out = "./out";
-
     src = "${sources}/aw-server";
 
     nativeBuildInputs = [
@@ -249,24 +246,29 @@ stdenv.mkDerivation rec {
       setuptools # for pkg_resources
     ];
 
-    # can't pin versions?
+    # TODO: pin flask versions
     postPatch = ''
-      sed -E 's#flask = "\^1.1.1"#flask = "*"#g' -i pyproject.toml
-      sed -E 's#flask-restx = "\^0.2.0"#flask-restx = "*"#g' -i pyproject.toml
-      sed -E 's#flask-cors = "\^3.0.8"#flask-cors = "*"#g' -i pyproject.toml
+      substituteInPlace pyproject.toml \
+        --replace 'flask = "^1.1.1"' 'flask = "*"'
+
+      substituteInPlace pyproject.toml \
+        --replace 'flask-restx = "^0.2.0"' 'flask-restx = "*"'
+
+      substituteInPlace pyproject.toml \
+        --replace 'flask-cors = "^3.0.8"' 'flask-cors = "*"'
     '';
 
-    # Couldn't get the static folder to be copied correctly with pyproject.toml#include,
-    # so copy manually instead.
-    # TODO: can we symlink this without relying on the python version?
     postInstall = ''
-      ln -s ${aw-webui} $out/lib/python3.9/site-packages/aw_server/static
+      # Couldn't get this configured correctly with
+      # https://python-poetry.org/docs/pyproject/#include-and-exclude.
+      # Symlink manually instead
+      ln -s ${aw-webui} "$out"/lib/python*/site-packages/aw_server/static
     '';
 
     meta = with lib; {
       description = "ActivityWatch server for storage of all your Quantified Self data.";
       homepage = "https://github.com/ActivityWatch/aw-server";
-      maintainers = with maintainers; [ skogsbrus jtojnar ];
+      maintainers = with maintainers; [ skogsbrus ];
       license = licenses.mpl20;
     };
   };
@@ -287,6 +289,13 @@ stdenv.mkDerivation rec {
     '';
 
     distPhase = "true";
+
+    meta = with lib; {
+      description = "A web-based UI for ActivityWatch, built with Vue.js";
+      homepage = "https://github.com/ActivityWatch/aw-webui";
+      maintainers = with maintainers; [ skogsbrus meain ];
+      license = licenses.mpl20;
+    };
   };
 
   aw-qt = python3.pkgs.buildPythonApplication rec {
@@ -302,20 +311,31 @@ stdenv.mkDerivation rec {
       python3.pkgs.pyqt5 # for pyrcc5
       libsForQt5.wrapQtAppsHook
       xdg-utils
+      makeWrapper
     ];
 
     propagatedBuildInputs = with python3.pkgs; [
       aw-core
       pyqt5
       click
+      xorg.xauth
     ];
 
-    # Prevent double wrapping
+    # Prevent error: `qt.qpa.plugin: Could not find the Qt platform plugin "xcb" in ""`
+    # https://discourse.nixos.org/t/how-can-i-build-a-python-package-that-uses-qt/7657/5
     dontWrapQtApps = true;
+    preFixup = ''
+      makeWrapperArgs+=(
+        "''${qtWrapperArgs[@]}"
+      )
+    '';
 
     postPatch = ''
-      sed -E 's#PyQt5 = "5.15.2"#PyQt5 = "^5.15.2"#g' -i pyproject.toml
-      sed -E 's#click = "\^7.1.2"#click = "^8.0"#g' -i pyproject.toml
+      substituteInPlace pyproject.toml \
+        --replace 'PyQt5 = "5.15.2"' 'PyQt5 = "^5.15.2"'
+
+      substituteInPlace pyproject.toml \
+        --replace 'click = "^7.1.2"' 'click = "^8.0"'
     '';
 
     preBuild = ''
@@ -332,12 +352,10 @@ stdenv.mkDerivation rec {
       ln -s ${aw-watcher-window}/bin/aw-watcher-window $out/lib/python3.9/site-packages/aw_qt/aw-watcher-window
       ln -s ${aw-watcher-afk}/bin/aw-watcher-afk $out/lib/python3.9/site-packages/aw_qt/aw-watcher-afk
       ln -s ${aw-server}/bin/aw-server $out/lib/python3.9/site-packages/aw_qt/aw-server
-    '';
 
-    preFixup = ''
-      makeWrapperArgs+=(
-        "''${qtWrapperArgs[@]}"
-      )
+      # https://bugs.launchpad.net/ubuntu/+source/python-xlib/+bug/1885304
+      wrapProgram $out/bin/aw-qt \
+        --run 'xauth add $DISPLAY $(xauth list $DISPLAY | cut -d: -f2- | tail -1)'
     '';
 
     meta = with lib; {
@@ -348,15 +366,8 @@ stdenv.mkDerivation rec {
     };
   };
 
-  nativeBuildInputs = [
-    makeWrapper
-  ];
 
-  propagatedBuildInputs = [
-    xorg.xauth
-  ];
-
-  # Why is this needed? Should be enough to install the modules separately...?
+  # Packages that should be added to path
   installPhase = ''
     mkdir -p $out/bin
     ln -s ${aw-qt}/bin/aw-qt $out/bin/aw-qt
@@ -364,10 +375,5 @@ stdenv.mkDerivation rec {
     ln -s ${aw-watcher-window}/bin/aw-watcher-window $out/bin/aw-watcher-window
     ln -s ${aw-watcher-afk}/bin/aw-watcher-afk $out/bin/aw-watcher-afk
     ln -s ${aw-webui} $out/bin/aw-webui
-
-    # TODO: move to respective package?
-    # https://bugs.launchpad.net/ubuntu/+source/python-xlib/+bug/1885304
-    wrapProgram $out/bin/aw-qt \
-      --run 'xauth add $DISPLAY $(xauth list $DISPLAY | cut -d: -f2- | tail -1)'
   '';
 }
