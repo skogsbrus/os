@@ -21,6 +21,7 @@
     pkgs.google-cloud-sdk
     pkgs.jq
     pkgs.xclip
+    pkgs.jetbrains-mono
 
     # Cleaner way to do this?
     unstable.legacyPackages.${pkgs.system}.terraform
