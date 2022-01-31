@@ -2,7 +2,6 @@
 
 {
   services.dbus.packages = with pkgs; [ gnome.dconf ];
-
   services.xserver = {
     # Enable the X11 windowing system.
     enable = true;
@@ -10,12 +9,8 @@
     # Enable touchpad support (enabled default in most desktopManager).
     libinput.enable = true;
 
-    displayManager.gdm.enable = true;
-
-    # Prevent wayland from being enabled
-    displayManager.gdm.wayland = false;
-
     # Enable the GNOME Desktop Environment.
+    displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
 
     # Add custom keyboard layout
@@ -30,5 +25,4 @@
     xkbOptions = "caps:escape";
 
   };
-
 }
