@@ -274,11 +274,12 @@ stdenv.mkDerivation rec {
         --replace 'flask-cors = "^3.0.8"' 'flask-cors = "*"'
     '';
 
+    # TODO: Possible to use wildcard for python version, e.g. python*?
     postInstall = ''
       # Couldn't get this configured correctly with
       # https://python-poetry.org/docs/pyproject/#include-and-exclude.
       # Symlink manually instead
-      ln -s ${aw-webui} "$out"/lib/python3*/site-packages/aw_server/static
+      ln -s ${aw-webui} "$out/lib/python3.9/site-packages/aw_server/static"
     '';
 
     meta = with lib; {
