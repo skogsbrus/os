@@ -1,8 +1,6 @@
 { config, pkgs, ... }:
 
 {
-  services.dbus.packages = with pkgs; [ gnome.dconf ];
-
   services.xserver = {
     # Enable the X11 windowing system.
     enable = true;
@@ -10,13 +8,8 @@
     # Enable touchpad support (enabled default in most desktopManager).
     libinput.enable = true;
 
-    displayManager.gdm.enable = true;
-
-    # Use wayland for now, otherwise USB-C dock doesn't work :(
-    displayManager.gdm.wayland = true;
-
-    # Enable the GNOME Desktop Environment.
-    desktopManager.gnome.enable = true;
+    desktopManager.plasma5.enable = true;
+    displayManager.defaultSession = "plasmawayland";
 
     # Add custom keyboard layout
     extraLayouts.us-swedish = {
@@ -30,5 +23,4 @@
     xkbOptions = "caps:escape";
 
   };
-
 }
