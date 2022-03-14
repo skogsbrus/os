@@ -9,6 +9,16 @@
       ../sys/tlp.nix
     ];
 
+  services.udev.extraRules = ''
+    SUBSYSTEM=="usb", ATTR{idVendor}=="4255", ATTR{idProduct}=="0012" MODE="0666"
+    SUBSYSTEM=="usb", ATTR{idVendor}=="4255", ATTR{idProduct}=="0014" MODE="0666"
+  '';
+
+  virtualisation.libvirtd.enable = true;
+  virtualisation.spiceUSBRedirection.enable = true;
+  programs.dconf.enable = true;
+  environment.systemPackages = with pkgs; [ virt-manager ];
+
   boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" "usb_storage" "usbhid" "sd_mod" "sdhci_pci" ];
   boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.kernelModules = [ "kvm-intel" ];

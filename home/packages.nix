@@ -23,6 +23,9 @@
     pkgs.xclip
     pkgs.jetbrains-mono
 
+    # misc
+    pkgs.libreoffice
+
     # Cleaner way to do this?
     unstable.legacyPackages.${pkgs.system}.terraform
     unstable.legacyPackages.${pkgs.system}.tflint

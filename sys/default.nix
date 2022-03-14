@@ -15,7 +15,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.johanan = {
     isNormalUser = true;
-    extraGroups = [ "wheel"  "networkmanager" "docker" "input" ]; # wheel -> sudo
+    extraGroups = [ "wheel" "networkmanager" "docker" "input" ]; # wheel -> sudo
   };
 
   # docker settings
