@@ -5,6 +5,7 @@
     pkgs.aws-vault
     pkgs.awscli
     pkgs.coz
+    pkgs.dconf2nix # syntax converter: dconf -> home manager
     pkgs.docker
     pkgs.gdb
     pkgs.kubectl
@@ -21,11 +22,9 @@
     pkgs.jq
     pkgs.xclip
     pkgs.jetbrains-mono
-    pkgs.xfce.xfce4terminal
 
     # misc
     pkgs.libreoffice
-    pkgs.kde-gtk-config
 
     # Cleaner way to do this?
     unstable.legacyPackages.${pkgs.system}.terraform

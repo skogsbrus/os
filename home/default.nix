@@ -1,9 +1,9 @@
 { pkgs, ... }:
 {
   imports = [
+    ./dconf.nix
+    ./gnome.nix
     ./neovim.nix
     ./packages.nix
   ];
-
-  programs.autorandr.enable = true;
 }
