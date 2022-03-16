@@ -22,6 +22,8 @@
     pkgs.jq
     pkgs.xclip
     pkgs.jetbrains-mono
+    pkgs.pciutils
+    pkgs.usbutils
 
     # misc
     pkgs.libreoffice

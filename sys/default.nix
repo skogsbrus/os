@@ -55,7 +55,6 @@
     htop
     wget
     curl
-    busybox
     firefox
     python3
     man-db
