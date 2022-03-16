@@ -81,17 +81,9 @@
     HandleLidSwitchDocked=ignore
   '';
 
-  services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.opengl.enable = true;
-
-  # Optionally, you may need to select the appropriate driver version for your specific GPU.
-  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
-
-  hardware.nvidia.prime.sync.enable = true;
-  # Bus ID of the NVIDIA GPU. You can find it using lspci, either under 3D or VGA
-  hardware.nvidia.prime.nvidiaBusId = "PCI:1:0:0";
-  # Bus ID of the Intel GPU. You can find it using lspci, either under 3D or VGA
-  hardware.nvidia.prime.intelBusId = "PCI:0:2:0";
+  # Maybe prevents crash?
+  # Jul 20 11:17:33 voidm kernel: nouveau 0000:01:00.0: fifo: fault 01 [VIRT_WRITE] at 0000000008000000 engine 40 [gr] client 13 [GPC0/PROP_0] reason 00 [PDE] on channel 6 [00feff3000 Xwayland[1859]]
+  services.xserver.videoDrivers = [ "modesetting" ];
 
   # power saving options
   services.power-profiles-daemon.enable = false;
