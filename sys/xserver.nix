@@ -13,7 +13,7 @@
     displayManager.gdm.enable = true;
 
     # Use wayland for now, otherwise USB-C dock doesn't work :(
-    displayManager.gdm.wayland = true;
+    displayManager.gdm.wayland = false;
 
     # Enable the GNOME Desktop Environment.
     desktopManager.gnome.enable = true;
