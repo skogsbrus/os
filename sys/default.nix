@@ -7,6 +7,7 @@
     ./xserver.nix
     ./zsh.nix
     ./postgres.nix
+    ./fwupd.nix
   ];
 
   # Allow installing unfree system packages
