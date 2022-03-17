@@ -93,16 +93,10 @@
   # Bus ID of the Intel GPU. You can find it using lspci
   hardware.nvidia.prime.intelBusId = "PCI:00:02:0";
 
-  services.xserver.extraConfig = ''
-    Section "Device"
-      Identifier  "intel"
-      Driver      "modesetting"
-    EndSection
-
-    Section "Screen"
-      Identifier "intel"
-      Device     "intel"
-    EndSection
+  # Necessary to detect internal laptop monitor
+  services.xserver.displayManager.sessionCommands = ''
+    ${pkgs.xorg.xrandr}/bin/xrandr --setprovideroutputsource modesetting NVIDIA-0
+    ${pkgs.xorg.xrandr}/bin/xrandr --auto
   '';
 
   # power saving options
