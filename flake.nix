@@ -11,6 +11,7 @@
       voidm = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
+          ./sys/meraki.nix
           ./hosts/lenovo-p1.nix
           ./sys
           home-manager.nixosModules.home-manager {
