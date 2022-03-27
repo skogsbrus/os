@@ -6,5 +6,6 @@
     path = ~/os/dotfiles/git/gituser-meraki
 [alias]
     quicklog = log --pretty=format:'%Cblue%h %Cred%cD %Creset%cn %Cgreen%s%Creset' --date-order --graph
+    push-force = push --force-with-lease
 [core]
     editor=vim
