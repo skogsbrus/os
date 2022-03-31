@@ -53,7 +53,7 @@
     };
   };
 
-  boot.kernelParams = [ "processor.max_cstate=4" "amd_iomu=soft" "idle=nomwait" "intel_pstate=disable" ];
+  boot.kernelParams = [ "processor.max_cstate=4" "amd_iomu=soft" "idle=nomwait" "intel_pstate=disable" "systemd.unified_cgroup_hierarchy=false" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.

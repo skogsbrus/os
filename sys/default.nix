@@ -21,7 +21,7 @@
 
   # docker settings
   virtualisation.docker.enable = true;
-  #virtualisation.docker.enableNvidia = true;
+  virtualisation.docker.enableNvidia = true;
 
 
   users.extraUsers.johanan = {
