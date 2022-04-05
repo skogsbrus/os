@@ -24,7 +24,7 @@
     pkgs.jetbrains-mono
     pkgs.pciutils
     pkgs.usbutils
-    pkgs.cudnn_cudatoolkit_10_0
+    pkgs.cudnn_cudatoolkit_11
 
     # misc
     pkgs.libreoffice
