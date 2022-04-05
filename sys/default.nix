@@ -1,7 +1,6 @@
 { pkgs, ... }:
 {
   imports = [
-    ./pipewire.nix
     ./steam.nix
     ./tmux.nix
     ./xserver.nix
@@ -22,6 +21,9 @@
   # docker settings
   virtualisation.docker.enable = true;
   virtualisation.docker.enableNvidia = true;
+
+  sound.enable = true;
+  hardware.pulseaudio.enable = true;
 
 
   users.extraUsers.johanan = {
