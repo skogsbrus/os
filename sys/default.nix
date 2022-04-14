@@ -50,18 +50,22 @@
 
   # System packages
   environment.systemPackages = with pkgs; [
-    vim
-    tmux
-    git
-    dig # used in split vpn script
-    htop
+    # networking
+    dig
     wget
     curl
+    openssl
+    # basic utils
     firefox
     python3
+    # dev utils
+    vim
+    tmux
+    alacritty
+    git
+    htop
     man-db
     manpages
-    openssl
   ];
 
   # List services that you want to enable:
