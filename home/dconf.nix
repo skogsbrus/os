@@ -149,6 +149,7 @@ in
     };
 
     "org/gnome/desktop/peripherals/touchpad" = {
+      speed = 0.843416;
       tap-to-click = true;
       two-finger-scrolling-enabled = true;
     };
@@ -302,8 +303,8 @@ in
     };
 
     "org/gnome/mutter/keybindings" = {
-      toggle-tiled-left = [ "" ];
-      toggle-tiled-right = [ "" ];
+      toggle-tiled-left = [ "<Super>Left" ];
+      toggle-tiled-right = [ "<Super>Right" ];
     };
 
     "org/gnome/mutter/wayland/keybindings" = {
@@ -395,7 +396,7 @@ in
 
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
       binding = "<Super>Return";
-      command = "gnome-terminal";
+      command = "alacritty";
       name = "Launch terminal";
     };
 
@@ -417,6 +418,7 @@ in
 
     "org/gnome/shell" = {
       command-history = [ "r" "webex" ];
+      disable-user-extensions = false;
       disabled-extensions = [ "native-window-placement@gnome-shell-extensions.gcampax.github.com" "window-list@gnome-shell-extensions.gcampax.github.com" "places-menu@gnome-shell-extensions.gcampax.github.com" "user-theme@gnome-shell-extensions.gcampax.github.com" ];
       enabled-extensions = [ "apps-menu@gnome-shell-extensions.gcampax.github.com" "sound-output-device-chooser@kgshank.net" "bluetooth-quick-connect@bjarosze.gmail.com" "workspace-indicator@gnome-shell-extensions.gcampax.github.com" "launch-new-instance@gnome-shell-extensions.gcampax.github.com" ];
       favorite-apps = [ "org.gnome.Calendar.desktop" "org.gnome.Photos.desktop" "org.gnome.Nautilus.desktop" "chromium-browser.desktop" "spotify.desktop" "org.gnome.Terminal.desktop" "element-desktop.desktop" "slack.desktop" ];
