@@ -12,6 +12,9 @@ set wildignore+=**/node_modules/*
 set wildignore+=**/venv/*
 set wildignore+=**/.git/*
 
+" Wrap git commit lines
+au FileType gitcommit setlocal tw=72
+
 " Tabs
 map <leader>t :tab new<CR>
 
