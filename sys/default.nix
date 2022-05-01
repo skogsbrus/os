@@ -1,12 +1,12 @@
 { pkgs, ... }:
 {
   imports = [
-    ./pipewire.nix
     ./steam.nix
     ./tmux.nix
     ./xserver.nix
     ./zsh.nix
     ./postgres.nix
+    ./fwupd.nix
   ];
 
   # Allow installing unfree system packages
@@ -15,12 +15,15 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.johanan = {
     isNormalUser = true;
-    extraGroups = [ "wheel"  "networkmanager" "docker" "input" ]; # wheel -> sudo
+    extraGroups = [ "wheel" "networkmanager" "docker" "input" ]; # wheel -> sudo
   };
 
   # docker settings
   virtualisation.docker.enable = true;
-  #virtualisation.docker.enableNvidia = true;
+  virtualisation.docker.enableNvidia = true;
+
+  sound.enable = true;
+  hardware.pulseaudio.enable = true;
 
 
   users.extraUsers.johanan = {
@@ -47,19 +50,22 @@
 
   # System packages
   environment.systemPackages = with pkgs; [
-    vim
-    tmux
-    git
-    dig # used in split vpn script
-    htop
+    # networking
+    dig
     wget
     curl
-    busybox
+    openssl
+    # basic utils
     firefox
     python3
+    # dev utils
+    vim
+    tmux
+    alacritty
+    git
+    htop
     man-db
     manpages
-    openssl
   ];
 
   # List services that you want to enable:

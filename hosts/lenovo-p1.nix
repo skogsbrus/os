@@ -44,7 +44,7 @@
     };
   };
 
-  boot.kernelParams = [ "processor.max_cstate=4" "amd_iomu=soft" "idle=nomwait" "intel_pstate=disable" ];
+  boot.kernelParams = [ "processor.max_cstate=4" "amd_iomu=soft" "idle=nomwait" "intel_pstate=disable" "systemd.unified_cgroup_hierarchy=false" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
@@ -71,9 +71,23 @@
     HandleLidSwitchDocked=ignore
   '';
 
-  # Maybe prevents crash?
-  # Jul 20 11:17:33 voidm kernel: nouveau 0000:01:00.0: fifo: fault 01 [VIRT_WRITE] at 0000000008000000 engine 40 [gr] client 13 [GPC0/PROP_0] reason 00 [PDE] on channel 6 [00feff3000 Xwayland[1859]]
-  services.xserver.videoDrivers = [ "modesetting" ];
+  services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.opengl.enable = true;
+
+  # Optionally, you may need to select the appropriate driver version for your specific GPU.
+  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.beta;
+
+  hardware.nvidia.prime.sync.enable = true;
+  # Bus ID of the NVIDIA GPU. You can find it using lspci
+  hardware.nvidia.prime.nvidiaBusId = "PCI:01:00:0";
+  # Bus ID of the Intel GPU. You can find it using lspci
+  hardware.nvidia.prime.intelBusId = "PCI:00:02:0";
+
+  # Necessary to detect internal laptop monitor
+  services.xserver.displayManager.sessionCommands = ''
+    ${pkgs.xorg.xrandr}/bin/xrandr --setprovideroutputsource modesetting NVIDIA-0
+    ${pkgs.xorg.xrandr}/bin/xrandr --auto
+  '';
 
   # power saving options
   services.power-profiles-daemon.enable = false;

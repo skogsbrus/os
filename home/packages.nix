@@ -22,6 +22,12 @@
     pkgs.jq
     pkgs.xclip
     pkgs.jetbrains-mono
+    pkgs.pciutils
+    pkgs.usbutils
+    pkgs.cudnn_cudatoolkit_11
+
+    # misc
+    pkgs.libreoffice
 
     # Cleaner way to do this?
     unstable.legacyPackages.${pkgs.system}.terraform
