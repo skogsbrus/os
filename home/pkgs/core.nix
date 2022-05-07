@@ -9,6 +9,8 @@
     arp-scan
     curl
     dig
+    iperf
+    iw
     mtr
     openssl
     ping
