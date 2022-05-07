@@ -35,14 +35,12 @@
   networking.interfaces = {
     wlp3s0 = {
       useDHCP = false;
-      ip4 = lib.mkOverride 0 [];
-      ipv4.addresses = lib.optionals config.services.hostapd.enable [{ address = "192.168.3.1"; prefixLength = 24; }];
-        # [
-        #{
-        #  address = "192.168.3.1";
-        #  prefixLength = 24;
-        #}
-      #];
+      ipv4.addresses = [
+        {
+          address = "192.168.3.1";
+          prefixLength = 24;
+        }
+      ];
       prefixLength = 24;
     };
   };
@@ -56,19 +54,16 @@
     wpaPassphrase = "foobar123";
   };
 
-
   services.dnsmasq = {
     enable = true;
     servers = [ "9.9.9.9" "1.1.1.1" ];
     extraConfig = ''
+      domain=lan
       interface=wlp3s0
       bind-interfaces
       dhcp-range=192.168.3.10,192.168.3.254,24h
     '';
   };
-
-  # Allow traffic from eth-in to WiFi
-  networking.bridges.br0.interfaces = [ "enp1s0" "wlp3s0" ];
 
   networking.firewall = {
     enable = true;
