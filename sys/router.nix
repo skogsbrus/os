@@ -30,7 +30,7 @@
   networking.hostName = "router";
   networking.useDHCP = false;
   networking.interfaces.enp1s0.useDHCP = true;
-  networking.nameservers = [ "127.0.0.1" "9.9.9.9" ];
+  #networking.nameservers = [ "127.0.0.1" "9.9.9.9" ];
 
   networking.nat = {
     enable = true;
@@ -62,9 +62,25 @@
   services.hostapd = {
     enable = true;
     interface = "wlp3s0";
-    hwMode = "g";
+    # Experiments:
+    # g: ~3Mbit/s
+    # a: ~10Mbit/s
     ssid = "beepboop";
     wpaPassphrase = "foobar123";
+    extraConfig = ''
+      channel=0 # auto
+      logger_syslog=1 # debug
+      country_code=SE
+      ieee80211d=1
+      ieee80211n=1
+      wmm_enabled=1
+      beacon_int=100
+      wmm_enabled=1
+      ieee80211n=1
+      ht_capab=[HT40-][HT40+][SHORT-GI-40][TX-STBC][RX-STBC1][DSSS_CCK-40]
+      require_vht=1
+      hw_mode=a
+    '';
   };
 
   services.dnsmasq = {
