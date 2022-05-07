@@ -65,13 +65,15 @@
     '';
   };
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
   networking.firewall = {
     enable = true;
     trustedInterfaces = [ "wlp3s0" ];
+    allowedTCPPorts = [
+      80
+      443
+      2222
+    ];
+    # networking.firewall.allowedUDPPorts = [ ... ];
   };
 }
 
