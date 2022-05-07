@@ -1,12 +1,12 @@
 .PHONY: rb-switch
 rb-switch:
-	sudo nixos-rebuild --use-remote-sudo switch --flake .
+	sudo nixos-rebuild switch --use-remote-sudo --flake .
 
 rb-test:
-	sudo nixos-rebuild --use-remote-sudo test --flake .
+	sudo nixos-rebuild test --use-remote-sudo --flake .
 
 rb-boot:
-	sudo nixos-rebuild --use-remote-sudo boot --flake .
+	sudo nixos-rebuild boot --use-remote-sudo --flake .
 
 .PHONY: install
 install:
