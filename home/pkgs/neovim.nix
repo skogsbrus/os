@@ -5,7 +5,7 @@
    package = with unstable.legacyPackages.${pkgs.system}; neovim-unwrapped;
    viAlias = true;
    vimAlias = true;
-   extraConfig = builtins.readFile ../dotfiles/neovim/init.vim;
+   extraConfig = builtins.readFile ../../dotfiles/neovim/init.vim;
    plugins = with pkgs.vimPlugins; [
      vim-airline
      vim-fugitive
