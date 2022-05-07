@@ -13,7 +13,11 @@
 
       # theme
       set -g status-fg white
-      set -g status-bg ${if config.networking.hostName == "workstation" then "blue" else "green"}
+      set -g status-bg ${
+        if config.networking.hostName == "workstation" then "blue"
+        else if config.networking.hostName == "router" then "red"
+        else "green"
+      }
 
       # enables pane resizing and text selection with mouse
       set -g mouse on
