@@ -7,6 +7,11 @@
     ./zsh.nix
   ];
 
+  config.home-manager.users.johanan.programs.git = {
+    enable = true;
+    extraConfig.safe.directory = "/home/johanan/os/";
+  };
+
   # Allow installing unfree system packages
   nixpkgs.config.allowUnfree = true;
 
