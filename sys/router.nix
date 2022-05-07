@@ -56,7 +56,7 @@
 
   services.dnsmasq = {
     enable = true;
-    servers = [ "8.8.8.8" "8.8.4.4" ];
+    servers = [ "9.9.9.9" "1.1.1.1" ];
     extraConfig = ''
       domain=lan
       interface=wlp3s0
@@ -76,4 +76,3 @@
     # networking.firewall.allowedUDPPorts = [ ... ];
   };
 }
-
