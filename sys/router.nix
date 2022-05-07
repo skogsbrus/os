@@ -81,7 +81,7 @@
       ### DFS
       ieee80211h=1
       ieee80211d=1
-      country_code=SE
+      country_code=US
 
       ### IEEE 802.11n
       ieee80211n=1
@@ -92,7 +92,7 @@
       vht_oper_chwidth=1
       vht_oper_centr_freq_seg0_idx=42
       # compared against iw list, antenna patterns unclear
-      vht_capab=[TX-STBC-2BY1][RX-STBC-1][MAX-A-MPDU-LEN-EXP3][RX-ANTENNA-PATTERN][TX-ANTENNA-PATTERN]
+      vht_capab=[TX-STBC]
 
       ### WPA/IEEE 802.11i
       wpa=2
@@ -102,9 +102,9 @@
 
       ### hostapd event logger configuration
       logger_syslog=-1
-      logger_syslog_level=1
+      logger_syslog_level=0
       logger_stdout=-1
-      logger_stdout_level=1
+      logger_stdout_level=0
 
       ### WMM
       wmm_enabled=1
