@@ -66,20 +66,22 @@
     # g: ~3Mbit/s
     # a: ~10Mbit/s
     ssid = "beepboop";
-    wpaPassphrase = "foobar123";
     extraConfig = ''
-      channel=0 # auto
-      logger_syslog=1 # debug
-      country_code=SE
-      ieee80211d=1
-      ieee80211n=1
-      wmm_enabled=1
       beacon_int=100
-      wmm_enabled=1
-      ieee80211n=1
-      ht_capab=[HT40-][HT40+][SHORT-GI-40][TX-STBC][RX-STBC1][DSSS_CCK-40]
-      require_vht=1
+      channel=36
+      country_code=SE
+      driver=nl80211
       hw_mode=a
+      #ieee80211ac=1
+      #ieee80211n=1
+      wpa_key_mgmt=WPA-PSK
+      wpa_passphrase=foobar123
+      wpa_pairwise=CCMP
+      logger_syslog=1 # debug
+      require_vht=1
+      #vht_capab=[MAX-MPDU-11454][SHORT-GI-80][TX-STBC-12][RX-STBC-1][SU-BEAMFORMEE][HTC-VHT]
+      vht_oper_centr_freq_seg0_idx=42
+      wmm_enabled=1
     '';
   };
 
