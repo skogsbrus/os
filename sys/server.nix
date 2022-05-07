@@ -15,4 +15,9 @@
     "console=ttyS0,115200"
     "console=tty1"
   ];
+
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+  };
 }
