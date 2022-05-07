@@ -8,6 +8,8 @@
 
   services.openssh = {
     enable = true;
+    passwordAuthentication = false;
+    permitRootLogin = "no";
   };
 
   # Enable serial output
