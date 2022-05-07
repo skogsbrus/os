@@ -9,3 +9,5 @@
     push-force = push --force-with-lease
 [core]
     editor=vim
+[safe]
+	directory = /home/johanan/os
