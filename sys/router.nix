@@ -57,7 +57,6 @@
     enable = true;
     servers = [ "9.9.9.9" "1.1.1.1" ];
     extraConfig = ''
-      domain=lan
       interface=wlp3s0
       bind-interfaces
       dhcp-range=192.168.3.10,192.168.3.254,24h
