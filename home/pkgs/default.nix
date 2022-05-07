@@ -3,7 +3,7 @@
   imports = [
     ./core.nix
     ./dev.nix
-    ./gui.nix
+    ./client.nix
     ./lsp.nix
   ];
 }

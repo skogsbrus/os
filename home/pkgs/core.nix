@@ -22,7 +22,6 @@
     git
     vim
     python3
-    picocom
 
     # monitoring
     htop
