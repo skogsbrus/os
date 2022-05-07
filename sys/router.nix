@@ -41,7 +41,6 @@
           prefixLength = 24;
         }
       ];
-      prefixLength = 24;
     };
   };
 
