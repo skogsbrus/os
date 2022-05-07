@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 {
   # System defaults for all machines
   imports = [
@@ -13,22 +13,22 @@
   };
 
   # Allow installing unfree system packages
-  nixpkgs.config.allowUnfree = true;
+  config.nixpkgs.config.allowUnfree = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.johanan = {
+  config.users.users.johanan = {
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # wheel -> sudo
   };
 
-  users.extraUsers.johanan = {
+  config.users.extraUsers.johanan = {
     shell = pkgs.zsh;
   };
 
   # Set local time
-  time.timeZone = "Europe/Copenhagen";
+  config.time.timeZone = "Europe/Copenhagen";
 
-  nix = {
+  config.nix = {
     package = pkgs.nixFlakes;
     extraOptions = ''
       experimental-features = nix-command flakes
@@ -36,7 +36,7 @@
   };
 
   # System packages
-  environment.systemPackages = with pkgs; [
+  config.environment.systemPackages = with pkgs; [
     # networking
     curl
     dig
@@ -53,6 +53,6 @@
     vim
   ];
 
-  system.autoUpgrade.enable = false;
-  system.autoUpgrade.allowReboot = false;
+  config.system.autoUpgrade.enable = false;
+  config.system.autoUpgrade.allowReboot = false;
 }
