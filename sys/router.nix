@@ -10,7 +10,7 @@
   # https://serverfault.com/questions/248841/ip-forwarding-when-and-why-is-this-required
   boot = {
     kernel = {
-      sysctl = with config.networking.interfaces.wlp3s0; { # TODO: more interfaces?
+      sysctl = {
         # Forward on all interfaces.
         "net.ipv4.conf.all.forwarding" = true;
         "net.ipv6.conf.all.forwarding" = true;
