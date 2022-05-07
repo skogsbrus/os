@@ -35,7 +35,12 @@
   networking.interfaces = {
     wlp3s0 = {
       useDHCP = false;
-      ipv4.addresses = [ "192.168.3.1" ];
+      ipv4.addresses = [
+        {
+          address = "192.168.3.1";
+          prefixLength = 24;
+        }
+      ];
       prefixLength = 24;
     };
   };
@@ -64,6 +69,6 @@
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking.firewall.enable = false;
 }
 
