@@ -31,19 +31,33 @@
   networking.useDHCP = false;
   networking.interfaces.enp1s0.useDHCP = true;
   networking.interfaces.enp2s0.useDHCP = true;
-  networking.interfaces.wlp3s0.useDHCP = true;
 
-  networking.wireless.enable = true;
-  networking.wireless.userControlled.enable = true;
-  networking.networkmanager.unmanaged = [ "interface-name:wlp3s0" ]
-    ++ lib.optional config.services.hostapd.enable
-    "interface-name:${config.services.hostapd.interface}";
+  networking.interfaces = {
+    wlp3s0 = {
+      useDHCP = false;
+      ipv4.addresses = [ "192.168.3.1" ];
+      prefixLength = 24;
+    };
+  };
+
+  networking.networkmanager.enable = false;
   services.hostapd = {
     enable = true;
     interface = "wlp3s0";
     hwMode = "g";
     ssid = "beepboop";
     wpaPassphrase = "foobar123";
+  };
+
+  services.dnsmasq = {
+    enable = true;
+    servers = [ "8.8.8.8" "8.8.4.4" ];
+    extraConfig = ''
+      domain=lan
+      interface=wlp3s0
+      bind-interfaces
+      dhcp-range=192.168.3.10,192.168.3.254,24h
+    '';
   };
 
   # Open ports in the firewall.
