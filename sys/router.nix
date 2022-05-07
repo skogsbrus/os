@@ -43,7 +43,7 @@
     interface = "wlp3s0";
     hwMode = "g";
     ssid = "beepboop";
-    wpaPassphrase = "foobar";
+    wpaPassphrase = "foobar123";
   };
 
   # Open ports in the firewall.
