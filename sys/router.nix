@@ -30,7 +30,6 @@
   networking.hostName = "router";
   networking.useDHCP = false;
   networking.interfaces.enp1s0.useDHCP = true;
-  networking.interfaces.enp2s0.useDHCP = true;
 
   networking.interfaces = {
     wlp3s0 = {
@@ -38,6 +37,15 @@
       ipv4.addresses = [
         {
           address = "192.168.3.1";
+          prefixLength = 24;
+        }
+      ];
+    };
+    enp2s0 = {
+      useDHCP = false;
+      ipv4.addresses = [
+        {
+          address = "192.168.2.1";
           prefixLength = 24;
         }
       ];
@@ -57,8 +65,10 @@
     enable = true;
     servers = [ "9.9.9.9" "1.1.1.1" ];
     extraConfig = ''
+      interface=enp2s0
       interface=wlp3s0
       bind-interfaces
+      dhcp-range=192.168.2.10,192.168.2.254,24h
       dhcp-range=192.168.3.10,192.168.3.254,24h
     '';
   };
