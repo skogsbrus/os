@@ -14,13 +14,13 @@
   networking.wireless.enable = true;
   networking.wireless.userControlled.enable = true;
   networking.networkmanager.unmanaged = [ "interface-name:wlp3s0" ] ++ lib.optional config.services.hostapd.enable "interface-name:${config.services.hostapd.interface}";
-  services.hostapd = {
-    enable = true;
-    interface = "wlp3s0";
-    hwMode = "g";
-    ssid = "beepboop";
-    wpaPassphrase = "foobar";
-  };
+  #services.hostapd = {
+  #  enable = true;
+  #  interface = "wlp3s0";
+  #  hwMode = "g";
+  #  ssid = "beepboop";
+  #  wpaPassphrase = "foobar";
+  #};
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
