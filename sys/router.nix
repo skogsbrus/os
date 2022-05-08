@@ -3,16 +3,16 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, lib, ... }:
-let patchedHostapd = pkgs.hostapd.overrideAttrs (oldAttrs: rec {
-    patches = [
-      (builtins.fetchurl {
-        url = "https://raw.githubusercontent.com/openwrt/openwrt/eefed841b05c3cd4c65a78b50ce0934d879e6acf/package/network/services/hostapd/patches/300-noscan.patch";
-        sha256 = "08p5frxhpq1rp2nczkscapwwl8g9nc4fazhjpxic5bcbssc3sb00";
-      })
-   ];
-  });
-in
-
+#let patchedHostapd = pkgs.hostapd.overrideAttrs (oldAttrs: rec {
+#    patches = [
+#      (builtins.fetchurl {
+#        url = "https://raw.githubusercontent.com/openwrt/openwrt/eefed841b05c3cd4c65a78b50ce0934d879e6acf/package/network/services/hostapd/patches/300-noscan.patch";
+#        sha256 = "08p5frxhpq1rp2nczkscapwwl8g9nc4fazhjpxic5bcbssc3sb00";
+#      })
+#   ];
+#  });
+#in
+#
 {
   # https://github.com/mdlayher/homelab/blob/391cfc0de06434e4dee0abe2bec7a2f0637345ac/nixos/routnerr-2/configuration.nix#L38
   # https://serverfault.com/questions/248841/ip-forwarding-when-and-why-is-this-required
@@ -68,7 +68,7 @@ in
 
   networking.networkmanager.enable = false;
   services.hostapd = {
-    path = [ patchedHostapd ];
+    #path = [ patchedHostapd ];
     enable = true;
     interface = "wlp3s0";
     # Experiments:
