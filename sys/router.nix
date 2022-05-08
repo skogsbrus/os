@@ -184,7 +184,7 @@ bssid=06:f0:21:ac:39:fa
 
   networking.firewall = {
     enable = true;
-    trustedInterfaces = [ "wlp3s0" ];
+    trustedInterfaces = [ "wlp3s0" "enp2s0" ];
     allowedTCPPorts = [
       80
       443
