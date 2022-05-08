@@ -171,11 +171,14 @@ bssid=06:f0:21:ac:39:fa
     enable = true;
     servers = [ "9.9.9.9" "1.1.1.1" ];
     extraConfig = ''
+      domain-needed
       interface=enp2s0
       interface=wlp3s0
       bind-interfaces
       dhcp-range=192.168.2.10,192.168.2.254,24h
       dhcp-range=192.168.3.10,192.168.3.254,24h
+      dhcp-range=::f,::ff,constructor:enp2s0
+      dhcp-authoritative
     '';
   };
 
