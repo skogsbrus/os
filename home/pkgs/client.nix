@@ -3,8 +3,11 @@
   # Packages to be installed on user-facing machines
   # Most of these will be graphical applications.
 
+  imports = [
+    ./alacritty.nix
+  ];
+
   home.packages = with pkgs; [
-    alacritty
     chromium
     dconf2nix # syntax converter: dconf -> home manager
     element-desktop
