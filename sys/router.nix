@@ -161,30 +161,32 @@ let patchedHostapd = pkgs.hostapd.overrideAttrs (old: rec {
             url = "https://raw.githubusercontent.com/openwrt/openwrt/master/package/network/services/hostapd/patches/599-wpa_supplicant-fix-warnings.patch";
             sha256 = "0hssi2j0cinp028fkcvc1q9ns7q37gvs0rhbw348h61bsm1ddgij";
         })
-        (builtins.fetchurl {
-            url = "https://raw.githubusercontent.com/openwrt/openwrt/master/package/network/services/hostapd/patches/600-ubus_support.patch";
-            sha256 = "1rd3dnjhk0lrhi8ci40zzlp5bijyyjj8gvg9pgf7d1ws36n6pvvz";
-        })
+        # Need to compile with added files to enable this
+        #(builtins.fetchurl {
+        #    url = "https://raw.githubusercontent.com/openwrt/openwrt/master/package/network/services/hostapd/patches/600-ubus_support.patch";
+        #    sha256 = "1rd3dnjhk0lrhi8ci40zzlp5bijyyjj8gvg9pgf7d1ws36n6pvvz";
+        #})
         (builtins.fetchurl {
             url = "https://raw.githubusercontent.com/openwrt/openwrt/master/package/network/services/hostapd/patches/610-hostapd_cli_ujail_permission.patch";
             sha256 = "06vpg82lmnq6jkj2qx1z3dvvj6f487rpz1gkfzq61l6xh4amdaq8";
         })
-        (builtins.fetchurl {
-            url = "https://raw.githubusercontent.com/openwrt/openwrt/master/package/network/services/hostapd/patches/700-wifi-reload.patch";
-            sha256 = "14g0nyx4gs8kfqn7vmgglysk7k9dv8ppi2vm6dsy608g8qrlr5vq";
-        })
-        (builtins.fetchurl {
-            url = "https://raw.githubusercontent.com/openwrt/openwrt/master/package/network/services/hostapd/patches/710-vlan_no_bridge.patch";
-            sha256 = "05fxjsdnzajwq8kb9znp48lhg7x3kic2l1y4z6sn2j0i1n0yqlz3";
-        })
+        # depends on 600-ubus
+        #(builtins.fetchurl {
+        #    url = "https://raw.githubusercontent.com/openwrt/openwrt/master/package/network/services/hostapd/patches/700-wifi-reload.patch";
+        #    sha256 = "14g0nyx4gs8kfqn7vmgglysk7k9dv8ppi2vm6dsy608g8qrlr5vq";
+        #})
+        #(builtins.fetchurl {
+        #    url = "https://raw.githubusercontent.com/openwrt/openwrt/master/package/network/services/hostapd/patches/710-vlan_no_bridge.patch";
+        #    sha256 = "05fxjsdnzajwq8kb9znp48lhg7x3kic2l1y4z6sn2j0i1n0yqlz3";
+        #})
         (builtins.fetchurl {
             url = "https://raw.githubusercontent.com/openwrt/openwrt/master/package/network/services/hostapd/patches/711-wds_bridge_force.patch";
             sha256 = "1xwkpg79178qafb2qlb26blk7m58zadzwlwrgjnxylrbmh6lv79s";
         })
-        (builtins.fetchurl {
-            url = "https://raw.githubusercontent.com/openwrt/openwrt/master/package/network/services/hostapd/patches/720-iface_max_num_sta.patch";
-            sha256 = "1iy09zp1xr8mya3kzv7pv60k0h830mnxxxhs1rlgg98fd7p8i0ld";
-        })
+        #(builtins.fetchurl {
+        #    url = "https://raw.githubusercontent.com/openwrt/openwrt/master/package/network/services/hostapd/patches/720-iface_max_num_sta.patch";
+        #    sha256 = "1iy09zp1xr8mya3kzv7pv60k0h830mnxxxhs1rlgg98fd7p8i0ld";
+        #})
         (builtins.fetchurl {
             url = "https://raw.githubusercontent.com/openwrt/openwrt/master/package/network/services/hostapd/patches/730-ft_iface.patch";
             sha256 = "03qrd5q825a60nrh0kndgmycyzbpziqf6bz65avllcy2pm6b27ff";
