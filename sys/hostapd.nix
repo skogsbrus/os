@@ -12,94 +12,89 @@
     # a: ~10Mbit/s
     ssid = "beepboop";
     extraConfig = ''
+### hostapd configuration file
+interface=wlp3s0
 driver=nl80211
+
+### IEEE 802.11
+ssid=beepboop
+hw_mode=a
+channel=36
+max_num_sta=128
+auth_algs=1
+disassoc_low_ack=1
+
+### DFS
+ieee80211h=1
+ieee80211d=1
+country_code=SE
+
+### IEEE 802.11n
+ieee80211n=1
+#ht_capab=[HT40+][LDPC][SHORT-GI-20][SHORT-GI-40][TX-STBC][RX-STBC1][DSSS_CCK-40]
+#ht_capab=[HT40+][SHORT-GI-20][SHORT-GI-40][TX-STBC][RX-STBC1][DSSS_CCK-40]
+
+### IEEE 802.11ac
+ieee80211ac=1
+vht_oper_chwidth=1
+vht_oper_centr_freq_seg0_idx=42
+#vht_capab=[MAX-MPDU-11454][RXLDPC][SHORT-GI-80][TX-STBC-2BY1][RX-STBC-1][MAX-A-MPDU-LEN-EXP7][RX-ANTENNA-PATTERN][TX-ANTENNA-PATTERN]
+vht_capab=[SHORT-GI-40][TX-STBC-2BY1][RX-STBC-1][MAX-A-MPDU-LEN-EXP7][RX-ANTENNA-PATTERN][TX-ANTENNA-PATTERN]
+
+### WPA/IEEE 802.11i
+wpa=2
+wpa_key_mgmt=WPA-PSK
+wpa_passphrase=foobar123
+wpa_pairwise=CCMP
+
+### hostapd event logger configuration
 logger_syslog=127
 logger_syslog_level=2
 logger_stdout=127
 logger_stdout_level=2
-country_code=SE
-ieee80211d=1
-ieee80211h=1
-hw_mode=a
-beacon_int=100
-dtim_period=2
-channel=52
-chanlist=52
 
-
-ieee80211n=1
-ht_coex=0
-ht_capab=[HT40+][SHORT-GI-40][TX-STBC][RX-STBC1][DSSS_CCK-40]
-
-#radio_config_id=8a0ad72fc63f2d9038e68b4de60c0e59
-interface=wlp3s0
-#ctrl_interface=/var/run/hostapd
-ap_isolate=1
-bss_load_update_period=60
-chan_util_avg_period=600
-disassoc_low_ack=1
-skip_inactivity_poll=0
-preamble=1
+### WMM
 wmm_enabled=1
-ignore_broadcast_ssid=0
 uapsd_advertisement_enabled=1
-utf8_ssid=1
-multi_ap=0
-wpa_passphrase=foobar123
-#wpa_psk_file=/var/run/hostapd-wlan0.psk
-auth_algs=1
-wpa=2
-wpa_pairwise=CCMP
-ssid=beepboop
-bridge=br-lan
-wds_bridge=
-#snoop_iface=br-lan
-wpa_disable_eapol_key_retries=0
-wpa_key_mgmt=WPA-PSK
-okc=0
-disable_pmksa_caching=1
-dynamic_vlan=0
-vlan_naming=1
-#vlan_no_bridge=1
-#vlan_file=/var/run/hostapd-wlan0.vlan
-qos_map_set=0,0,2,16,1,1,255,255,18,22,24,38,40,40,44,46,48,56
-#config_id=9c850d8e3e9d1dab50cd1902f1e72c7a
-bssid=04:f0:21:ac:39:fa
+wmm_ac_bk_cwmin=4
+wmm_ac_bk_cwmax=10
+wmm_ac_bk_aifs=7
+wmm_ac_bk_txop_limit=0
+wmm_ac_bk_acm=0
+wmm_ac_be_aifs=3
+wmm_ac_be_cwmin=4
+wmm_ac_be_cwmax=10
+wmm_ac_be_txop_limit=0
+wmm_ac_be_acm=0
+wmm_ac_vi_aifs=2
+wmm_ac_vi_cwmin=3
+wmm_ac_vi_cwmax=4
+wmm_ac_vi_txop_limit=94
+wmm_ac_vi_acm=0
+wmm_ac_vo_aifs=2
+wmm_ac_vo_cwmin=2
+wmm_ac_vo_cwmax=3
+wmm_ac_vo_txop_limit=47
+wmm_ac_vo_acm=0
 
+### TX queue parameters
+tx_queue_data3_aifs=7
+tx_queue_data3_cwmin=15
+tx_queue_data3_cwmax=1023
+tx_queue_data3_burst=0
+tx_queue_data2_aifs=3
+tx_queue_data2_cwmin=15
+tx_queue_data2_cwmax=63
+tx_queue_data2_burst=0
+tx_queue_data1_aifs=1
+tx_queue_data1_cwmin=7
+tx_queue_data1_cwmax=15
+tx_queue_data1_burst=3.0
+tx_queue_data0_aifs=1
+tx_queue_data0_cwmin=3
+tx_queue_data0_cwmax=7
+tx_queue_data0_burst=1.5
 
-bss=wlp3s0-1
-ctrl_interface=/var/run/hostapd
-ap_isolate=1
-bss_load_update_period=60
-chan_util_avg_period=600
-disassoc_low_ack=1
-skip_inactivity_poll=0
-preamble=1
-wmm_enabled=1
-ignore_broadcast_ssid=0
-uapsd_advertisement_enabled=1
-utf8_ssid=1
-multi_ap=0
-wpa_passphrase=foobar123
-wpa_psk_file=/var/run/hostapd-wlan0-1.psk
-auth_algs=1
-wpa=2
-wpa_pairwise=CCMP
-ssid=beepboop-guest
-bridge=br-lan
-wds_bridge=
-#snoop_iface=br-lan
-wpa_disable_eapol_key_retries=0
-wpa_key_mgmt=WPA-PSK
-okc=0
-disable_pmksa_caching=1
-dynamic_vlan=0
-vlan_naming=1
-#vlan_no_bridge=1
-#vlan_file=/var/run/hostapd-wlan0-1.vlan
-qos_map_set=0,0,2,16,1,1,255,255,18,22,24,38,40,40,44,46,48,56
-#config_id=99e2fef80d8184cddaea0f499a3804dc
-bssid=06:f0:21:ac:39:fa
     '';
   };
   #systemd.services.hostapd.path = [ patchedHostapd ];
