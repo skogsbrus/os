@@ -219,18 +219,23 @@ let patchedHostapd = pkgs.hostapd.overrideAttrs (old: rec {
     unpackPhase = ''
         set -x
         runHook preUnpack
-        mkdir hostapd
+        mkdir -p hostapd/src/utils
+        # jtojnar: $srcs will a be space separated string, so can be wrapped as an array
         sources=($srcs)
-        cp -r ''${sources[1]}/* hostapd
-        cp -r ''${sources[0]}/package/network/services/hostapd/ hostapd
+        cp --no-preserve=mode,ownership -r ''${sources[1]}/* hostapd/
+        cp --no-preserve=mode,ownership -r ''${sources[0]}/package/network/services/hostapd/src/src/ap hostapd/src/
+        cp --no-preserve=mode,ownership -r ''${sources[0]}/package/network/services/hostapd/src/src/utils hostapd/src/
+        cp --no-preserve=mode,ownership -r ''${sources[0]}/package/network/services/hostapd/src/wpa_supplicant hostapd/src/
         runHook postUnpack
-        ls -al
         set +x
     '';
     prePatch = ''
         set -x
-        echo prepatch
-        ls -al
+        echo PREPATCHZZ
+        pwd
+        ls
+        ls src/
+        ls src/crypto
         set +x
     '';
   });
