@@ -1,7 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, lib, ... }:
 {
   # https://github.com/mdlayher/homelab/blob/391cfc0de06434e4dee0abe2bec7a2f0637345ac/nixos/routnerr-2/configuration.nix#L38
@@ -36,7 +32,10 @@
 
   networking.nat = {
     enable = true;
-    internalIPs = [ "192.168.2.0/24" "192.168.3.0/24" ];
+    internalIPs = [
+        "192.168.2.0/24"
+        #"192.168.3.0/24"
+    ];
   };
 
   networking.interfaces = {
@@ -44,7 +43,7 @@
       useDHCP = false;
       ipv4.addresses = [
         {
-          address = "192.168.3.1";
+          address = "192.168.2.1";
           prefixLength = 24;
         }
       ];
@@ -67,13 +66,11 @@
     servers = [ "9.9.9.9" "1.1.1.1" ];
     extraConfig = ''
       domain-needed
-      interface=enp2s0
-      interface=wlp3s0
-      bind-interfaces
-      dhcp-range=192.168.2.10,192.168.2.254,24h
-      dhcp-range=192.168.3.10,192.168.3.254,24h
-      dhcp-range=::f,::ff,constructor:enp2s0
       dhcp-authoritative
+      #interface=enp2s0
+      #interface=wlp3s0
+      dhcp-range=192.168.2.10,192.168.2.254,24h
+      #dhcp-range=192.168.3.10,192.168.3.254,24h
     '';
   };
 
