@@ -16,6 +16,7 @@
      vim-terraform
      vim-elixir
      comment-nvim
+     unstable.legacyPackages.${pkgs.system}.vimPlugins.which-key-nvim # need unstable due to https://github.com/folke/which-key.nvim/pull/227
    ];
  };
 }
