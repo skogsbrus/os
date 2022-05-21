@@ -27,6 +27,6 @@
 
     # Local packages (unpublished)
     #(pkgs.callPackage pkgs/webex {})
-    (pkgs.callPackage pkgs/activitywatch {})
+    (pkgs.callPackage ./activitywatch {})
   ];
 }
