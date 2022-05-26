@@ -11,3 +11,4 @@ rb-boot:
 .PHONY: install
 install:
 	ln -T -fs $(PWD)/dotfiles/git/gitconfig ~/.gitconfig
+	ln -T -fs $(PWD)/dotfiles/autostart/activitywatch.desktop ~/.config/autostart/activitywatch.desktop
