@@ -10,6 +10,7 @@
     ./steam.nix
     ./syncthing.nix
     ./xserver.nix
+    #./activitywatch-service.nix
   ];
   users.users.johanan = {
     extraGroups = [ "networkmanager" ];
