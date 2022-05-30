@@ -28,18 +28,18 @@ hw_mode=a
 ht_capab=[HT40+][SHORT-GI-40][TX-STBC][RX-STBC1][DSSS_CCK-40]
 
 # private network
-ssid=beepboop
+ssid=morot
 auth_algs=1
-wpa_psk_file=/home/johanan/os/secrets/beepboop.pw
+wpa_psk_file=/home/johanan/os/secrets/morot.pw
 wpa=2
 wpa_pairwise=CCMP
 wpa_key_mgmt=WPA-PSK
 
 bss=guest
-ssid=beepboop-guest
+ssid=icecreamiscream
 auth_algs=1
 ap_isolate=1
-wpa_psk_file=/home/johanan/os/secrets/beepboop.pw
+wpa_psk_file=/home/johanan/os/secrets/icecreamiscream.pw
 wpa=2
 wpa_pairwise=CCMP
 wpa_key_mgmt=WPA-PSK
