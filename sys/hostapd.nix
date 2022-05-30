@@ -33,8 +33,7 @@ ht_capab=[HT40+][SHORT-GI-40][TX-STBC][RX-STBC1][DSSS_CCK-40]
 
 interface=wlp3s0
 bss_load_update_period=60
-# TODO: use wpa_psk_file instead
-wpa_passphrase=foobar123
+wpa_psk_file=/home/johanan/os/secrets/beepboop.pw
 wpa=2
 wpa_pairwise=CCMP
 wpa_key_mgmt=WPA-PSK
