@@ -26,7 +26,7 @@
     enable = true;
     internalIPs = [
       "192.168.1.0/24"
-      "192.168.3.0/24"
+      "192.168.2.0/24"
     ];
   };
 
@@ -79,22 +79,31 @@
     trustedInterfaces = [ "br0" ];
     allowedTCPPorts = [
       # https://serverfault.com/a/424226
-      53 # DNS
+      # DNS
+      53
       80
-      443 # HTTP(S)
+      # HTTP(S)
+      443
       110
-      995 # Email (pop3, pop3s)
+      # Email (pop3, pop3s)
+      995
       114
-      993 # Email (imap, imaps)
-      587 # Email (SMTP Submission RFC 6409)
-      2222 # Git
+      # Email (imap, imaps)
+      993
+      # Email (SMTP Submission RFC 6409)
+      587
+      # Git
+      2222
     ];
     allowedUDPPorts = [
       # https://serverfault.com/a/424226
-      53 # DNS
+      # DNS
+      53
+      # DHCP
       67
-      68 # DHCP
-      123 # NTP
+      68
+      # NTP
+      123
     ];
   };
 }
