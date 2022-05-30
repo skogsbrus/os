@@ -25,17 +25,17 @@
   networking.nat = {
     enable = true;
     internalIPs = [
-        "192.168.1.0/24"
-        "192.168.3.0/24"
+      "192.168.1.0/24"
+      "192.168.3.0/24"
     ];
   };
 
   networking.bridges = {
     br0 = {
-        interfaces = [
-          "enp2s0"
-          "wlp3s0"
-        ];
+      interfaces = [
+        "enp2s0"
+        "wlp3s0"
+      ];
     };
   };
 
@@ -79,18 +79,22 @@
     trustedInterfaces = [ "br0" ];
     allowedTCPPorts = [
       # https://serverfault.com/a/424226
-      53      # DNS
-      80 443  # HTTP(S)
-      110 995 # Email (pop3, pop3s)
-      114 993 # Email (imap, imaps)
-      587     # Email (SMTP Submission RFC 6409)
-      2222    # Git
+      53 # DNS
+      80
+      443 # HTTP(S)
+      110
+      995 # Email (pop3, pop3s)
+      114
+      993 # Email (imap, imaps)
+      587 # Email (SMTP Submission RFC 6409)
+      2222 # Git
     ];
     allowedUDPPorts = [
       # https://serverfault.com/a/424226
-      53    # DNS
-      67 68 # DHCP
-      123   # NTP
+      53 # DNS
+      67
+      68 # DHCP
+      123 # NTP
     ];
   };
 }
