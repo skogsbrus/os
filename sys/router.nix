@@ -106,4 +106,6 @@
       123
     ];
   };
+  # Prevent sshd from opening port 22 (circumventing the firewall)
+  services.openssh.openFirewall = false;
 }
