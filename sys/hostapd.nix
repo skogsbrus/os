@@ -41,7 +41,6 @@ wpa_key_mgmt=WPA-PSK
 ssid=beepboop
     '';
   };
-  #systemd.services.hostapd.path = [ patchedHostapd ];
   nixpkgs.overlays = [ (self: super: {
     hostapd = super.hostapd.overrideAttrs (old: rec {
         patches = [
@@ -260,26 +259,15 @@ ssid=beepboop
         ];
         sourceRoot = "./hostapd";
         unpackPhase = ''
-            set -x
             runHook preUnpack
             mkdir -p hostapd/src/utils
-            # jtojnar: $srcs will a be space separated string, so can be wrapped as an array
+            # $srcs will a be space separated string, so can be wrapped as an array
             sources=($srcs)
             cp --no-preserve=mode,ownership -r ''${sources[1]}/* hostapd/
             cp --no-preserve=mode,ownership -r ''${sources[0]}/package/network/services/hostapd/src/src/ap hostapd/src/
             cp --no-preserve=mode,ownership -r ''${sources[0]}/package/network/services/hostapd/src/src/utils hostapd/src/
             cp --no-preserve=mode,ownership -r ''${sources[0]}/package/network/services/hostapd/src/wpa_supplicant hostapd/src/
             runHook postUnpack
-            set +x
-        '';
-        prePatch = ''
-            set -x
-            echo PREPATCHZZ
-            pwd
-            ls
-            ls src/
-            ls src/crypto
-            set +x
         '';
       });
   }) ];
