@@ -19,31 +19,32 @@
   networking.hostName = "router";
   networking.useDHCP = false;
   networking.interfaces.enp1s0.useDHCP = true;
+  networking.interfaces.enp2s0.useDHCP = true;
+  networking.interfaces.wlp3s0.useDHCP = true;
 
   networking.nat = {
     enable = true;
     internalIPs = [
         "192.168.1.0/24"
-        "192.168.2.0/24"
         "192.168.3.0/24"
     ];
   };
 
+  networking.bridges = {
+    br0 = {
+        interfaces = [
+          "enp2s0"
+          "wlp3s0"
+        ];
+    };
+  };
+
   networking.interfaces = {
-    wlp3s0 = {
+    br0 = {
       useDHCP = false;
       ipv4.addresses = [
         {
           address = "192.168.1.1";
-          prefixLength = 24;
-        }
-      ];
-    };
-    enp2s0 = {
-      useDHCP = false;
-      ipv4.addresses = [
-        {
-          address = "192.168.2.1";
           prefixLength = 24;
         }
       ];
@@ -66,18 +67,16 @@
     servers = [ "9.9.9.9" "1.1.1.1" ];
     extraConfig = ''
       domain-needed
-      interface=wlp3s0
-      interface=enp2s0
+      interface=br0
       interface=guest
       dhcp-range=192.168.1.10,192.168.1.254,24h
-      dhcp-range=192.168.2.10,192.168.2.254,24h
       dhcp-range=192.168.3.10,192.168.3.254,24h
     '';
   };
 
   networking.firewall = {
     enable = true;
-    trustedInterfaces = [ "wlp3s0" "enp2s0" ];
+    trustedInterfaces = [ "br0" "wlp3s0" "enp2s0" ];
     allowedTCPPorts = [
       # https://serverfault.com/a/424226
       53      # DNS
