@@ -66,8 +66,12 @@
     servers = [ "9.9.9.9" "1.1.1.1" ];
     extraConfig = ''
       domain-needed
+      interface=wlp3s0
+      interface=enp2s0
+      interface=guest
       dhcp-range=192.168.1.10,192.168.1.254,24h
       dhcp-range=192.168.2.10,192.168.2.254,24h
+      dhcp-range=192.168.3.10,192.168.3.254,24h
     '';
   };
 
@@ -75,9 +79,19 @@
     enable = true;
     trustedInterfaces = [ "wlp3s0" "enp2s0" ];
     allowedTCPPorts = [
-      80
-      443
-      2222
+      # https://serverfault.com/a/424226
+      53      # DNS
+      80 443  # HTTP(S)
+      110 995 # Email (pop3, pop3s)
+      114 993 # Email (imap, imaps)
+      587     # Email (SMTP Submission RFC 6409)
+      2222    # Git
+    ];
+    allowedUDPPorts = [
+      # https://serverfault.com/a/424226
+      53    # DNS
+      67 68 # DHCP
+      123   # NTP
     ];
   };
 }
