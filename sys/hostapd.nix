@@ -3,7 +3,6 @@
   services.hostapd = {
     enable = true;
     interface = "wlp3s0";
-    ssid = "beepboop";
     extraConfig = ''
 ### hostapd configuration file
 driver=nl80211
