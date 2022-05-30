@@ -3,9 +3,6 @@
   services.hostapd = {
     enable = true;
     interface = "wlp3s0";
-    # Experiments:
-    # g: ~3Mbit/s
-    # a: ~10Mbit/s
     ssid = "beepboop";
     extraConfig = ''
 ### hostapd configuration file

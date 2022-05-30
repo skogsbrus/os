@@ -19,7 +19,6 @@
   networking.hostName = "router";
   networking.useDHCP = false;
   networking.interfaces.enp1s0.useDHCP = true;
-  #networking.nameservers = [ "127.0.0.1" "9.9.9.9" ];
 
   networking.nat = {
     enable = true;
