@@ -43,7 +43,7 @@
       useDHCP = false;
       ipv4.addresses = [
         {
-          address = "192.168.2.1";
+          address = "192.168.2.2";
           prefixLength = 24;
         }
       ];
