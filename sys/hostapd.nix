@@ -5,11 +5,13 @@
     interface = "wlp3s0";
     extraConfig = ''
 ### hostapd configuration file
-ssid=beepboop
-interface=wlp3s0
-
+# generic
+beacon_int=100
+channel=36
+chanlist=36
 driver=nl80211
 country_code=SE
+interface=wlp3s0
 
 logger_syslog=127
 logger_syslog_level=2
@@ -20,16 +22,22 @@ ieee80211d=1
 # Disable due to `DFS start_dfs_cac() failed, -1`
 ieee80211h=0
 ieee80211n=1
-
 # 'a' means 5ghz
 hw_mode=a
 
-beacon_int=100
-channel=36
-chanlist=36
-
 ht_capab=[HT40+][SHORT-GI-40][TX-STBC][RX-STBC1][DSSS_CCK-40]
 
+# private network
+ssid=beepboop
+auth_algs=1
+wpa_psk_file=/home/johanan/os/secrets/beepboop.pw
+wpa=2
+wpa_pairwise=CCMP
+wpa_key_mgmt=WPA-PSK
+
+bss=wlp3s0.0
+ssid=beepboop-guest
+auth_algs=1
 wpa_psk_file=/home/johanan/os/secrets/beepboop.pw
 wpa=2
 wpa_pairwise=CCMP
