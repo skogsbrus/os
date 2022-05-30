@@ -5,31 +5,35 @@
     interface = "wlp3s0";
     extraConfig = ''
 ### hostapd configuration file
+ssid=beepboop
+interface=wlp3s0
+
 driver=nl80211
+country_code=SE
+
 logger_syslog=127
 logger_syslog_level=2
 logger_stdout=127
 logger_stdout_level=2
-country_code=SE
+
 ieee80211d=1
 # Disable due to `DFS start_dfs_cac() failed, -1`
 ieee80211h=0
+ieee80211n=1
+
 # 'a' means 5ghz
 hw_mode=a
+
 beacon_int=100
 channel=36
 chanlist=36
 
-ieee80211n=1
 ht_capab=[HT40+][SHORT-GI-40][TX-STBC][RX-STBC1][DSSS_CCK-40]
 
-interface=wlp3s0
-bss_load_update_period=60
 wpa_psk_file=/home/johanan/os/secrets/beepboop.pw
 wpa=2
 wpa_pairwise=CCMP
 wpa_key_mgmt=WPA-PSK
-ssid=beepboop
     '';
   };
   nixpkgs.overlays = [ (self: super: {
