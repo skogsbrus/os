@@ -25,6 +25,7 @@
     internalIPs = [
         "192.168.1.0/24"
         "192.168.2.0/24"
+        "192.168.3.0/24"
     ];
   };
 
@@ -43,6 +44,15 @@
       ipv4.addresses = [
         {
           address = "192.168.2.1";
+          prefixLength = 24;
+        }
+      ];
+    };
+    guest = {
+      useDHCP = false;
+      ipv4.addresses = [
+        {
+          address = "192.168.3.1";
           prefixLength = 24;
         }
       ];

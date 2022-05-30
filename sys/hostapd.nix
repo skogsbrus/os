@@ -35,9 +35,10 @@ wpa=2
 wpa_pairwise=CCMP
 wpa_key_mgmt=WPA-PSK
 
-bss=wlp3s0.0
+bss=guest
 ssid=beepboop-guest
 auth_algs=1
+ap_isolate=1
 wpa_psk_file=/home/johanan/os/secrets/beepboop.pw
 wpa=2
 wpa_pairwise=CCMP
