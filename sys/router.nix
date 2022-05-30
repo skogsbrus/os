@@ -13,7 +13,7 @@
   };
 
   imports = [
-      ./hostapd.nix
+    ./hostapd.nix
   ];
 
   networking.hostName = "router";
@@ -49,11 +49,11 @@
         }
       ];
     };
-    guest = {
+    wguest = {
       useDHCP = false;
       ipv4.addresses = [
         {
-          address = "192.168.3.1";
+          address = "192.168.2.1";
           prefixLength = 24;
         }
       ];
@@ -68,15 +68,15 @@
     extraConfig = ''
       domain-needed
       interface=br0
-      interface=guest
+      interface=wguest
       dhcp-range=192.168.1.10,192.168.1.254,24h
-      dhcp-range=192.168.3.10,192.168.3.254,24h
+      dhcp-range=192.168.2.10,192.168.2.254,24h
     '';
   };
 
   networking.firewall = {
     enable = true;
-    trustedInterfaces = [ "br0" "wlp3s0" "enp2s0" ];
+    trustedInterfaces = [ "br0" ];
     allowedTCPPorts = [
       # https://serverfault.com/a/424226
       53      # DNS
