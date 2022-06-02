@@ -2,8 +2,7 @@
 {
   imports = [
     ./hostapd.nix
-    ./grafana.nix
-    ./prometheus.nix
+    ./monitoring.nix
   ];
 
   # https://github.com/mdlayher/homelab/blob/391cfc0de06434e4dee0abe2bec7a2f0637345ac/nixos/routnerr-2/configuration.nix#L38
