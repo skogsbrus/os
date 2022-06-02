@@ -1,5 +1,10 @@
 { config, pkgs, lib, ... }:
 {
+  imports = [
+    ./hostapd.nix
+    ./grafana.nix
+  ];
+
   # https://github.com/mdlayher/homelab/blob/391cfc0de06434e4dee0abe2bec7a2f0637345ac/nixos/routnerr-2/configuration.nix#L38
   # https://serverfault.com/questions/248841/ip-forwarding-when-and-why-is-this-required
   boot = {
@@ -11,10 +16,6 @@
       };
     };
   };
-
-  imports = [
-    ./hostapd.nix
-  ];
 
   networking.hostName = "router";
   networking.useDHCP = false;
@@ -85,8 +86,8 @@
       # https://serverfault.com/a/424226
       # DNS
       53
-      80
       # HTTP(S)
+      80
       443
       110
       # Email (pop3, pop3s)
