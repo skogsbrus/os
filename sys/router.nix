@@ -3,6 +3,7 @@
   imports = [
     ./hostapd.nix
     ./grafana.nix
+    ./prometheus.nix
   ];
 
   # https://github.com/mdlayher/homelab/blob/391cfc0de06434e4dee0abe2bec7a2f0637345ac/nixos/routnerr-2/configuration.nix#L38
@@ -25,10 +26,11 @@
 
   networking.nat = {
     enable = true;
-    internalIPs = [
-      "192.168.1.0/24"
-      "192.168.2.0/24"
+    internalInterfaces = [
+      "br0"
+      "wguest"
     ];
+    externalInterface = "enp1s0";
   };
 
   networking.bridges = {
