@@ -12,7 +12,7 @@
         system = "x86_64-linux";
         modules = [
           ./hosts/lenovo-p1.nix
-          ./sys/meraki.nix
+          ./sys/work.nix
           ./sys/client.nix
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
