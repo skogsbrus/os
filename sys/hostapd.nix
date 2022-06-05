@@ -21,8 +21,8 @@
       # Disable due to `DFS start_dfs_cac() failed, -1`
       ieee80211h=0
       ieee80211n=1
-      # 'a' means 5ghz
-      hw_mode=a
+      # 'a'=5ghz, 'g'=2ghz
+      hw_mode=g
 
       ht_capab=[HT40+][SHORT-GI-40][TX-STBC][RX-STBC1][DSSS_CCK-40]
 
