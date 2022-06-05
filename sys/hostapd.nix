@@ -7,8 +7,7 @@
       ### hostapd configuration file
       # generic
       beacon_int=100
-      channel=36
-      chanlist=36
+      channel=0
       driver=nl80211
       country_code=SE
       interface=wlp3s0
