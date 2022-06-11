@@ -31,4 +31,5 @@
 
   };
 
+  environment.systemPackages = with pkgs; [ xorg.xkill ];
 }
