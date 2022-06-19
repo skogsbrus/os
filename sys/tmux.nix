@@ -57,8 +57,22 @@ in
 
       # broadcast to all panes
       bind C-a setw synchronize-panes
+
+      # Restore stuff
+      set -g @resurrect-capture-pane-contents 'on'
+      set -g @resurrect-processes 'ssh psql "git log" '
     '';
-    plugins = with pkgs.tmuxPlugins; [ aw-watcher-tmux ];
+    # TODO: There must be better way to do separate which hosts certain plugins
+    # should be installed on. Add some 'role' attribute on hosts so I don't
+    # have to reference them directly?
+    # TODO: How to avoid listing plugins twice?
+    plugins =
+      if config.networking.hostName == "router" then [
+        pkgs.tmuxPlugins.resurrect
+      ] else [
+        aw-watcher-tmux
+        pkgs.tmuxPlugins.resurrect
+      ];
   };
 
 }
