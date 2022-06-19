@@ -6,6 +6,8 @@
   imports = [
     ./alacritty.nix
     ./kitty.nix
+    ./gnome.nix
+    ./dconf.nix
   ];
 
   home.packages = with pkgs; [
@@ -28,6 +30,6 @@
 
     # Local packages (unpublished)
     #(pkgs.callPackage pkgs/webex {})
-    (pkgs.callPackage ./activitywatch { })
+    #(pkgs.callPackage ./activitywatch { })
   ];
 }

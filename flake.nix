@@ -1,8 +1,8 @@
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-21.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-22.05";
     unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    home-manager.url = "github:nix-community/home-manager/release-21.11";
+    home-manager.url = "github:nix-community/home-manager/release-22.05";
   };
 
   outputs = { self, nixpkgs, unstable, home-manager, ... }:
@@ -51,9 +51,9 @@
             home-manager.users.johanan = { ... }: {
               _module.args.unstable = unstable;
               imports = [
-                ./home/pkgs/core.nix
-                ./home/pkgs/lsp.nix
-                ./home/pkgs/neovim.nix
+                ./home/core.nix
+                ./home/lsp.nix
+                ./home/neovim.nix
               ];
             };
           }

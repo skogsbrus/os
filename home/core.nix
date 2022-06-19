@@ -13,7 +13,7 @@
     iw
     mtr
     openssl
-    ping
+    iputils
     traceroute
     wget
 
@@ -32,7 +32,7 @@
     # cli tools
     jq
     man-db
-    manpages
+    man-pages
     ranger
     ripgrep
     tig
@@ -50,6 +50,5 @@
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
-    nix-direnv.enableFlakes = true;
   };
 }

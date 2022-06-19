@@ -1,30 +1,96 @@
 # Generated via dconf2nix: https://github.com/gvolpe/dconf2nix
 { lib, ... }:
 
-let
-  mkTuple = lib.hm.gvariant.mkTuple;
-in
+with lib.hm.gvariant;
+
 {
   dconf.settings = {
+    "apps/seahorse/listing" = {
+      keyrings-selected = [ "secret-service:///org/freedesktop/secrets/collection/awsvault" ];
+    };
+
+    "apps/seahorse/windows/key-manager" = {
+      height = 476;
+      width = 1216;
+    };
+
+    "com/uploadedlobster/peek" = {
+      persist-window-geometry = mkTuple [ 1744 714 ];
+      recording-output-format = "mp4";
+    };
+
+    "org/gnome/Totem" = {
+      active-plugins = [ "variable-rate" "screenshot" "movie-properties" "open-directory" "apple-trailers" "recent" "rotation" "autoload-subtitles" "save-file" "vimeo" "media-player-keys" "skipto" "screensaver" ];
+      subtitle-encoding = "UTF-8";
+    };
+
+    "org/gnome/Weather" = {
+      locations = "[<(uint32 2, <('Lund, Sweden', '', false, [(0.97219952452660785, 0.23026032653919404)], [(0.97040306410884714, 0.22689280275926285)])>)>]";
+    };
+
+    "org/gnome/baobab/ui" = {
+      window-size = mkTuple [ 1217 600 ];
+      window-state = 87168;
+    };
+
+    "org/gnome/calendar" = {
+      active-view = "month";
+      window-maximized = true;
+      window-position = mkTuple [ 0 32 ];
+      window-size = mkTuple [ 1920 1048 ];
+    };
+
     "org/gnome/cheese" = {
+      brightness = -0.146341;
       burst-delay = 1000;
       camera = "USB 2.0 PC Camera: PC Camera";
+      contrast = 1.0;
+      hue = 0.0;
       photo-x-resolution = 640;
       photo-y-resolution = 480;
+      saturation = 0.943089;
       video-x-resolution = 640;
       video-y-resolution = 480;
+    };
+
+    "org/gnome/clocks" = {
+      world-clocks = "[{'location': <(uint32 2, <('San Francisco', 'KOAK', true, [(0.65832848982162007, -2.133408063190589)], [(0.659296885757089, -2.1366218601153339)])>)>}, {'location': <(uint32 2, <('New York', 'KNYC', true, [(0.71180344078725644, -1.2909618758762367)], [(0.71059804659265924, -1.2916478949920254)])>)>}]";
+    };
+
+    "org/gnome/clocks/state/window" = {
+      panel-id = "world";
+      size = mkTuple [ 870 690 ];
+      state = 87168;
     };
 
     "org/gnome/control-center" = {
       last-panel = "background";
     };
 
+    "org/gnome/desktop/app-folders" = {
+      folder-children = [ "Utilities" "YaST" ];
+    };
+
+    "org/gnome/desktop/app-folders/folders/Utilities" = {
+      apps = [ "gnome-abrt.desktop" "gnome-system-log.desktop" "nm-connection-editor.desktop" "org.gnome.baobab.desktop" "org.gnome.Connections.desktop" "org.gnome.DejaDup.desktop" "org.gnome.Dictionary.desktop" "org.gnome.DiskUtility.desktop" "org.gnome.eog.desktop" "org.gnome.Evince.desktop" "org.gnome.FileRoller.desktop" "org.gnome.fonts.desktop" "org.gnome.seahorse.Application.desktop" "org.gnome.tweaks.desktop" "org.gnome.Usage.desktop" "vinagre.desktop" ];
+      categories = [ "X-GNOME-Utilities" ];
+      name = "X-GNOME-Utilities.directory";
+      translate = true;
+    };
+
+    "org/gnome/desktop/app-folders/folders/YaST" = {
+      categories = [ "X-SuSE-YaST" ];
+      name = "suse-yast.directory";
+      translate = true;
+    };
+
     "org/gnome/desktop/background" = {
       color-shading-type = "solid";
       picture-options = "zoom";
-      picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/Loveles.jpg";
-      primary-color = "#ffffff";
-      secondary-color = "#000000";
+      picture-uri = "file:///home/johanan/.local/share/backgrounds/2022-06-19-14-01-50-ghibli-starwars.jpg";
+      picture-uri-dark = "file:///home/johanan/.local/share/backgrounds/2022-06-19-14-01-50-ghibli-starwars.jpg";
+      primary-color = "#000000000000";
+      secondary-color = "#000000000000";
     };
 
     "org/gnome/desktop/calendar" = {
@@ -41,11 +107,11 @@ in
       clock-show-date = true;
       clock-show-seconds = false;
       clock-show-weekday = false;
+      color-scheme = "prefer-dark";
       enable-hot-corners = false;
       font-antialiasing = "grayscale";
       font-hinting = "slight";
       font-name = "Source Sans Variable 10";
-      gtk-im-module = "gtk-im-context-simple";
       gtk-theme = "Numix";
       show-battery-percentage = true;
       toolkit-accessibility = false;
@@ -54,6 +120,10 @@ in
     "org/gnome/desktop/notifications" = {
       application-children = [ "gnome-power-panel" "gnome-network-panel" "org-gnome-fileroller" "spotify" "element-desktop" "org-gnome-baobab" "slack" "org-gnome-terminal" "chromium-browser" "org-gnome-nautilus" "code" ];
       show-banners = true;
+    };
+
+    "org/gnome/desktop/notifications/application/alacritty" = {
+      application-id = "Alacritty.desktop";
     };
 
     "org/gnome/desktop/notifications/application/chromium-browser" = {
@@ -72,8 +142,16 @@ in
       application-id = "element-desktop.desktop";
     };
 
+    "org/gnome/desktop/notifications/application/firefox" = {
+      application-id = "firefox.desktop";
+    };
+
     "org/gnome/desktop/notifications/application/gimp" = {
       application-id = "gimp.desktop";
+    };
+
+    "org/gnome/desktop/notifications/application/gnome-control-center" = {
+      application-id = "gnome-control-center.desktop";
     };
 
     "org/gnome/desktop/notifications/application/gnome-network-panel" = {
@@ -140,8 +218,20 @@ in
       application-id = "steam.desktop";
     };
 
+    "org/gnome/desktop/notifications/application/vlc" = {
+      application-id = "vlc.desktop";
+    };
+
     "org/gnome/desktop/notifications/application/wine-programs-remarkable-remarkable" = {
       application-id = "wine-Programs-reMarkable-reMarkable.desktop";
+    };
+
+    "org/gnome/desktop/notifications/application/writer" = {
+      application-id = "writer.desktop";
+    };
+
+    "org/gnome/desktop/peripherals/keyboard" = {
+      numlock-state = true;
     };
 
     "org/gnome/desktop/peripherals/mouse" = {
@@ -161,9 +251,9 @@ in
     "org/gnome/desktop/screensaver" = {
       color-shading-type = "solid";
       picture-options = "zoom";
-      picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/Loveles.jpg";
-      primary-color = "#ffffff";
-      secondary-color = "#000000";
+      picture-uri = "file:///home/johanan/.local/share/backgrounds/2022-06-19-14-01-50-ghibli-starwars.jpg";
+      primary-color = "#000000000000";
+      secondary-color = "#000000000000";
     };
 
     "org/gnome/desktop/search-providers" = {
@@ -204,7 +294,7 @@ in
     };
 
     "org/gnome/evince/default" = {
-      window-ratio = mkTuple [ 2.889416001988993 1.6724275142833387 ];
+      window-ratio = mkTuple [ 2.889416 1.672428 ];
     };
 
     "org/gnome/evolution-data-server" = {
@@ -332,6 +422,11 @@ in
       ignore-phase2-ca-cert = false;
     };
 
+    "org/gnome/nm-applet/eap/150aee1a-27c5-43ed-97ed-0023b84040d5" = {
+      ignore-ca-cert = false;
+      ignore-phase2-ca-cert = false;
+    };
+
     "org/gnome/nm-applet/eap/16a01fb5-3297-4cf4-9c7c-e8971b976158" = {
       ignore-ca-cert = false;
       ignore-phase2-ca-cert = false;
@@ -347,13 +442,53 @@ in
       ignore-phase2-ca-cert = false;
     };
 
+    "org/gnome/nm-applet/eap/43a4f86c-f78a-3c57-9125-b50958cee1d7" = {
+      ignore-ca-cert = false;
+      ignore-phase2-ca-cert = false;
+    };
+
+    "org/gnome/nm-applet/eap/51c85e26-d6f3-326b-ba68-d81f54b00501" = {
+      ignore-ca-cert = false;
+      ignore-phase2-ca-cert = false;
+    };
+
+    "org/gnome/nm-applet/eap/6522adda-3f7e-3afc-b72a-f0df12e8e509" = {
+      ignore-ca-cert = false;
+      ignore-phase2-ca-cert = false;
+    };
+
     "org/gnome/nm-applet/eap/6d5388ba-00c5-49db-b548-0462c816f23b" = {
+      ignore-ca-cert = false;
+      ignore-phase2-ca-cert = false;
+    };
+
+    "org/gnome/nm-applet/eap/704cf396-6e0a-477d-ade8-9a7bd75f6b10" = {
+      ignore-ca-cert = false;
+      ignore-phase2-ca-cert = false;
+    };
+
+    "org/gnome/nm-applet/eap/73124c4d-aaa4-474d-bf86-b7bb9d9ebe0f" = {
       ignore-ca-cert = false;
       ignore-phase2-ca-cert = false;
     };
 
     "org/gnome/nm-applet/eap/7f453819-e859-47b2-b01f-4fabaa8c76d5" = {
       ignore-ca-cert = true;
+      ignore-phase2-ca-cert = false;
+    };
+
+    "org/gnome/nm-applet/eap/91c38c48-f4b2-3c4b-bc83-785b06e044bd" = {
+      ignore-ca-cert = false;
+      ignore-phase2-ca-cert = false;
+    };
+
+    "org/gnome/nm-applet/eap/9608d425-07c1-31ab-9afe-e2a90d0204ef" = {
+      ignore-ca-cert = false;
+      ignore-phase2-ca-cert = false;
+    };
+
+    "org/gnome/nm-applet/eap/b3998ac4-1236-46cf-bb5b-0bf2493b5b50" = {
+      ignore-ca-cert = false;
       ignore-phase2-ca-cert = false;
     };
 
@@ -368,6 +503,16 @@ in
     };
 
     "org/gnome/nm-applet/eap/e0edf65b-a3cd-4588-9d3a-1f94e661f113" = {
+      ignore-ca-cert = false;
+      ignore-phase2-ca-cert = false;
+    };
+
+    "org/gnome/nm-applet/eap/ed8053f0-894d-4b28-85a9-6fe9b53de5a9" = {
+      ignore-ca-cert = false;
+      ignore-phase2-ca-cert = false;
+    };
+
+    "org/gnome/nm-applet/eap/f68eb099-8d8f-3bef-b210-0d34a8da0755" = {
       ignore-ca-cert = false;
       ignore-phase2-ca-cert = false;
     };
@@ -414,6 +559,7 @@ in
 
     "org/gnome/settings-daemon/plugins/power" = {
       sleep-inactive-ac-timeout = 7200;
+      sleep-inactive-ac-type = "nothing";
     };
 
     "org/gnome/shell" = {
@@ -424,6 +570,55 @@ in
       favorite-apps = [ "org.gnome.Calendar.desktop" "org.gnome.Photos.desktop" "org.gnome.Nautilus.desktop" "chromium-browser.desktop" "spotify.desktop" "org.gnome.Terminal.desktop" "element-desktop.desktop" "slack.desktop" ];
       had-bluetooth-devices-setup = true;
       welcome-dialog-last-shown-version = "40.1";
+    };
+
+    "org/gnome/shell/extensions/materialshell/layouts" = {
+      gap = 4;
+      screen-gap = 0;
+      simple = false;
+      simple-vertical = false;
+      tween-time = 0.1;
+    };
+
+    "org/gnome/shell/extensions/materialshell/theme" = {
+      clock-app-launcher = true;
+      clock-horizontal = true;
+      panel-icon-color = false;
+      panel-icon-style = "hybrid";
+      panel-size = 48;
+      primary-color = "#3d3846";
+      taskbar-item-style = "full";
+      theme = "dark";
+      vertical-panel-position = "left";
+    };
+
+    "org/gnome/shell/extensions/materialshell/tweaks" = {
+      disable-notifications = true;
+    };
+
+    "org/gnome/shell/extensions/sound-output-device-chooser" = {
+      ports-settings = ''
+        {"version":3,"ports":[]}\n
+      '';
+    };
+
+    "org/gnome/shell/keybindings" = {
+      switch-to-application-1 = [ "" ];
+      switch-to-application-2 = [ "" ];
+      switch-to-application-3 = [ "" ];
+      switch-to-application-4 = [ "" ];
+      switch-to-application-5 = [ "" ];
+      switch-to-application-6 = [ "" ];
+      switch-to-application-7 = [ "" ];
+      switch-to-application-8 = [ "" ];
+      switch-to-application-9 = [ "" ];
+      toggle-application-view = [ "" ];
+      toggle-overview = [ "" ];
+    };
+
+    "org/gnome/shell/weather" = {
+      automatic-location = true;
+      locations = "[<(uint32 2, <('Lund, Sweden', '', false, [(0.97219952452660785, 0.23026032653919404)], [(0.97040306410884714, 0.22689280275926285)])>)>]";
     };
 
     "org/gnome/shell/world-clocks" = {
@@ -447,6 +642,20 @@ in
     "org/gtk/gtk4/settings/color-chooser" = {
       custom-colors = [ (mkTuple [ 0.247059 0.317647 ]) ];
       selected-color = mkTuple [ true 0.239216 ];
+    };
+
+    "org/gtk/gtk4/settings/file-chooser" = {
+      date-format = "regular";
+      location-mode = "path-bar";
+      show-hidden = false;
+      show-size-column = true;
+      show-type-column = true;
+      sidebar-width = 168;
+      sort-column = "name";
+      sort-directories-first = false;
+      sort-order = "ascending";
+      type-format = "category";
+      window-size = mkTuple [ 853 374 ];
     };
 
     "org/gtk/settings/color-chooser" = {

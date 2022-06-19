@@ -47,7 +47,7 @@
     gnumake
     htop
     man-db
-    manpages
+    man-pages
     python3
     tmux
     vim

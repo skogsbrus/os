@@ -1,6 +1,6 @@
 { pkgs, unstable, ... }:
 {
-  home.packages = [
+  home.packages = with pkgs; [
     # dev programs
     pkgs.aws-vault
     pkgs.awscli
@@ -8,7 +8,7 @@
     pkgs.google-cloud-sdk
     pkgs.jetbrains-mono
     pkgs.kubectl
-    pkgs.cudnn_cudatoolkit_11
+    pkgs.cudatoolkit_11
     pkgs.vscode
 
     # dev services
