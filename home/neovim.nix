@@ -1,6 +1,7 @@
 { config, lib, pkgs, unstable, home-manager, ... }:
 let
   aw-watcher-vim = pkgs.vimUtils.buildVimPlugin {
+    # TODO: contribute to nixpkgs
     name = "aw-watcher-vim";
     src = pkgs.fetchFromGitHub {
       owner = "ActivityWatch";

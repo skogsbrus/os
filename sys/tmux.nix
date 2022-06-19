@@ -5,6 +5,7 @@
 }:
 let
   aw-watcher-tmux = pkgs.tmuxPlugins.mkTmuxPlugin {
+    # TODO: contribute to nixpkgs
     pluginName = "aw-watcher-tmux";
     version = "0.1";
     src = pkgs.fetchFromGitHub {
