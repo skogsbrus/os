@@ -38,6 +38,9 @@
 
       bind -T copy-mode-vi v send-keys -X begin-selection
       bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "xclip -in -selection clipboard"
+
+      # broadcast to all panes
+      bind C-a setw synchronize-panes
     '';
   };
 }
