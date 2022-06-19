@@ -6,6 +6,8 @@
   imports = [
     ./alacritty.nix
     ./kitty.nix
+    ./gnome.nix
+    ./dconf.nix
   ];
 
   home.packages = with pkgs; [

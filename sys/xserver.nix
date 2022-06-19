@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  services.dbus.packages = with pkgs; [ gnome.dconf ];
+  services.dbus.packages = with pkgs; [ dconf ];
 
   services.xserver = {
     # Enable the X11 windowing system.

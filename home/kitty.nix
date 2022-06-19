@@ -3,7 +3,7 @@
  programs.kitty = {
    enable = true;
    #package = with unstable.legacyPackages.${pkgs.system}; kitty;
-   #theme = "Gruvbox Material Dark Hard";
+   theme = "Gruvbox Material Dark Hard";
 
     #extraConfig = ''
     #  include ${pkgs.kitty-themes}/${

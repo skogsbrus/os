@@ -1,8 +1,9 @@
 { pkgs, ... }:
 {
   imports = [
-    ./dconf.nix
-    ./gnome.nix
-    ./pkgs
+    ./core.nix
+    ./dev.nix
+    ./client.nix
+    ./lsp.nix
   ];
 }
