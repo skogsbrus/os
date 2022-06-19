@@ -18,6 +18,7 @@ in
     viAlias = true;
     vimAlias = true;
     plugins = with pkgs.vimPlugins; [
+      vim-obsession
       vim-airline
       vim-fugitive
       vim-nix
@@ -26,8 +27,8 @@ in
       nvim-lspconfig
       vim-terraform
       vim-elixir
-      comment-nvim
-      unstable.legacyPackages.${pkgs.system}.vimPlugins.which-key-nvim # need unstable due to https://github.com/folke/which-key.nvim/pull/227
+      #comment-nvim # crashes on launch with 22.05
+      #which-key-nvim # stopped working with 22.05
       aw-watcher-vim
     ];
 
@@ -172,24 +173,24 @@ in
         }
       }
 
-      require('Comment').setup {
-        opleader = {
-          line = "gc",
-          block = "gb",
-        },
-        toggler = {
-          line = "gcc",
-          block = "gbc",
-        },
-        basic = true,
-        extra = true,
-      }
+      --require('Comment').setup {
+      --  opleader = {
+      --    line = "gc",
+      --    block = "gb",
+      --  },
+      --  toggler = {
+      --    line = "gcc",
+      --    block = "gbc",
+      --  },
+      --  basic = true,
+      --  extra = true,
+      --}
 
-      require("which-key").setup {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
-      }
+      --require("which-key").setup {
+      ---- your configuration comes here
+      ---- or leave it empty to use the default settings
+      ---- refer to the configuration section below
+      --}
       EOF
     '';
   };
