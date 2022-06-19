@@ -108,7 +108,7 @@ stdenv.mkDerivation rec {
       description = "Data type for representing time slots with a start and end";
       homepage = "https://github.com/ErikBjare/timeslot";
       maintainers = with maintainers; [ skogsbrus jtojnar ];
-      license = licenses.mit; # TODO: no license
+      license = licenses.mit;
     };
   };
 
@@ -143,10 +143,15 @@ stdenv.mkDerivation rec {
       timeslot
     ];
 
-    # TODO: pin versions
     postPatch = ''
       substituteInPlace pyproject.toml \
-        --replace 'python-json-logger = "^0.1.11"' 'python-json-logger = "^2.0"'
+        --replace 'iso8601 = "^0.1.12"' 'iso8601 = "*"'
+
+      substituteInPlace pyproject.toml \
+        --replace 'python-json-logger = "^0.1.11"' 'python-json-logger = "*"'
+
+      substituteInPlace pyproject.toml \
+        --replace 'jsonschema = "^3.1"' 'jsonschema = "*"'
 
       substituteInPlace pyproject.toml \
         --replace 'tomlkit = "^0.6.0"' 'tomlkit = "*"'
@@ -208,7 +213,7 @@ stdenv.mkDerivation rec {
 
     postPatch = ''
       substituteInPlace pyproject.toml \
-        --replace 'python-xlib = { version = "^0.28"' 'python-xlib = { version = "^0.29"'
+        --replace 'python-xlib = { version = "^0.28"' 'python-xlib = { version = "*"'
     '';
   };
 
@@ -236,7 +241,7 @@ stdenv.mkDerivation rec {
 
     postPatch = ''
       substituteInPlace pyproject.toml \
-        --replace 'python-xlib = {version = "^0.28"' 'python-xlib = {version = "^0.29"'
+        --replace 'python-xlib = {version = "^0.28", platform = "linux"' 'python-xlib = {version = "*"'
     '';
   };
 

@@ -30,6 +30,6 @@
 
     # Local packages (unpublished)
     #(pkgs.callPackage pkgs/webex {})
-    #(pkgs.callPackage ./activitywatch { })
+    (pkgs.callPackage ./activitywatch { })
   ];
 }
