@@ -1,4 +1,7 @@
-{ config, pkgs, ... }:
+{ config
+, pkgs
+, ...
+}:
 {
   # System defaults for all machines
   imports = [

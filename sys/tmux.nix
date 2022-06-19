@@ -1,5 +1,20 @@
-{ config, pkgs, lib, ... }:
-
+{ config
+, pkgs
+, lib
+, ...
+}:
+let
+  aw-watcher-tmux = pkgs.tmuxPlugins.mkTmuxPlugin {
+    pluginName = "aw-watcher-tmux";
+    version = "0.1";
+    src = pkgs.fetchFromGitHub {
+      owner = "skogsbrus";
+      repo = "aw-watcher-tmux";
+      rev = "797f279729c5606f6246b2ce60aa84b603a21c15";
+      sha256 = "KLGknVxA65AqsRfXEbo2mWaXlFc7BdFapoSbZOiAotI=";
+    };
+  };
+in
 {
   programs.tmux = {
     enable = true;
@@ -42,5 +57,7 @@
       # broadcast to all panes
       bind C-a setw synchronize-panes
     '';
+    plugins = with pkgs.tmuxPlugins; [ aw-watcher-tmux ];
   };
+
 }

@@ -1,4 +1,15 @@
 { config, lib, pkgs, unstable, home-manager, ... }:
+let
+  aw-watcher-vim = pkgs.vimUtils.buildVimPlugin {
+    name = "aw-watcher-vim";
+    src = pkgs.fetchFromGitHub {
+      owner = "ActivityWatch";
+      repo = "aw-watcher-vim";
+      rev = "efdf283f879a89dccd5f4ba71a27f43303577aea";
+      sha256 = "CXO7zl63qtwlHCMSa4NVSr5hoxsfc2fwc11a+tWszWU=";
+    };
+  };
+in
 {
   programs.neovim = {
     enable = true;
@@ -16,6 +27,7 @@
       vim-elixir
       comment-nvim
       unstable.legacyPackages.${pkgs.system}.vimPlugins.which-key-nvim # need unstable due to https://github.com/folke/which-key.nvim/pull/227
+      aw-watcher-vim
     ];
 
     extraConfig = ''
