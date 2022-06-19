@@ -60,7 +60,7 @@ in
 
       # Restore stuff
       set -g @resurrect-capture-pane-contents 'on'
-      set -g @resurrect-processes 'ssh psql "git log" '
+      set -g @resurrect-processes 'watch ssh psql "git log" '
     '';
     # TODO: There must be better way to do separate which hosts certain plugins
     # should be installed on. Add some 'role' attribute on hosts so I don't
