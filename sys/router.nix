@@ -17,6 +17,16 @@
     };
   };
 
+  services.ddclient = {
+    enable = true;
+    use = "web";
+    protocol = "namecheap";
+    server = "dynamicdns.park-your-domain.com";
+    username = "skogsbrus.xyz";
+    passwordFile = "/home/johanan/os/secrets/ddns.pw";
+    domains = [ "vpn" "www.vpn" ];
+  };
+
   networking.hostName = "router";
   networking.useDHCP = false;
   networking.interfaces.enp1s0.useDHCP = true;
