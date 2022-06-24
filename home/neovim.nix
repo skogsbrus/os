@@ -69,6 +69,8 @@ in
             nnoremap <leader>gdd <cmd>Git diff<cr>
             nnoremap <leader>gdc <cmd>Git diff --cached<cr>
             nnoremap <leader>gs <cmd>Git<cr>
+            nnoremap <leader>gr <cmd>Gread<cr>
+            nnoremap <leader>gw <cmd>Gwrite<cr>
 
             " Keep it centered (thanks Prime)
             nnoremap n nzzzv
