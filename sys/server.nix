@@ -20,6 +20,6 @@
 
   nix.gc = {
     automatic = true;
-    dates = "weekly";
+    dates = "daily";
   };
 }
