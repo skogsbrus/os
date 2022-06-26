@@ -8,6 +8,7 @@
     ./fwupd.nix
     ./tmux.nix
     ./zsh.nix
+    ./wireguard.nix
   ];
 
   config.home-manager.users.johanan.programs.git = {

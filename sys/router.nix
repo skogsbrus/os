@@ -1,4 +1,8 @@
 { config, pkgs, lib, ... }:
+let
+  private_subnet = "10.77.77";
+  guest_subnet = "10.88.88";
+in
 {
   imports = [
     ./hostapd.nix
@@ -38,6 +42,7 @@
     internalInterfaces = [
       "br0"
       "wguest"
+      "wg0" # ./wireguard.nix
     ];
     externalInterface = "enp1s0";
   };
@@ -56,7 +61,7 @@
       useDHCP = false;
       ipv4.addresses = [
         {
-          address = "192.168.1.1";
+          address = "${private_subnet}.1";
           prefixLength = 24;
         }
       ];
@@ -65,7 +70,7 @@
       useDHCP = false;
       ipv4.addresses = [
         {
-          address = "192.168.2.1";
+          address = "${guest_subnet}.1";
           prefixLength = 24;
         }
       ];
@@ -76,53 +81,92 @@
 
   services.dnsmasq = {
     enable = true;
-    servers = [ "9.9.9.9" "1.1.1.1" ];
     extraConfig = ''
+      # sensible behaviours
       domain-needed
+      bogus-priv
+      no-resolv
+
+      # upstream name servers
+      server=9.9.9.9
+      server=1.1.1.1
+
+      # local domains
+      expand-hosts
+      domain=home
+      local=/home/
+
+      # Interfaces to use DNS on
       interface=br0
       interface=wguest
-      dhcp-range=192.168.1.10,192.168.1.254,24h
-      dhcp-range=192.168.2.10,192.168.2.254,24h
-      # kodi
-      dhcp-host=b8:27:eb:84:09:f8,192.168.1.90
-      # NAS
-      dhcp-host=00:11:32:33:30:5b,192.168.1.65
-      # workstation
-      dhcp-host=30:9c:23:1b:a5:4d,192.168.1.83
+      interface=wg0
+
+      # subnet IP blocks to use DHCP on
+      dhcp-range=${private_subnet}.10,${private_subnet}.254,24h
+      dhcp-range=${guest_subnet}.10,${guest_subnet}.254,24h
+
+      # static IPs
+      dhcp-host=00:0d:b9:5e:22:91,${private_subnet}.1
+      dhcp-host=b8:27:eb:84:09:f8,${private_subnet}.90
+      dhcp-host=00:11:32:33:30:5b,${private_subnet}.65
+      dhcp-host=30:9c:23:1b:a5:4d,${private_subnet}.83
     '';
   };
 
+  # Define host names to make dnsmasq resolve them, e.g. http://router.home
+  networking.extraHosts =
+    ''
+      ${private_subnet}.1 router
+      ${private_subnet}.90 kodi
+      ${private_subnet}.65 choklad
+      ${private_subnet}.83 workstation
+    '';
+
   networking.firewall = {
     enable = true;
-    trustedInterfaces = [ "br0" ];
-    allowedTCPPorts = [
+    trustedInterfaces = [ "br0" "wg0" ];
+
+    interfaces = {
+      enp1s0 = {
+        allowedTCPPorts = [ ];
+        allowedUDPPorts = [
+          # Wireguard
+          666
+        ];
+      };
       # https://serverfault.com/a/424226
-      # DNS
-      53
-      # HTTP(S)
-      80
-      443
-      110
-      # Email (pop3, pop3s)
-      995
-      114
-      # Email (imap, imaps)
-      993
-      # Email (SMTP Submission RFC 6409)
-      587
-      # Git
-      2222
-    ];
-    allowedUDPPorts = [
-      # https://serverfault.com/a/424226
-      # DNS
-      53
-      # DHCP
-      67
-      68
-      # NTP
-      123
-    ];
+      wguest = {
+        allowedTCPPorts = [
+          # DNS
+          53
+          # HTTP(S)
+          80
+          443
+          110
+          # Email (pop3, pop3s)
+          995
+          114
+          # Email (imap, imaps)
+          993
+          # Email (SMTP Submission RFC 6409)
+          587
+          # Git
+          2222
+        ];
+        allowedUDPPorts = [
+          # https://serverfault.com/a/424226
+          # DNS
+          53
+          # DHCP
+          67
+          68
+          # NTP
+          123
+          # Wireguard
+          666
+        ];
+      };
+    };
   };
   # Prevent sshd from opening port 22 (circumventing the firewall)
   services.openssh.openFirewall = false;

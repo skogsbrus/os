@@ -29,7 +29,7 @@ in
       vim-elixir
       #comment-nvim # crashes on launch with 22.05
       #which-key-nvim # stopped working with 22.05
-      aw-watcher-vim
+      aw-watcher-vim # TODO: remove from router
     ];
 
     extraConfig = ''
