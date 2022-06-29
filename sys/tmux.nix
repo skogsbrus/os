@@ -63,6 +63,11 @@ in
         # for fast & predictable navigation
         set-option -g repeat-time 0
 
+        # window names
+        set-option -g status-interval 5
+        set-option -g automatic-rename on
+        set-option -g automatic-rename-format '#{b:pane_current_path}'
+
         # vim-like navigation
         setw -g mode-keys vi
         bind h select-pane -L
@@ -84,7 +89,7 @@ in
       plugins = [
         pkgs.tmuxPlugins.resurrect
       ] ++
-        (if cfg.aw_watcher then [ aw-watcher-tmux ] else []);
+      (if cfg.aw_watcher then [ aw-watcher-tmux ] else [ ]);
     };
   };
 }
