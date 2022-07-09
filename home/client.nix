@@ -27,6 +27,7 @@
     vlc
     vscode
     xclip
+    bitwig-studio4
 
     # Local packages (unpublished)
     #(pkgs.callPackage pkgs/webex {})

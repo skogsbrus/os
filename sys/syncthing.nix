@@ -1,11 +1,29 @@
-{ pkgs, ... }:
+{ config
+, lib
+, ...
+}:
+let
+  cfg = config.skogsbrus.syncthing;
+  inherit (lib) mkEnableOption mkOption mkIf types;
+in
 {
-  services = {
-    syncthing = {
-      enable = false;
-      user = "johanan";
-      dataDir = "/home/johanan/syncthing";
-      configDir = "/home/johanan/syncthing/.config/syncting";
+  options.skogsbrus.syncthing = {
+    enable = mkEnableOption "syncthing";
+    user = mkOption {
+      description = "User to run the service under";
+      type = types.str;
+      example = "bob";
+    };
+  };
+
+  config = mkIf cfg.enable {
+    services = {
+      syncthing = {
+        enable = true;
+        user = cfg.user;
+        dataDir = "/home/${cfg.user}/syncthing";
+        configDir = "/home/${cfg.user}/syncthing/.config/syncting";
+      };
     };
   };
 }
