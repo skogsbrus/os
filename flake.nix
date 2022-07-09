@@ -11,9 +11,7 @@
       voidm = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./hosts/lenovo-p1.nix
-          ./sys/work.nix
-          ./sys/client.nix
+          ./hosts/lenovo-p1/host.nix
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
@@ -27,8 +25,7 @@
       workstation = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./hosts/workstation.nix
-          ./sys/client.nix
+          ./hosts/workstation/host.nix
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
@@ -42,9 +39,7 @@
       router = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./hosts/router.nix
-          ./sys/router.nix
-          ./sys/server.nix
+          ./hosts/router/host.nix
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;

@@ -4,31 +4,51 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 {
-  imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
-    ];
+  imports = [
+    ../../sys/server.nix
+    ./hardware.nix
+  ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "ehci_pci" "sd_mod" "sdhci_pci" ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-amd" ];
-  boot.extraModulePackages = [ ];
+  networking.hostName = "router";
 
-  # Use the GRUB 2 boot loader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.version = 2;
-  boot.loader.grub.device = "/dev/sda";
+  skogsbrus = {
+    fwupd.enable = true;
+    grafana.enable = true;
 
-
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/16c7c007-d1ad-4899-8208-99a18e3cdb45";
-      fsType = "ext4";
+    nix = {
+      allowUnfree = true;
+      flakes = true;
+      gc = true;
+      gc_schedule = "daily";
     };
 
-  swapDevices =
-    [ { device = "/dev/disk/by-uuid/3f91e2e3-2c8a-4a07-83a8-29e94dd349b0"; }
-    ];
+    router = {
+      enable = true;
+      private_subnet = "10.77.77";
+      guest_subnet = "10.88.88";
+    };
 
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+    ssh.enable = true;
+    sound.enable = false;
+
+    tmux = {
+      enable = true;
+      bg_color = "red";
+    };
+
+    users = {
+      # TODO: parameterize user names etc
+    };
+
+    wireguard = {
+      enable = true;
+      server = true;
+      port = 666;
+      subnet = "10.66.66";
+      server_subnet = "10.77.77";
+      unique_id = 1;
+    };
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

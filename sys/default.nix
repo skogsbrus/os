@@ -1,63 +1,43 @@
-{ pkgs, ... }:
+{ config
+, pkgs
+, ...
+}:
 {
-
-  # Allow installing unfree system packages
-  nixpkgs.config.allowUnfree = true;
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.johanan = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "docker" "input" ]; # wheel -> sudo
-  };
-
-  # docker settings
-  virtualisation.docker.enable = true;
-  virtualisation.docker.enableNvidia = true;
-
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
-
-
-  users.extraUsers.johanan = {
-    shell = pkgs.zsh;
-  };
+  # System defaults for all machines
+  imports = [
+    ./docker.nix
+    ./fwupd.nix
+    ./grafana.nix
+    ./networking.nix
+    ./nix.nix
+    ./postgres.nix
+    ./printing.nix
+    ./router.nix
+    ./sound.nix
+    ./ssh.nix
+    ./steam.nix
+    ./syncthing.nix
+    ./tlp.nix
+    ./tmux.nix
+    ./users.nix
+    ./wireguard.nix
+    ./xserver.nix
+    ./zsh.nix
+  ];
 
   # Set local time
-  time.timeZone = "Europe/Copenhagen";
-
-  # Networking
-  networking.networkmanager.enable = true;
-  networking.nameservers = [ "1.1.1.1" "9.9.9.9" ];
-  networking.firewall.trustedInterfaces = [
-    "enp0s20f0u4u1" # reMarkable via USB C
-  ];
-  programs.nm-applet.enable = true;
-
-  nix = {
-    package = pkgs.nixUnstable;
-    extraOptions = ''
-      experimental-features = nix-command flakes
-    '';
-  };
+  config.time.timeZone = "Europe/Copenhagen";
 
   # System packages
-  environment.systemPackages = with pkgs; [
-    # networking
-    dig
-    wget
-    curl
-    openssl
-    # basic utils
-    python3
+  config.environment.systemPackages = with pkgs; [
     # dev utils
-    vim
-    tmux
     git
+    gnumake
     htop
     man-db
-    manpages
+    man-pages
+    python3
+    tmux
+    vim
   ];
-
-  system.autoUpgrade.enable = false;
-  system.autoUpgrade.allowReboot = false;
 }
