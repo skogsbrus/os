@@ -37,6 +37,7 @@ in
     };
   };
 
+  # TODO: parameterize things like presharedkey, public key
   config = mkIf cfg.enable {
     networking.wg-quick.interfaces.wg0 = {
       address = [ "${cfg.subnet}.${toString cfg.uniqueId}/32" ];
