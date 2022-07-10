@@ -2,7 +2,7 @@
 {
   imports = [
     ./hardware.nix
-    ../../sys/default.nix
+    ../../sys
   ];
 
   networking.hostName = "voidm";

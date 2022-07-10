@@ -3,7 +3,7 @@
 }:
 {
   imports = [
-    ../../sys/default.nix
+    ../../sys
   ];
 
   networking.hostName = "workstation";

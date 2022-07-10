@@ -3,7 +3,7 @@
 }:
 {
   imports = [
-    ../../sys/server.nix
+    ../../sys
   ];
 
   networking.hostName = "router";
@@ -45,6 +45,8 @@
       serverSubnet = "10.77.77";
       uniqueId = 1;
     };
+
+    zsh.enable = true;
   };
 
   # This value determines the NixOS release from which the default
