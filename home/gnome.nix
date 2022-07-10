@@ -24,7 +24,6 @@ in
       gnome.pomodoro
       gnomeExtensions.bluetooth-quick-connect
       gnomeExtensions.sound-output-device-chooser
-      gnomeExtensions.material-shell
       gnomeExtensions.tray-icons-reloaded
     ];
   };
