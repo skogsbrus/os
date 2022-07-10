@@ -1,63 +1,50 @@
 { config
-, lib
-, modulesPath
-, pkgs
 , ...
 }:
 {
   imports = [
-    ../../sys/default.nix
-    ./hardware.nix
+    ../../sys/server.nix
   ];
 
-  networking.hostName = "workstation";
+  networking.hostName = "router";
 
   skogsbrus = {
-
-    docker = {
-      enable = true;
-      enableNvidia = true;
-      users = [ "johanan" ];
-    };
-
     fwupd.enable = true;
-
-    networking = {
-      enableNetworkManager = true;
-      # Allow traffic from remarkable tablet via USB C
-      trustedInterfaces = [ "enp0s20f0u4u1" ];
-    };
+    grafana.enable = true;
 
     nix = {
       allowUnfree = true;
       flakes = true;
-      gc = false;
+      gc = true;
+      gc_schedule = "daily";
     };
 
-    sound = {
+    router = {
       enable = true;
-      enablePipewire = true;
+      private_subnet = "10.77.77";
+      guest_subnet = "10.88.88";
     };
 
     ssh.enable = true;
-
-    steam = {
-      enable = true;
-      users = [ "johanan" ];
-    };
+    sound.enable = false;
 
     tmux = {
       enable = true;
-      aw_watcher = true;
-      bg_color = "blue";
+      bg_color = "red";
     };
 
     users = {
-      groups = [ "networkmanager" ];
+      # TODO: parameterize user names etc
     };
 
-    xserver.enable = true;
-    zsh.enable = true;
+    wireguard = {
+      enable = true;
+      server = true;
+      port = 666;
+      subnet = "10.66.66";
+      server_subnet = "10.77.77";
+      unique_id = 1;
+    };
   };
 
   # This value determines the NixOS release from which the default
