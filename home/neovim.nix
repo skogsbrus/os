@@ -1,4 +1,9 @@
-{ config, lib, pkgs, unstable, home-manager, ... }:
+{ config
+, lib
+, pkgs
+, unstable
+, ...
+}:
 let
   aw-watcher-vim = pkgs.vimUtils.buildVimPlugin {
     # TODO: contribute to nixpkgs
@@ -10,194 +15,202 @@ let
       sha256 = "CXO7zl63qtwlHCMSa4NVSr5hoxsfc2fwc11a+tWszWU=";
     };
   };
+  cfg = config.skogsbrus.neovim;
+  inherit (lib) mkEnableOption;
 in
 {
-  programs.neovim = {
-    enable = true;
-    package = with unstable.legacyPackages.${pkgs.system}; neovim-unwrapped;
-    viAlias = true;
-    vimAlias = true;
-    plugins = with pkgs.vimPlugins; [
-      vim-obsession
-      vim-airline
-      vim-fugitive
-      vim-nix
-      fzf-vim
-      nvim-treesitter
-      nvim-lspconfig
-      vim-terraform
-      vim-elixir
-      #comment-nvim # crashes on launch with 22.05
-      #which-key-nvim # stopped working with 22.05
-      aw-watcher-vim # TODO: remove from router
-    ];
+  options.skogsbrus.neovim = {
+    awWatcher = mkEnableOption "aw-watcher-vim";
+  };
 
-    extraConfig = ''
-            set nocompatible
-            set number relativenumber
-            let mapleader = " "
-            set hidden
-            syntax on
+  config = {
+    programs.neovim = {
+      enable = true;
+      package = with unstable.legacyPackages.${pkgs.system}; neovim-unwrapped;
+      viAlias = true;
+      vimAlias = true;
+      plugins = with pkgs.vimPlugins; [
+        vim-obsession
+        vim-airline
+        vim-fugitive
+        vim-nix
+        fzf-vim
+        nvim-treesitter
+        nvim-lspconfig
+        vim-terraform
+        vim-elixir
+        #comment-nvim # crashes on launch with 22.05
+        #which-key-nvim # stopped working with 22.05
+      ] ++
+      (if cfg.awWatcher then [ aw-watcher-vim ] else [ ]);
 
-            " Ignore files
-            set wildignore+=*.pyc
-            set wildignore+=*build/*
-            set wildignore+=**/coverage/*
-            set wildignore+=**/node_modules/*
-            set wildignore+=**/venv/*
-            set wildignore+=**/.git/*
+      extraConfig = ''
+        set nocompatible
+        set number relativenumber
+        let mapleader = " "
+        set hidden
+        syntax on
 
-            " Wrap git commit lines
-            au FileType gitcommit setlocal tw=72
+        " Ignore files
+        set wildignore+=*.pyc
+        set wildignore+=*build/*
+        set wildignore+=**/coverage/*
+        set wildignore+=**/node_modules/*
+        set wildignore+=**/venv/*
+        set wildignore+=**/.git/*
 
-            " Tabs
-            map <leader>t :tab new<CR>
+        " Wrap git commit lines
+        au FileType gitcommit setlocal tw=72
 
-            " Windows
-            nnoremap <C-w>- :split<CR>
-            nnoremap <C-w><Bar> :vsplit<CR>
+        " Tabs
+        map <leader>t :tab new<CR>
 
-            " Fzf
-            nnoremap <leader>ff :Files<CR>
-            nnoremap <leader>fg :GitFiles<CR>
-            nnoremap <leader>fb :Buffers<CR>
-            nnoremap <leader>fr :Rg<CR>
+        " Windows
+        nnoremap <C-w>- :split<CR>
+        nnoremap <C-w><Bar> :vsplit<CR>
 
-            " Git
-            nnoremap <leader>gb <cmd>Git blame<cr>
-            nnoremap <leader>ga <cmd>Git add -p<cr>
-            nnoremap <leader>gdd <cmd>Git diff<cr>
-            nnoremap <leader>gdc <cmd>Git diff --cached<cr>
-            nnoremap <leader>gs <cmd>Git<cr>
-            nnoremap <leader>gr <cmd>Gread<cr>
-            nnoremap <leader>gw <cmd>Gwrite<cr>
+        " Fzf
+        nnoremap <leader>ff :Files<CR>
+        nnoremap <leader>fg :GitFiles<CR>
+        nnoremap <leader>fb :Buffers<CR>
+        nnoremap <leader>fr :Rg<CR>
 
-            " Keep it centered (thanks Prime)
-            nnoremap n nzzzv
-            nnoremap N Nzzzv
-            nnoremap J mzJ`z
+        " Git
+        nnoremap <leader>gb <cmd>Git blame<cr>
+        nnoremap <leader>ga <cmd>Git add -p<cr>
+        nnoremap <leader>gdd <cmd>Git diff<cr>
+        nnoremap <leader>gdc <cmd>Git diff --cached<cr>
+        nnoremap <leader>gs <cmd>Git<cr>
+        nnoremap <leader>gr <cmd>Gread<cr>
+        nnoremap <leader>gw <cmd>Gwrite<cr>
 
-            " Highlight traling whitespaces
-            " highlight ExtraWhitespace ctermbg=red guibg=red
-            " match ExtraWhitespace /\s\+$/
-            " au BufWinEnter * match ExtraWhitespace /\s\+$/
-            " au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-            " au InsertLeave * match ExtraWhitespace /\s\+$/
-            " au BufWinLeave * call clearmatches()
-            " nnoremap <silent> <leader>rs :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :nohl <Bar> :unlet _s <CR>
+        " Keep it centered (thanks Prime)
+        nnoremap n nzzzv
+        nnoremap N Nzzzv
+        nnoremap J mzJ`z
 
-            " Remove all trailing whitespaces on save
-            autocmd BufWritePre * :%s/\s\+$//e
+        " Highlight traling whitespaces
+        " highlight ExtraWhitespace ctermbg=red guibg=red
+        " match ExtraWhitespace /\s\+$/
+        " au BufWinEnter * match ExtraWhitespace /\s\+$/
+        " au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+        " au InsertLeave * match ExtraWhitespace /\s\+$/
+        " au BufWinLeave * call clearmatches()
+        " nnoremap <silent> <leader>rs :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :nohl <Bar> :unlet _s <CR>
 
-            " Tabs vs spaces
-            set tabstop=4 " show existing tab with 4 spaces width
-            set shiftwidth=4 " when indenting with '>', use 4 spaces width
-            set expandtab " On pressing tab, insert 4 spaces
+        " Remove all trailing whitespaces on save
+        autocmd BufWritePre * :%s/\s\+$//e
 
-            " Yank everything and force quit
-            nmap <leader>yq gg0vG$"+y:q!<CR>
+        " Tabs vs spaces
+        set tabstop=4 " show existing tab with 4 spaces width
+        set shiftwidth=4 " when indenting with '>', use 4 spaces width
+        set expandtab " On pressing tab, insert 4 spaces
 
-            set foldmethod=manual
+        " Yank everything and force quit
+        nmap <leader>yq gg0vG$"+y:q!<CR>
 
-            set timeoutlen=500
+        set foldmethod=manual
 
-            hi diffAdded cterm=bold ctermfg=LightGreen
-            hi diffRemoved cterm=bold ctermfg=DarkMagenta
+        set timeoutlen=500
 
-            hi diffFile cterm=NONE ctermfg=DarkBlue
-            hi gitcommitDiff cterm=NONE ctermfg=DarkBlue
-            hi diffIndexLine cterm=NONE ctermfg=DarkBlue
-            hi diffLine cterm=NONE ctermfg=DarkBlue
+        hi diffAdded cterm=bold ctermfg=LightGreen
+        hi diffRemoved cterm=bold ctermfg=DarkMagenta
 
-            lua << EOF
-            local nvim_lsp = require('lspconfig')
+        hi diffFile cterm=NONE ctermfg=DarkBlue
+        hi gitcommitDiff cterm=NONE ctermfg=DarkBlue
+        hi diffIndexLine cterm=NONE ctermfg=DarkBlue
+        hi diffLine cterm=NONE ctermfg=DarkBlue
 
-            -- Use an on_attach function to only map the following keys
-            -- after the language server attaches to the current buffer
-            local on_attach = function(client, bufnr)
-              local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-              local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+        lua << EOF
+        local nvim_lsp = require('lspconfig')
 
-              -- Enable completion triggered by <c-x><c-o>
-              buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+        -- Use an on_attach function to only map the following keys
+        -- after the language server attaches to the current buffer
+        local on_attach = function(client, bufnr)
+          local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+          local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
-              -- Mappings.
-              local opts = { noremap=true, silent=true }
+          -- Enable completion triggered by <c-x><c-o>
+          buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-              -- See `:help vim.lsp.*` for documentation on any of the below functions
-              buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-              buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-              buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-              buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-              buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-              buf_set_keymap('n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-              buf_set_keymap('n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-              buf_set_keymap('n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-              buf_set_keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-              buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-              buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-              buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-              buf_set_keymap('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
-              buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-              buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-              buf_set_keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
-              buf_set_keymap('n', '<leader>F', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-              buf_set_keymap('v', '<leader>F', '<cmd>lua vim.lsp.buf.range_formatting()<CR>', opts)
+          -- Mappings.
+          local opts = { noremap=true, silent=true }
 
-            end
+          -- See `:help vim.lsp.*` for documentation on any of the below functions
+          buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+          buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+          buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+          buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+          buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+          buf_set_keymap('n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+          buf_set_keymap('n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+          buf_set_keymap('n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+          buf_set_keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+          buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+          buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+          buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+          buf_set_keymap('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
+          buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+          buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+          buf_set_keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
+          buf_set_keymap('n', '<leader>F', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+          buf_set_keymap('v', '<leader>F', '<cmd>lua vim.lsp.buf.range_formatting()<CR>', opts)
 
-            -- Server names must match in this doc to get default settings
-            -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-            local servers = {
-                'pyright',
-                'solargraph',
-                'cmake',
-                'terraformls',
-                'rnix',
-                'clangd',
-                'sumneko_lua',
-                'yamlls',
+        end
+
+        -- Server names must match in this doc to get default settings
+        -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+        local servers = {
+            'pyright',
+            'solargraph',
+            'cmake',
+            'terraformls',
+            'rnix',
+            'clangd',
+            'sumneko_lua',
+            'yamlls',
+        }
+
+        -- Use a loop to conveniently call 'setup' on multiple servers and
+        -- map buffer local keybindings when the language server attaches
+        for _, lsp in ipairs(servers) do
+          nvim_lsp[lsp].setup {
+            on_attach = on_attach,
+            flags = {
+              debounce_text_changes = 150,
             }
+          }
+        end
 
-            -- Use a loop to conveniently call 'setup' on multiple servers and
-            -- map buffer local keybindings when the language server attaches
-            for _, lsp in ipairs(servers) do
-              nvim_lsp[lsp].setup {
-                on_attach = on_attach,
-                flags = {
-                  debounce_text_changes = 150,
-                }
-              }
-            end
+        -- do this one manually due to custom cmd
+        nvim_lsp['elixirls'].setup {
+          cmd = { "elixir-ls" },
+          on_attach = on_attach,
+          flags = {
+            debounce_text_changes = 150,
+          }
+        }
 
-            -- do this one manually due to custom cmd
-            nvim_lsp['elixirls'].setup {
-              cmd = { "elixir-ls" },
-              on_attach = on_attach,
-              flags = {
-                debounce_text_changes = 150,
-              }
-            }
+        --require('Comment').setup {
+        --  opleader = {
+        --    line = "gc",
+        --    block = "gb",
+        --  },
+        --  toggler = {
+        --    line = "gcc",
+        --    block = "gbc",
+        --  },
+        --  basic = true,
+        --  extra = true,
+        --}
 
-            --require('Comment').setup {
-            --  opleader = {
-            --    line = "gc",
-            --    block = "gb",
-            --  },
-            --  toggler = {
-            --    line = "gcc",
-            --    block = "gbc",
-            --  },
-            --  basic = true,
-            --  extra = true,
-            --}
-
-            --require("which-key").setup {
-            ---- your configuration comes here
-            ---- or leave it empty to use the default settings
-            ---- refer to the configuration section below
-            --}
-            EOF
-    '';
+        --require("which-key").setup {
+        ---- your configuration comes here
+        ---- or leave it empty to use the default settings
+        ---- refer to the configuration section below
+        --}
+        EOF
+      '';
+    };
   };
 }

@@ -1,36 +1,50 @@
-{ pkgs, unstable, ... }:
+{ config
+, lib
+, pkgs
+, unstable
+, ...
+}:
+let
+  cfg = config.skogsbrus.client;
+  inherit (lib) types mkIf mkOption mkEnableOption;
+in
 {
-  # Packages to be installed on user-facing machines
-  # Most of these will be graphical applications.
+  options.skogsbrus.client = {
+    enable = mkEnableOption "client (non-server) applications";
+    enableAll = mkEnableOption "installation of everything this module has to offer";
+    corporate = mkEnableOption "corporate applications";
+    extraPackages = mkOption
+      {
+        type = types.listOf types.package;
+        default = [ ];
+        example = [ pkgs.cowsay ];
+        description = "List of packages to install";
+      };
+  };
 
-  imports = [
-    ./alacritty.nix
-    ./kitty.nix
-    ./gnome.nix
-    ./dconf.nix
-  ];
+  config = mkIf cfg.enable {
+    home.packages = with pkgs; [
+      chromium
+      dconf2nix # syntax converter: dconf -> home manager
+      element-desktop
+      discord
+      firefox
+      gimp
+      libreoffice
+      peek
+      picocom
+      spotify
+      vlc
+      vscode
+      xclip
 
-  home.packages = with pkgs; [
-    chromium
-    dconf2nix # syntax converter: dconf -> home manager
-    element-desktop
-    discord
-    firefox
-    gimp
-    libreoffice
-    mixxx
-    peek
-    picocom
-    sc-controller
-    slack
-    spotify
-    vlc
-    vscode
-    xclip
-    bitwig-studio4
-
-    # Local packages (unpublished)
-    #(pkgs.callPackage pkgs/webex {})
-    (pkgs.callPackage ./activitywatch { })
-  ];
+      # Local packages (unpublished)
+      #(pkgs.callPackage pkgs/webex {})
+      (pkgs.callPackage ./activitywatch { })
+    ]
+    ++ cfg.extraPackages
+    ++ (if cfg.enableAll || cfg.corporate then [
+      pkgs.slack
+    ] else [ ]);
+  };
 }

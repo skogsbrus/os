@@ -17,7 +17,7 @@
             home-manager.useUserPackages = true;
             home-manager.users.johanan = { ... }: {
               _module.args.unstable = unstable;
-              imports = [ ./home ];
+              imports = [ ./hosts/voidm/home.nix ];
             };
           }
         ];
@@ -31,7 +31,7 @@
             home-manager.useUserPackages = true;
             home-manager.users.johanan = { ... }: {
               _module.args.unstable = unstable;
-              imports = [ ./home ];
+              imports = [ ./hosts/workstation/home.nix ];
             };
           }
         ];
@@ -45,11 +45,7 @@
             home-manager.useUserPackages = true;
             home-manager.users.johanan = { ... }: {
               _module.args.unstable = unstable;
-              imports = [
-                ./home/core.nix
-                ./home/lsp.nix
-                ./home/neovim.nix
-              ];
+              imports = [ ./hosts/router/home.nix ];
             };
           }
         ];

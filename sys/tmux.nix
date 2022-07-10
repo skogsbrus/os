@@ -36,7 +36,7 @@ in
       description = "Foreground color of the bottom bar";
     };
 
-    awWatcher = mkEnableOption "aw-watcher";
+    awWatcher = mkEnableOption "aw-watcher-tmux";
   };
 
   config = mkIf cfg.enable {
