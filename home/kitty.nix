@@ -1,15 +1,23 @@
-{ config, lib, pkgs, unstable, home-manager, ... }:
+{ config
+, lib
+, pkgs
+, unstable
+, home-manager
+, ...
+}:
+let
+  cfg = config.skogsbrus.kitty;
+  inherit (lib) mkEnableOption mkIf;
+in
 {
- programs.kitty = {
-   enable = true;
-   #package = with unstable.legacyPackages.${pkgs.system}; kitty;
-   theme = "Gruvbox Material Dark Hard";
+  options.skogsbrus.kitty = {
+    enable = mkEnableOption "kitty";
+  };
 
-    #extraConfig = ''
-    #  include ${pkgs.kitty-themes}/${
-    #    (builtins.head (builtins.filter (x: x.name == "Gruvbox Material Dark Hard") (builtins.fromJSON
-    #      (builtins.readFile "${pkgs.kitty-themes}/themes.json")))).file
-    #  }
-    #'';
- };
+  config = mkIf cfg.enable {
+    programs.kitty = {
+      enable = true;
+      theme = "Gruvbox Material Dark Hard";
+    };
+  };
 }

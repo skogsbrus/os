@@ -65,6 +65,7 @@ with lib.hm.gvariant;
 
     "org/gnome/control-center" = {
       last-panel = "background";
+      window-state = mkTuple [ 980 508 ];
     };
 
     "org/gnome/desktop/app-folders" = {
@@ -160,6 +161,10 @@ with lib.hm.gvariant;
 
     "org/gnome/desktop/notifications/application/gnome-power-panel" = {
       application-id = "gnome-power-panel.desktop";
+    };
+
+    "org/gnome/desktop/notifications/application/kitty" = {
+      application-id = "kitty.desktop";
     };
 
     "org/gnome/desktop/notifications/application/org-gnome-baobab" = {
@@ -487,12 +492,22 @@ with lib.hm.gvariant;
       ignore-phase2-ca-cert = false;
     };
 
+    "org/gnome/nm-applet/eap/9dcc8a2b-48b7-4644-a914-039ad6582627" = {
+      ignore-ca-cert = false;
+      ignore-phase2-ca-cert = false;
+    };
+
     "org/gnome/nm-applet/eap/b3998ac4-1236-46cf-bb5b-0bf2493b5b50" = {
       ignore-ca-cert = false;
       ignore-phase2-ca-cert = false;
     };
 
     "org/gnome/nm-applet/eap/bd3516bc-b218-4699-81d1-cb6f7337bb18" = {
+      ignore-ca-cert = false;
+      ignore-phase2-ca-cert = false;
+    };
+
+    "org/gnome/nm-applet/eap/c21e0c8e-95e4-4267-876c-fde71d0d980c" = {
       ignore-ca-cert = false;
       ignore-phase2-ca-cert = false;
     };
@@ -598,7 +613,7 @@ with lib.hm.gvariant;
 
     "org/gnome/shell/extensions/sound-output-device-chooser" = {
       ports-settings = ''
-        {"version":3,"ports":[]}\n
+        {"version":3,"ports":[]}\\\\n\\n\n
       '';
     };
 
@@ -726,6 +741,10 @@ with lib.hm.gvariant;
       resize-guest = 1;
       scaling = 2;
       vm-window-size = mkTuple [ 1720 1384 ];
+    };
+
+    "system/proxy" = {
+      mode = "none";
     };
 
   };
