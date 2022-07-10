@@ -11,13 +11,13 @@ in
   options.skogsbrus.router = {
     enable = mkEnableOption "router";
 
-    private_subnet = mkOption {
+    privateSubnet = mkOption {
       type = types.str;
       example = "192.168.1";
       description = "IP block (/24) to use for the private subnet";
     };
 
-    guest_subnet = mkOption {
+    guestSubnet = mkOption {
       type = types.str;
       example = "192.168.2";
       description = "IP block (/24) to use for the guest subnet";
@@ -77,7 +77,7 @@ in
         useDHCP = false;
         ipv4.addresses = [
           {
-            address = "${cfg.private_subnet}.1";
+            address = "${cfg.privateSubnet}.1";
             prefixLength = 24;
           }
         ];
@@ -86,7 +86,7 @@ in
         useDHCP = false;
         ipv4.addresses = [
           {
-            address = "${cfg.guest_subnet}.1";
+            address = "${cfg.guestSubnet}.1";
             prefixLength = 24;
           }
         ];
@@ -118,15 +118,15 @@ in
         interface=wg0
 
         # subnet IP blocks to use DHCP on
-        dhcp-range=${cfg.private_subnet}.10,${cfg.private_subnet}.254,24h
-        dhcp-range=${cfg.guest_subnet}.10,${cfg.guest_subnet}.254,24h
+        dhcp-range=${cfg.privateSubnet}.10,${cfg.privateSubnet}.254,24h
+        dhcp-range=${cfg.guestSubnet}.10,${cfg.guestSubnet}.254,24h
 
         # static IPs
         # TODO: generalize with options
-        dhcp-host=00:0d:b9:5e:22:91,${cfg.private_subnet}.1
-        dhcp-host=b8:27:eb:84:09:f8,${cfg.private_subnet}.90
-        dhcp-host=00:11:32:33:30:5b,${cfg.private_subnet}.65
-        dhcp-host=30:9c:23:1b:a5:4d,${cfg.private_subnet}.83
+        dhcp-host=00:0d:b9:5e:22:91,${cfg.privateSubnet}.1
+        dhcp-host=b8:27:eb:84:09:f8,${cfg.privateSubnet}.90
+        dhcp-host=00:11:32:33:30:5b,${cfg.privateSubnet}.65
+        dhcp-host=30:9c:23:1b:a5:4d,${cfg.privateSubnet}.83
       '';
     };
 
@@ -134,10 +134,10 @@ in
     # TODO: generalize with options
     networking.extraHosts =
       ''
-        ${cfg.private_subnet}.1 router
-        ${cfg.private_subnet}.90 kodi
-        ${cfg.private_subnet}.65 choklad
-        ${cfg.private_subnet}.83 workstation
+        ${cfg.privateSubnet}.1 router
+        ${cfg.privateSubnet}.90 kodi
+        ${cfg.privateSubnet}.65 choklad
+        ${cfg.privateSubnet}.83 workstation
       '';
 
     networking.firewall = {

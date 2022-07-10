@@ -16,13 +16,13 @@
       allowUnfree = true;
       flakes = true;
       gc = true;
-      gc_schedule = "daily";
+      gcSchedule = "daily";
     };
 
     router = {
       enable = true;
-      private_subnet = "10.77.77";
-      guest_subnet = "10.88.88";
+      privateSubnet = "10.77.77";
+      guestSubnet = "10.88.88";
     };
 
     ssh.enable = true;
@@ -30,7 +30,7 @@
 
     tmux = {
       enable = true;
-      bg_color = "red";
+      bgColor = "red";
     };
 
     users = {
@@ -42,8 +42,8 @@
       server = true;
       port = 666;
       subnet = "10.66.66";
-      server_subnet = "10.77.77";
-      unique_id = 1;
+      serverSubnet = "10.77.77";
+      uniqueId = 1;
     };
   };
 

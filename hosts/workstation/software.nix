@@ -44,9 +44,9 @@
 
     tmux = {
       enable = true;
-      aw_watcher = true;
-      bg_color = "orange";
-      fg_color = "black";
+      awWatcher = true;
+      bgColor = "orange";
+      fgColor = "black";
     };
 
     users = {

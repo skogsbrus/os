@@ -22,21 +22,21 @@ in
   options.skogsbrus.tmux = {
     enable = mkEnableOption "tmux";
 
-    bg_color = mkOption {
+    bgColor = mkOption {
       type = types.str;
       example = "red";
       default = "green";
       description = "Background color of the bottom bar";
     };
 
-    fg_color = mkOption {
+    fgColor = mkOption {
       type = types.str;
       example = "white";
       default = "white";
       description = "Foreground color of the bottom bar";
     };
 
-    aw_watcher = mkEnableOption "aw_watcher";
+    awWatcher = mkEnableOption "aw-watcher";
   };
 
   config = mkIf cfg.enable {
@@ -50,8 +50,8 @@ in
         bind - split-window -v
 
         # theme
-        set -g status-fg ${cfg.fg_color}
-        set -g status-bg ${cfg.bg_color}
+        set -g status-fg ${cfg.fgColor}
+        set -g status-bg ${cfg.bgColor}
 
         # enables pane resizing and text selection with mouse
         set -g mouse on
@@ -89,7 +89,7 @@ in
       plugins = [
         pkgs.tmuxPlugins.resurrect
       ] ++
-      (if cfg.aw_watcher then [ aw-watcher-tmux ] else [ ]);
+      (if cfg.awWatcher then [ aw-watcher-tmux ] else [ ]);
     };
   };
 }

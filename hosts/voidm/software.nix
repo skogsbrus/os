@@ -47,8 +47,8 @@
 
     tmux = {
       enable = true;
-      aw_watcher = true;
-      bg_color = "blue";
+      awWatcher = true;
+      bgColor = "blue";
     };
 
     tlp.enable = true;
@@ -61,8 +61,8 @@
       enable = true;
       port = 666;
       subnet = "10.66.66";
-      server_subnet = "10.77.77";
-      unique_id = 2;
+      serverSubnet = "10.77.77";
+      uniqueId = 2;
     };
 
     xserver.enable = true;

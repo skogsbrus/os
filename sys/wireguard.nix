@@ -18,7 +18,7 @@ in
       description = "Port to use";
     };
 
-    unique_id = mkOption {
+    uniqueId = mkOption {
       type = types.int;
       example = 1;
       description = "ID of the peer. Must be unique. In range 0-255.";
@@ -30,7 +30,7 @@ in
       description = "Subnet (/24) to use for WireGuard peers";
     };
 
-    server_subnet = mkOption {
+    serverSubnet = mkOption {
       type = types.str;
       example = "192.168.1.1";
       description = "Subnet (/24) reachable by the server, that should be exposed to WireGuard peers";
@@ -39,10 +39,10 @@ in
 
   config = mkIf cfg.enable {
     networking.wg-quick.interfaces.wg0 = {
-      address = [ "${cfg.subnet}.${toString cfg.unique_id}/32" ];
+      address = [ "${cfg.subnet}.${toString cfg.uniqueId}/32" ];
       privateKeyFile = "/home/johanan/os/secrets/wireguard-private.key";
 
-      dns = mkIf (!cfg.server) [ "${cfg.server_subnet}.1" ];
+      dns = mkIf (!cfg.server) [ "${cfg.serverSubnet}.1" ];
       listenPort = mkIf cfg.server cfg.port;
 
       peers = if (!cfg.server) then [
@@ -51,7 +51,7 @@ in
           # Router
           publicKey = "+52L7ozWbO40agAyfGO1rupLp532gYUNuv5xDoNkHjI=";
           presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-router.key";
-          allowedIPs = [ "${cfg.subnet}.1/32" "${cfg.server_subnet}.1/24" ];
+          allowedIPs = [ "${cfg.subnet}.1/32" "${cfg.serverSubnet}.1/24" ];
           endpoint = "vpn.skogsbrus.xyz:${toString cfg.port}";
           persistentKeepalive = 25;
         }

@@ -16,7 +16,7 @@ in
     enableAutoUpgrade = mkEnableOption "autoUpgrade";
     enableAutoUpgradeReboot = mkEnableOption "autoUpgrade";
 
-    gc_schedule = mkOption {
+    gcSchedule = mkOption {
       type = types.str;
       example = "weekly";
       default = "daily";
@@ -32,7 +32,7 @@ in
 
     nix.gc = {
       automatic = cfg.gc;
-      dates = cfg.gc_schedule;
+      dates = cfg.gcSchedule;
     };
 
     # Allow installing unfree system packages
