@@ -2,6 +2,6 @@
 {
   imports = [
     ./hardware.nix
-    ./software.nix
+    ./system.nix
   ];
 }
