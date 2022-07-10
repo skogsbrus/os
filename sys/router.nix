@@ -24,6 +24,7 @@ in
     };
   };
 
+  # TODO: parameterize things like interfaces, hosts, domains, ...
   config = mkIf cfg.enable {
     # https://github.com/mdlayher/homelab/blob/391cfc0de06434e4dee0abe2bec7a2f0637345ac/nixos/routnerr-2/configuration.nix#L38
     # https://serverfault.com/questions/248841/ip-forwarding-when-and-why-is-this-required

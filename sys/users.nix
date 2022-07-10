@@ -8,7 +8,6 @@ let
   inherit (lib) mkOption types mkIf mkEnableOption;
 in
 {
-  # TODO: make users generic
   options.skogsbrus.users = {
     groups = mkOption {
       type = types.listOf types.str;
@@ -18,6 +17,7 @@ in
     };
   };
 
+  # TODO: parameterize users
   config.home-manager.users.johanan.programs.git = {
     enable = true;
     extraConfig.safe.directory = "/home/johanan/os/";
