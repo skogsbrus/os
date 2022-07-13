@@ -78,5 +78,5 @@
   '';
 
   # power saving options
-  services.power-profiles-daemon.enable = false;
+  services.power-profiles-daemon.enable = true;
 }

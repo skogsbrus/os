@@ -51,7 +51,7 @@
       bgColor = "blue";
     };
 
-    tlp.enable = true;
+    tlp.enable = false;
 
     users = {
       groups = [ "networkmanager" ];
