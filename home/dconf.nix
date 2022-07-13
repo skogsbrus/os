@@ -15,7 +15,7 @@ with lib.hm.gvariant;
     };
 
     "com/uploadedlobster/peek" = {
-      persist-window-geometry = mkTuple [ 1744 714 ];
+      persist-window-geometry = mkTuple [ 1959 117 ];
       recording-output-format = "mp4";
     };
 
@@ -65,7 +65,7 @@ with lib.hm.gvariant;
 
     "org/gnome/control-center" = {
       last-panel = "background";
-      window-state = mkTuple [ 980 508 ];
+      window-state = mkTuple [ 980 640 ];
     };
 
     "org/gnome/desktop/app-folders" = {
@@ -88,8 +88,8 @@ with lib.hm.gvariant;
     "org/gnome/desktop/background" = {
       color-shading-type = "solid";
       picture-options = "zoom";
-      picture-uri = "file:///home/johanan/.local/share/backgrounds/2022-06-19-14-01-50-ghibli-starwars.jpg";
-      picture-uri-dark = "file:///home/johanan/.local/share/backgrounds/2022-06-19-14-01-50-ghibli-starwars.jpg";
+      picture-uri = "file:///home/johanan/.local/share/backgrounds/2022-07-13-07-44-42-carina_nebula.jpg";
+      picture-uri-dark = "file:///home/johanan/.local/share/backgrounds/2022-07-13-07-44-42-carina_nebula.jpg";
       primary-color = "#000000000000";
       secondary-color = "#000000000000";
     };
@@ -119,7 +119,7 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/desktop/notifications" = {
-      application-children = [ "gnome-power-panel" "gnome-network-panel" "org-gnome-fileroller" "spotify" "element-desktop" "org-gnome-baobab" "slack" "org-gnome-terminal" "chromium-browser" "org-gnome-nautilus" "code" ];
+      application-children = [ "gnome-power-panel" "gnome-network-panel" "org-gnome-fileroller" "spotify" "element-desktop" "org-gnome-baobab" "slack" "org-gnome-terminal" "chromium-browser" "org-gnome-nautilus" "code" "com-uploadedlobster-peek" ];
       show-banners = true;
     };
 
@@ -256,7 +256,7 @@ with lib.hm.gvariant;
     "org/gnome/desktop/screensaver" = {
       color-shading-type = "solid";
       picture-options = "zoom";
-      picture-uri = "file:///home/johanan/.local/share/backgrounds/2022-06-19-14-01-50-ghibli-starwars.jpg";
+      picture-uri = "file:///home/johanan/.local/share/backgrounds/2022-07-13-07-44-42-carina_nebula.jpg";
       primary-color = "#000000000000";
       secondary-color = "#000000000000";
     };
@@ -280,7 +280,7 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/eog/ui" = {
-      sidebar = false;
+      sidebar = true;
     };
 
     "org/gnome/eog/view" = {
@@ -411,13 +411,13 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/nautilus/preferences" = {
-      default-folder-viewer = "icon-view";
+      default-folder-viewer = "list-view";
       search-filter-time-type = "last_modified";
       search-view = "list-view";
     };
 
     "org/gnome/nautilus/window-state" = {
-      initial-size = mkTuple [ 890 550 ];
+      initial-size = mkTuple [ 864 524 ];
       maximized = false;
       sidebar-width = 179;
     };
@@ -613,7 +613,7 @@ with lib.hm.gvariant;
 
     "org/gnome/shell/extensions/sound-output-device-chooser" = {
       ports-settings = ''
-        {"version":3,"ports":[]}\\\\n\\n\n
+        {"version":3,"ports":[]}\\\\\\\\n\\\\n\\n\n
       '';
     };
 
@@ -689,7 +689,7 @@ with lib.hm.gvariant;
       sort-directories-first = false;
       sort-order = "descending";
       type-format = "category";
-      window-position = mkTuple [ 0 32 ];
+      window-position = mkTuple [ 2037 344 ];
       window-size = mkTuple [ 1124 822 ];
     };
 
