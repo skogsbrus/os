@@ -31,7 +31,7 @@ in
         PROMPT='%n@%m%f %F{yellow}$vcs_info_msg_0_ %F{green}%~%f %F{reset}'
 
         # https://sw.kovidgoyal.net/kitty/faq/#i-get-errors-about-the-terminal-being-unknown-or-opening-the-terminal-failing-when-sshing-into-a-different-computer
-        alias ssh="kitty +kitten ssh"
+        alias ksh="kitty +kitten ssh"
 
         alias gs="git status"
         alias gd="git diff"
