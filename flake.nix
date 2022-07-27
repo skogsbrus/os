@@ -22,6 +22,20 @@
           }
         ];
       };
+      void0 = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./hosts/void0
+          home-manager.nixosModules.home-manager {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.johanan = { ... }: {
+              _module.args.unstable = unstable;
+              imports = [ ./hosts/void0/home.nix ];
+            };
+          }
+        ];
+      };
       workstation = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
