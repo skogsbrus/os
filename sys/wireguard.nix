@@ -59,7 +59,7 @@ in
       ] else [
         # Peers reachable by the server
         {
-          # Lenovo P1
+          # voidm
           publicKey = "UpbNJCv+/TVcdYUU8fAgaO6WWAakzuPliYY3OccVeX4=";
           presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-lenovop1.key";
           allowedIPs = [
@@ -72,6 +72,14 @@ in
           presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-pixel4a.key";
           allowedIPs = [
             "${cfg.subnet}.3/32"
+          ];
+        }
+        {
+          # void0
+          publicKey = "tcRy0wI2Zi2gR0uhVglwZqObV1k/G4Bhn5EGCLdanmk=";
+          presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-void0.key";
+          allowedIPs = [
+            "${cfg.subnet}.4/32"
           ];
         }
       ];
