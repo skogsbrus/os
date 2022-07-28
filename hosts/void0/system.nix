@@ -59,6 +59,14 @@
       groups = [ "networkmanager" ];
     };
 
+    wireguard = {
+      enable = true;
+      port = 666;
+      subnet = "10.66.66";
+      serverSubnet = "10.77.77";
+      uniqueId = 4;
+    };
+
     xserver.enable = true;
     zsh.enable = true;
   };
