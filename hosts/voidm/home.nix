@@ -14,6 +14,7 @@
     client = {
       enable = true;
       corporate = true;
+      activitywatch = true;
     };
     dev = {
       aws = true;

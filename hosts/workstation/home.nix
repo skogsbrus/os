@@ -14,6 +14,7 @@
     client = {
       enable = true;
       extraPackages = with pkgs; [ bitwig-studio4 ];
+      activitywatch = true;
     };
     dev = {
       aws = true;
