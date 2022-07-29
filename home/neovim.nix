@@ -30,15 +30,16 @@ in
       viAlias = true;
       vimAlias = true;
       plugins = with pkgs.vimPlugins; [
-        vim-obsession
+        fzf-vim
+        nvim-lspconfig
+        nvim-treesitter
+        rust-vim
         vim-airline
+        vim-elixir
         vim-fugitive
         vim-nix
-        fzf-vim
-        nvim-treesitter
-        nvim-lspconfig
+        vim-obsession
         vim-terraform
-        vim-elixir
         #comment-nvim # crashes on launch with 22.05
         #which-key-nvim # stopped working with 22.05
       ] ++
@@ -169,6 +170,7 @@ in
             'clangd',
             'sumneko_lua',
             'yamlls',
+            'rust_analyzer'
         }
 
         -- Use a loop to conveniently call 'setup' on multiple servers and

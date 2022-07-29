@@ -12,10 +12,11 @@ in
     enable = mkEnableOption "LSP servers";
     enableAll = mkEnableOption "installation of everything this module has to offer";
     cxx = mkEnableOption "C/C++";
-    terraform = mkEnableOption "terraform";
     elixir = mkEnableOption "elixir";
     python = mkEnableOption "python";
     ruby = mkEnableOption "ruby";
+    rust = mkEnableOption "rust";
+    terraform = mkEnableOption "terraform";
   };
 
   config = with pkgs; mkIf cfg.enable {
@@ -38,8 +39,11 @@ in
     ++ (if cfg.enableAll || cfg.python then [
       pyright
     ] else [ ])
-    ++ (if cfg.enableAll || cfg.python then [
+    ++ (if cfg.enableAll || cfg.ruby then [
       solargraph
+    ] else [ ])
+    ++ (if cfg.enableAll || cfg.rust then [
+      rust-analyzer
     ] else [ ]);
   };
 }
