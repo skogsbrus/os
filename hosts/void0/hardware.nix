@@ -5,7 +5,8 @@
 
 {
   imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
+    [
+      (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
   # Use the GRUB 2 boot loader.
@@ -19,17 +20,26 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/d5f7e620-729f-4d31-b25a-f37101b943d2";
+    {
+      device = "/dev/disk/by-uuid/d5f7e620-729f-4d31-b25a-f37101b943d2";
       fsType = "ext4";
     };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/82bf5bbe-7c50-4812-9062-58653e58dc25"; }
-    ];
+    [{ device = "/dev/disk/by-uuid/82bf5bbe-7c50-4812-9062-58653e58dc25"; }];
 
   # high-resolution display
   hardware.video.hidpi.enable = lib.mkDefault true;
 
   # power saving options
   services.power-profiles-daemon.enable = true;
+
+  services.xorg.extraConfig = ''
+    Section "InputClass"
+        Identifier         "Touchscreen catchall"
+        MatchIsTouchscreen "on"
+
+        Option "Ignore" "on"
+    EndSection
+  '';
 }
