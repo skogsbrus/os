@@ -34,7 +34,7 @@
   # power saving options
   services.power-profiles-daemon.enable = true;
 
-  services.xorg.extraConfig = ''
+  services.xserver.extraConfig = ''
     Section "InputClass"
         Identifier         "Touchscreen catchall"
         MatchIsTouchscreen "on"
