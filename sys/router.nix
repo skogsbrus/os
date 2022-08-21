@@ -125,9 +125,10 @@ in
         # static IPs
         # TODO: generalize with options
         dhcp-host=00:0d:b9:5e:22:91,${cfg.privateSubnet}.1
-        dhcp-host=b8:27:eb:84:09:f8,${cfg.privateSubnet}.90
+        dhcp-host=50:46:5d:4f:03:83,${cfg.privateSubnet}.38
         dhcp-host=00:11:32:33:30:5b,${cfg.privateSubnet}.65
         dhcp-host=30:9c:23:1b:a5:4d,${cfg.privateSubnet}.83
+        dhcp-host=b8:27:eb:84:09:f8,${cfg.privateSubnet}.90
       '';
     };
 
@@ -136,9 +137,10 @@ in
     networking.extraHosts =
       ''
         ${cfg.privateSubnet}.1 router
-        ${cfg.privateSubnet}.90 kodi
+        ${cfg.privateSubnet}.38 keeper
         ${cfg.privateSubnet}.65 choklad
         ${cfg.privateSubnet}.83 workstation
+        ${cfg.privateSubnet}.90 kodi
       '';
 
     networking.firewall = {
