@@ -59,6 +59,15 @@
     allowedUDPPorts = [ 8080 ];
   };
 
+  fileSystems."/mnt/media/movies" = {
+    device = "10.77.77.65:/volume1/Movies";
+    fsType = "nfs";
+  };
+  fileSystems."/mnt/media/tv" = {
+    device = "10.77.77.65:/volume1/TV";
+    fsType = "nfs";
+  };
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
