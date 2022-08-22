@@ -13,6 +13,7 @@
     ./postgres.nix
     ./printing.nix
     ./router.nix
+    ./rtorrent.nix
     ./sound.nix
     ./ssh.nix
     ./steam.nix

@@ -22,6 +22,8 @@
       gcSchedule = "daily";
     };
 
+    rtorrentService.enable = true;
+
     ssh.enable = true;
 
     sound = {
@@ -55,8 +57,13 @@
 
   # Allow remote control
   networking.firewall = {
-    allowedTCPPorts = [ 8080 ];
-    allowedUDPPorts = [ 8080 ];
+    allowedTCPPorts = [
+      8080 # Kodi
+      3000 # Flood
+    ];
+    allowedUDPPorts = [
+      8080 # Kodi
+    ];
   };
 
   fileSystems."/mnt/media/movies" = {
