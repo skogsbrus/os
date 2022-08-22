@@ -31,6 +31,11 @@
       enablePipewire = true;
     };
 
+    syncthing = {
+      enable = true;
+      user = "johanan";
+    };
+
     tmux = {
       enable = true;
       bgColor = "yellow";
