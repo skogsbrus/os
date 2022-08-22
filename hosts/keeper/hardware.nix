@@ -95,6 +95,13 @@
 
   swapDevices = [ ];
 
+
+  # Recommended settings from Dan Langille's "ZFS For Newbies",
+  # https://www.youtube.com/watch?v=3oG-1U5AI9A
+  services.zfs.autoScrub.enable = true;
+  services.zfs.trim.enable = true;
+  # zfs set atime=off <POOL>
+
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
   # still possible to use this option, but it's recommended to use it in conjunction
