@@ -17,6 +17,7 @@
       activitywatch = true;
     };
     dev = {
+      enable = true;
       aws = true;
       corporate = true;
       cuda = true;
