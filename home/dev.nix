@@ -34,9 +34,10 @@ in
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      pkgs.jetbrains-mono
-      pkgs.docker
-      pkgs.postgresql
+      jetbrains-mono
+      docker
+      postgresql
+      zeal
     ]
     ++ cfg.extraPackages
     ++ (if cfg.enableAll || cfg.cuda then [ pkgs.cudatoolkit_11 ] else [ ])
