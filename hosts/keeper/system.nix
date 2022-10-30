@@ -64,6 +64,13 @@
     xkbOptions = "caps:escape";
   };
 
+  services.sonarr = {
+    enable = true;
+    openFirewall = true;
+    user = "kodi";
+    group = "users";
+  };
+
   # Allow remote control
   networking.firewall = {
     allowedTCPPorts = [
