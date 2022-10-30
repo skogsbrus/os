@@ -31,6 +31,10 @@
       enablePipewire = true;
     };
 
+    steam = {
+      steamlink = true;
+    };
+
     syncthing = {
       enable = true;
       user = "johanan";
@@ -58,6 +62,20 @@
     displayManager.autoLogin.enable = true;
     displayManager.autoLogin.user = "kodi";
     xkbOptions = "caps:escape";
+  };
+
+  services.radarr = {
+    enable = true;
+    openFirewall = true;
+    user = "kodi";
+    group = "users";
+  };
+
+  services.sonarr = {
+    enable = true;
+    openFirewall = true;
+    user = "kodi";
+    group = "users";
   };
 
   # Allow remote control

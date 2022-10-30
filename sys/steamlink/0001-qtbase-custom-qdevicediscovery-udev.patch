@@ -1,0 +1,259 @@
+Modified version of https://github.com/flathub/com.valvesoftware.SteamLink/blob/e4327147e89e424370921a865020ff5f1c3987bb/patches/steamlink/qtbase.patch,
+but only addressing src/platformsupport/devicediscovery/qdevicediscovery_udev.cpp.
+
+This patch has been slightly modified to work on qtbase-5.14.2 vs 5.14.1.
+--- a/src/platformsupport/devicediscovery/qdevicediscovery_udev.cpp
++++ b/src/platformsupport/devicediscovery/qdevicediscovery_udev.cpp
+@@ -45,12 +45,38 @@
+ #include <QHash>
+ #include <QSocketNotifier>
+ #include <QLoggingCategory>
++#include <QDir>
++#include <QThread>
++#include <QtCore/private/qcore_unix_p.h>
+
+ #ifdef Q_OS_FREEBSD
+ #include <dev/evdev/input.h>
+ #else
+ #include <linux/input.h>
+ #endif
++#include <fcntl.h>
++
++/* android (and perhaps some other linux-derived stuff) don't define everything
++ * in linux/input.h, so we'll need to do that ourselves.
++ */
++#ifndef KEY_CNT
++#define KEY_CNT                 (KEY_MAX+1)
++#endif
++#ifndef REL_CNT
++#define REL_CNT                 (REL_MAX+1)
++#endif
++#ifndef ABS_CNT
++#define ABS_CNT                 (ABS_MAX+1)
++#endif
++
++#define LONG_BITS (sizeof(long) * 8 )
++#define LONG_FIELD_SIZE(bits) ((bits / LONG_BITS) + 1)
++
++static bool testBit(long bit, const long *field)
++{
++    return (field[bit / LONG_BITS] >> bit % LONG_BITS) & 1;
++}
++
+
+ QT_BEGIN_NAMESPACE
+
+@@ -103,58 +129,33 @@
+ QStringList QDeviceDiscoveryUDev::scanConnectedDevices()
+ {
+     QStringList devices;
++    QDir dir;
++    dir.setFilter(QDir::System);
+
+-    if (!m_udev)
+-        return devices;
+-
+-    udev_enumerate *ue = udev_enumerate_new(m_udev);
+-    udev_enumerate_add_match_subsystem(ue, "input");
+-    udev_enumerate_add_match_subsystem(ue, "drm");
+-
+-    if (m_types & Device_Mouse)
+-        udev_enumerate_add_match_property(ue, "ID_INPUT_MOUSE", "1");
+-    if (m_types & Device_Touchpad)
+-        udev_enumerate_add_match_property(ue, "ID_INPUT_TOUCHPAD", "1");
+-    if (m_types & Device_Touchscreen)
+-        udev_enumerate_add_match_property(ue, "ID_INPUT_TOUCHSCREEN", "1");
+-    if (m_types & Device_Keyboard) {
+-        udev_enumerate_add_match_property(ue, "ID_INPUT_KEYBOARD", "1");
+-        udev_enumerate_add_match_property(ue, "ID_INPUT_KEY", "1");
+-    }
+-    if (m_types & Device_Tablet)
+-        udev_enumerate_add_match_property(ue, "ID_INPUT_TABLET", "1");
+-    if (m_types & Device_Joystick)
+-        udev_enumerate_add_match_property(ue, "ID_INPUT_JOYSTICK", "1");
+-
+-    if (udev_enumerate_scan_devices(ue) != 0) {
+-        qWarning("Failed to scan devices");
+-        return devices;
+-    }
+-
+-    udev_list_entry *entry;
+-    udev_list_entry_foreach (entry, udev_enumerate_get_list_entry(ue)) {
+-        const char *syspath = udev_list_entry_get_name(entry);
+-        udev_device *udevice = udev_device_new_from_syspath(m_udev, syspath);
+-        QString candidate = QString::fromUtf8(udev_device_get_devnode(udevice));
+-        if ((m_types & Device_InputMask) && candidate.startsWith(QLatin1String(QT_EVDEV_DEVICE)))
+-            devices << candidate;
+-        if ((m_types & Device_VideoMask) && candidate.startsWith(QLatin1String(QT_DRM_DEVICE))) {
+-            if (m_types & Device_DRM_PrimaryGPU) {
+-                udev_device *pci = udev_device_get_parent_with_subsystem_devtype(udevice, "pci", 0);
+-                if (pci) {
+-                    if (qstrcmp(udev_device_get_sysattr_value(pci, "boot_vga"), "1") == 0)
+-                        devices << candidate;
+-                }
+-            } else
+-                devices << candidate;
++    // check for input devices
++    if (m_types & Device_InputMask) {
++        dir.setPath(QString::fromLatin1(QT_EVDEV_DEVICE_PATH));
++        foreach (const QString &deviceFile, dir.entryList()) {
++            QString absoluteFilePath = dir.absolutePath() + QString::fromLatin1("/") + deviceFile;
++            if (checkDeviceType(absoluteFilePath))
++                devices << absoluteFilePath;
+         }
+-
+-        udev_device_unref(udevice);
+     }
+-    udev_enumerate_unref(ue);
+
++    // check for drm devices
++    if (m_types & Device_VideoMask) {
++        dir.setPath(QString::fromLatin1(QT_DRM_DEVICE_PATH));
++        foreach (const QString &deviceFile, dir.entryList()) {
++            QString absoluteFilePath = dir.absolutePath() + QString::fromLatin1("/") + deviceFile;
++            if (checkDeviceType(absoluteFilePath))
++                devices << absoluteFilePath;
++        }
++    }
++
+     qCDebug(lcDD) << "Found matching devices" << devices;
+
++    m_devices = devices;
++
+     return devices;
+ }
+
+@@ -188,69 +189,87 @@
+         subsystem = "drm";
+     else goto cleanup;
+
+-    // if we cannot determine a type, walk up the device tree
+-    if (!checkDeviceType(dev)) {
+-        // does not increase the refcount
+-        struct udev_device *parent_dev = udev_device_get_parent_with_subsystem_devtype(dev, subsystem, 0);
+-        if (!parent_dev)
+-            goto cleanup;
+-
+-        if (!checkDeviceType(parent_dev))
+-            goto cleanup;
+-    }
+-
+     if (qstrcmp(action, "add") == 0)
+-        emit deviceDetected(devNode);
++    {
++        // Wait for the device to finish initialization
++        QThread::msleep( 100 );
++
++        if (checkDeviceType(devNode))
++        {
++            qCDebug(lcDD) << "DeviceDiscovery adding device" << devNode;
+
++            emit deviceDetected(devNode);
++            m_devices << devNode;
++        }
++    }
++
+     if (qstrcmp(action, "remove") == 0)
+-        emit deviceRemoved(devNode);
++    {
++        if (m_devices.contains(devNode))
++        {
++            qCDebug(lcDD) << "DeviceDiscovery removing device" << devNode;
++
++            emit deviceRemoved(devNode);
++            m_devices.removeAll(devNode);
++        }
++    }
+
+ cleanup:
+     udev_device_unref(dev);
+ }
+
+-bool QDeviceDiscoveryUDev::checkDeviceType(udev_device *dev)
++bool QDeviceDiscoveryUDev::checkDeviceType(const QString &device)
+ {
+-    if (!dev)
++    bool ret = false;
++    int fd = QT_OPEN(device.toLocal8Bit().constData(), O_RDONLY | O_NDELAY, 0);
++    if (!fd) {
++        qCDebug(lcDD) << "DeviceDiscovery cannot open device" << device;
+         return false;
++    }
+
+-    if ((m_types & Device_Keyboard) && (qstrcmp(udev_device_get_property_value(dev, "ID_INPUT_KEYBOARD"), "1") == 0 )) {
+-        const QString capabilities_key = QString::fromUtf8(udev_device_get_sysattr_value(dev, "capabilities/key"));
+-        const auto val = capabilities_key.splitRef(QLatin1Char(' '), QString::SkipEmptyParts);
+-        if (!val.isEmpty()) {
+-            bool ok;
+-            unsigned long long keys = val.last().toULongLong(&ok, 16);
+-            if (ok) {
+-                // Tests if the letter Q is valid for the device.  We may want to alter this test, but it seems mostly reliable.
+-                bool test = (keys >> KEY_Q) & 1;
+-                if (test)
+-                    return true;
++    long bitsKey[LONG_FIELD_SIZE(KEY_CNT)];
++    if (ioctl(fd, EVIOCGBIT(EV_KEY, sizeof(bitsKey)), bitsKey) >= 0 ) {
++        if (!ret && (m_types & Device_Keyboard)) {
++            if (testBit(KEY_Q, bitsKey)) {
++                qCDebug(lcDD) << "DeviceDiscovery found keyboard at" << device;
++                ret = true;
+             }
+         }
+-    }
+-
+-    if ((m_types & Device_Keyboard) && (qstrcmp(udev_device_get_property_value(dev, "ID_INPUT_KEY"), "1") == 0 ))
+-        return true;
+-
+-    if ((m_types & Device_Mouse) && (qstrcmp(udev_device_get_property_value(dev, "ID_INPUT_MOUSE"), "1") == 0))
+-        return true;
+-
+-    if ((m_types & Device_Touchpad) && (qstrcmp(udev_device_get_property_value(dev, "ID_INPUT_TOUCHPAD"), "1") == 0))
+-        return true;
+
+-    if ((m_types & Device_Touchscreen) && (qstrcmp(udev_device_get_property_value(dev, "ID_INPUT_TOUCHSCREEN"), "1") == 0))
+-        return true;
+-
+-    if ((m_types & Device_Tablet) && (qstrcmp(udev_device_get_property_value(dev, "ID_INPUT_TABLET"), "1") == 0))
+-        return true;
++        if (!ret && (m_types & Device_Mouse)) {
++            long bitsRel[LONG_FIELD_SIZE(REL_CNT)];
++            if (ioctl(fd, EVIOCGBIT(EV_REL, sizeof(bitsRel)), bitsRel) >= 0 ) {
++                if (testBit(REL_X, bitsRel) && testBit(REL_Y, bitsRel) && testBit(BTN_MOUSE, bitsKey)) {
++                    qCDebug(lcDD) << "DeviceDiscovery found mouse at" << device;
++                    ret = true;
++                }
++            }
++        }
+
+-    if ((m_types & Device_Joystick) && (qstrcmp(udev_device_get_property_value(dev, "ID_INPUT_JOYSTICK"), "1") == 0))
+-        return true;
++        if (!ret && (m_types & (Device_Touchpad | Device_Touchscreen))) {
++            long bitsAbs[LONG_FIELD_SIZE(ABS_CNT)];
++            if (ioctl(fd, EVIOCGBIT(EV_ABS, sizeof(bitsAbs)), bitsAbs) >= 0 ) {
++                if (testBit(ABS_X, bitsAbs) && testBit(ABS_Y, bitsAbs)) {
++                    if ((m_types & Device_Touchpad) && testBit(BTN_TOOL_FINGER, bitsKey)) {
++                        qCDebug(lcDD) << "DeviceDiscovery found touchpad at" << device;
++                        ret = true;
++                    } else if ((m_types & Device_Touchscreen) && testBit(BTN_TOUCH, bitsKey)) {
++                        qCDebug(lcDD) << "DeviceDiscovery found touchscreen at" << device;
++                        ret = true;
++                    } else if ((m_types & Device_Tablet) && (testBit(BTN_STYLUS, bitsKey) || testBit(BTN_TOOL_PEN, bitsKey))) {
++                        qCDebug(lcDD) << "DeviceDiscovery found tablet at" << device;
++                        ret = true;
++                    }
++                }
++            }
++        }
++    }
+
+-    if ((m_types & Device_DRM) && (qstrcmp(udev_device_get_subsystem(dev), "drm") == 0))
+-        return true;
++    if (!ret && (m_types & Device_DRM) && device.contains(QString::fromLatin1(QT_DRM_DEVICE_PREFIX)))
++        ret = true;
+
+-    return false;
++    QT_CLOSE(fd);
++    return ret;
+ }
+
+ QT_END_NAMESPACE
