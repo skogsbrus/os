@@ -64,6 +64,13 @@
     xkbOptions = "caps:escape";
   };
 
+  services.radarr = {
+    enable = true;
+    openFirewall = true;
+    user = "kodi";
+    group = "users";
+  };
+
   services.sonarr = {
     enable = true;
     openFirewall = true;
