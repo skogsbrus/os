@@ -3,11 +3,11 @@
 , fetchpatch
 , fetchFromGitHub
 , autoPatchelfHook
-# , SDL2
-# , SDL2_image
-# , SDL2_mixer
-# , SDL2_ttf
-# , ffmpeg_3
+  # , SDL2
+  # , SDL2_image
+  # , SDL2_mixer
+  # , SDL2_ttf
+  # , ffmpeg_3
 , libopus
 , libva
 , libvdpau
@@ -23,7 +23,7 @@
 let
   steamlinkPatchedQt514 = qt514.overrideScope' (
     selfqt: superqt: {
-      qtbase = superqt.qtbase.overrideAttrs(oldAttrs: {
+      qtbase = superqt.qtbase.overrideAttrs (oldAttrs: {
         patches = oldAttrs.patches ++ [
           (fetchpatch {
             url = "https://raw.githubusercontent.com/flathub/com.valvesoftware.SteamLink/e4327147e89e424370921a865020ff5f1c3987bb/patches/steamlink/qtbase.patch";
@@ -106,6 +106,13 @@ steamlinkPatchedQt514.mkDerivation rec {
   # installCheckPhase = ''
   #   $out/bin/steamlink --help
   # '';
+
+  wrapQtApps = true;
+  #preFix = ''
+  #  makeWrapperArgs+=(
+  #    "''${qtWrapperArgs[@]}"
+  #  )
+  #'';
 
   meta = with lib; {
     description = "Stream games from another computer with Steam";

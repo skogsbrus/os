@@ -22,16 +22,16 @@ in
   };
 
   config = {
-    users.users = (
-      if cfg.users then
-        genAttrs cfg.users (name: { extraGroups = [ "input" ]; })
-      else { }
+    users.users = genAttrs cfg.users (
+      name: {
+        extraGroups = [ "input" ];
+      }
     );
 
     programs.steam.enable = cfg.enable;
     hardware.steam-hardware.enable = cfg.enable;
 
-    config.environment.systemPackages = (
+    environment.systemPackages = (
       if cfg.steamlink then
         [ steamlink ]
       else
