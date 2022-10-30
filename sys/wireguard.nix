@@ -67,8 +67,8 @@ in
           ];
         }
         {
-          # Pixel 4a
-          publicKey = "2YBkwoob9RpYxN6JH5YLGJ8j2wUhE1AQ1YLEMEvBlV4=";
+          # Fairphone 4
+          publicKey = "4vbU0LMSSJ83Xgz5VXYe7QLE0hA648lmN97bAWHzvDE=";
           presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-pixel4a.key";
           allowedIPs = [
             "${cfg.subnet}.3/32"
