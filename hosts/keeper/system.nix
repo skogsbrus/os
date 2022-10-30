@@ -31,6 +31,10 @@
       enablePipewire = true;
     };
 
+    steam = {
+      steamlink = true;
+    };
+
     syncthing = {
       enable = true;
       user = "johanan";

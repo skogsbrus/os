@@ -21,11 +21,15 @@ in
     };
   };
 
-  config = mkIf cfg.enable {
-    users.users = genAttrs cfg.users (name: { extraGroups = [ "input" ]; });
+  config = {
+    users.users = (
+      if cfg.users then
+        genAttrs cfg.users (name: { extraGroups = [ "input" ]; })
+      else { }
+    );
 
-    programs.steam.enable = true;
-    hardware.steam-hardware.enable = true;
+    programs.steam.enable = cfg.enable;
+    hardware.steam-hardware.enable = cfg.enable;
 
     config.environment.systemPackages = (
       if cfg.steamlink then
