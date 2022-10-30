@@ -8,6 +8,5 @@
     ./kitty.nix
     ./lsp.nix
     ./neovim.nix
-    ./rtorrent.nix
   ];
 }

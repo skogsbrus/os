@@ -22,8 +22,6 @@
       gcSchedule = "daily";
     };
 
-    rtorrentService.enable = true;
-
     ssh.enable = true;
 
     sound = {
@@ -76,6 +74,15 @@
     openFirewall = true;
     user = "kodi";
     group = "users";
+  };
+
+  services.transmission = {
+    enable = true;
+    user = "kodi";
+    group = "users";
+    settings = {
+      # TODO
+    };
   };
 
   # Allow remote control
