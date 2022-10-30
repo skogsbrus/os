@@ -36,6 +36,7 @@
     syncthing = {
       enable = true;
       user = "johanan";
+      expose = true;
     };
 
     tmux = {
@@ -89,12 +90,9 @@
   networking.firewall = {
     allowedTCPPorts = [
       8080 # Kodi
-      8384 # Syncthing GUI
-      22000 # Syncthing protocol
     ];
     allowedUDPPorts = [
       8080 # Kodi
-      21027 # Syncthing protocol
     ];
   };
 

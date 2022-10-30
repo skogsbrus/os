@@ -42,6 +42,12 @@
       users = [ "johanan" ];
     };
 
+    syncthing = {
+      enable = true;
+      user = "johanan";
+      expose = false;
+    };
+
     tmux = {
       enable = true;
       awWatcher = true;
