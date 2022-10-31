@@ -45,6 +45,10 @@
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
+  nixpkgs.config.packageOverrides = pkgs: {
+    zfsStable = pkgs.zfsStable.override { enableMail = true; };
+  };
+
   fileSystems."/" =
     {
       device = "rpool/nixos/root";
@@ -101,6 +105,13 @@
   services.zfs.autoScrub.enable = true;
   services.zfs.trim.enable = true;
   # zfs set atime=off <POOL>
+
+  services.zfs.zed.enableMail = true;
+  services.zfs.zed.settings = {
+    ZED_EMAIL_ADDR = [ "johan+zfs@skogsbrus.xyz" ];
+    ZED_NOTIFY_VERBOSE = true;
+  };
+
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
