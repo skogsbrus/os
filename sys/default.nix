@@ -34,6 +34,7 @@
     git
     gnumake
     htop
+    mailutils
     man-db
     man-pages
     python3
