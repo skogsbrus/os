@@ -82,8 +82,11 @@
     user = "kodi";
     group = "users";
     settings = {
-      # TODO
+      rpc-bind-address = "0.0.0.0";
+      rpc-whitelist-enabled = false;
+      rpc-host-whitelist = "keeper.home";
     };
+    openRPCPort = true;
   };
 
   # Allow remote control
