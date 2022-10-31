@@ -55,6 +55,10 @@
   # TODO: move kodi logic to modules
   users.extraUsers.kodi.isNormalUser = true;
 
+  services.postfix = {
+    enable = true;
+  };
+
   services.xserver = {
     desktopManager.kodi.enable = true;
     enable = true;
