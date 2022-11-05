@@ -40,6 +40,9 @@
     "/dev/disk/by-id/ata-KINGSTON_SA400S37240G_50026B77849CDC8B"
   ];
 
+  # Prevent https://github.com/NixOS/nixpkgs/issues/23926
+  boot.loader.grub.configurationLimit = 10;
+
   boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ata_piix" "usb_storage" "usbhid" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ ];
