@@ -12,6 +12,7 @@ in
     gc = mkEnableOption "gc";
     flakes = mkEnableOption "flakes";
     allowUnfree = mkEnableOption "allowUnfree";
+    optimizeStore = mkEnableOption "optimizeStore";
 
     enableAutoUpgrade = mkEnableOption "autoUpgrade";
     enableAutoUpgradeReboot = mkEnableOption "autoUpgrade";
@@ -34,6 +35,8 @@ in
       automatic = cfg.gc;
       dates = cfg.gcSchedule;
     };
+
+    nix.settings.auto-optimise-store = cfg.optimizeStore;
 
     # Allow installing unfree system packages
     nixpkgs.config.allowUnfree = cfg.allowUnfree;
