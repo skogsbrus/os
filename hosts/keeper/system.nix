@@ -50,11 +50,7 @@
     };
 
     wireguard = {
-      enable = true;
-      subnet = "172.17.227";
-      uniqueId = 39;
       remoteVpn = true;
-      killswitch = false;
     };
 
     zsh.enable = true;
@@ -62,6 +58,7 @@
 
   # TODO: move kodi logic to modules
   users.extraUsers.kodi.isNormalUser = true;
+  users.extraUsers.kodi.extraGroups = [ "dialout" ];
 
   services.postfix = {
     enable = true;

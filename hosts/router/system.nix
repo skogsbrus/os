@@ -38,7 +38,7 @@
     };
 
     wireguard = {
-      enable = true;
+      localVpn = true;
       server = true;
       port = 666;
       subnet = "10.66.66";
