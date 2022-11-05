@@ -49,6 +49,13 @@
       groups = [ "networkmanager" ];
     };
 
+    wireguard = {
+      enable = true;
+      subnet = "172.17.227";
+      uniqueId = 39;
+      remoteVpn = true;
+    };
+
     zsh.enable = true;
   };
 
