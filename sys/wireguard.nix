@@ -11,6 +11,7 @@ in
   options.skogsbrus.wireguard = {
     enable = mkEnableOption "enable";
     server = mkEnableOption "server";
+    killswitch = mkEnableOption "killswitch";
 
     # TODO: refactor this option with composable arguments instead
     remoteVpn = mkEnableOption "remote vpn";
@@ -62,7 +63,18 @@ in
           "2a07:a880:4601:12a0:adb::1"
           "2001:67c:750:1:adb::1"
         ] else [ ]);
+
       listenPort = mkIf cfg.server cfg.port;
+
+      # TODO: drops local traffic too?
+      postUp = if cfg.killswitch then ''
+        ${pkgs.iptables}/bin/iptables -I OUTPUT ! -o wg0 -m mark ! --mark $(wg show wg0 fwmark) -m addrtype ! --dst-type LOCAL -j REJECT && ip6tables -I OUTPUT ! -o wg0 -m mark ! --mark $(wg show wg0 fwmark) -m addrtype ! --dst-type LOCAL -j REJECT
+      '' else "";
+
+      # TODO: drops local traffic too?
+      preDown = if cfg.killswitch then ''
+        ${pkgs.iptables}/bin/iptables -D OUTPUT ! -o wg0 -m mark ! --mark $(wg show  wg0 fwmark) -m addrtype ! --dst-type LOCAL -j REJECT && ip6tables -D OUTPUT ! -o wg0 -m mark ! --mark $(wg show  wg0 fwmark) -m addrtype ! --dst-type LOCAL -j REJECT
+      '' else "";
 
       peers =
         if (!cfg.server) then [
