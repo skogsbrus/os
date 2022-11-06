@@ -81,14 +81,6 @@ in
               "${cfg.subnet}.4/32"
             ];
           }
-          {
-            # keeper
-            publicKey = "5DovjTjDv07ZEiJdY7ISpunpgTdOmPZvrMXDF2VML30=";
-            #presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-keeper.key";
-            allowedIPs = [
-              "${cfg.subnet}.5/32"
-            ];
-          }
         ] ++ (if !cfg.server then
           # bringup on router fails if it has an entry of itself
           # Nov 06 10:43:01 router wg-quick-wg0-start[1147]: RTNETLINK answers:
