@@ -56,7 +56,7 @@ in
 
         listenPort = mkIf cfg.server cfg.port;
 
-        peers = [
+        peers = (if cfg.server then [
           {
             # voidm
             publicKey = "UpbNJCv+/TVcdYUU8fAgaO6WWAakzuPliYY3OccVeX4=";
@@ -81,14 +81,7 @@ in
               "${cfg.subnet}.4/32"
             ];
           }
-        ] ++ (if !cfg.server then
-        # bringup on router fails if it has an entry of itself
-        # Nov 06 10:43:01 router wg-quick-wg0-start[1147]: RTNETLINK answers:
-        # File exists Nov 06 10:43:01 router wg-quick-wg0-start[1092]: [#] ip
-        # link delete dev wg0 Nov 06 10:43:01 router systemd[1]:
-        # wg-quick-wg0.service: Main process exited, code=exited,
-        # status=2/INVALIDARGUMENT
-
+        ] else [ ]) ++ (if !cfg.server then
           [{
             # Router
             publicKey = "+52L7ozWbO40agAyfGO1rupLp532gYUNuv5xDoNkHjI=";
