@@ -49,65 +49,61 @@ in
       ];
       privateKeyFile = "/home/johanan/os/secrets/wireguard-private.key";
 
-      dns = mkIf (!cfg.server) [
+      dns = mkIf (!cfg.server && !cfg.remoteVpn) [
         "${cfg.serverSubnet}.1"
       ];
 
       listenPort = mkIf cfg.server cfg.port;
 
-      peers =
-        if (!cfg.server) then [
-          # Peers reachable by clients
-          {
-            # Router
-            publicKey = "+52L7ozWbO40agAyfGO1rupLp532gYUNuv5xDoNkHjI=";
-            presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-router.key";
+      peers = [
+        {
+          # Router
+          publicKey = "+52L7ozWbO40agAyfGO1rupLp532gYUNuv5xDoNkHjI=";
+          #presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-router.key";
 
-            # List of IP (v4 or v6) addresses with CIDR masks from
-            # which this peer is allowed to send incoming traffic and to which
-            # outgoing traffic for this peer is directed. The catch-all 0.0.0.0/0 may
-            # be specified for matching all IPv4 addresses, and ::/0 may be specified
-            # for matching all IPv6 addresses.
-            allowedIPs = [ "${cfg.subnet}.1/32" "${cfg.serverSubnet}.1/24" ];
+          # List of IP (v4 or v6) addresses with CIDR masks from
+          # which this peer is allowed to send incoming traffic and to which
+          # outgoing traffic for this peer is directed. The catch-all 0.0.0.0/0 may
+          # be specified for matching all IPv4 addresses, and ::/0 may be specified
+          # for matching all IPv6 addresses.
+          allowedIPs = [ "${cfg.subnet}.1/32" "${cfg.serverSubnet}.0/24" ];
 
-            endpoint = "vpn.skogsbrus.xyz:${toString cfg.port}";
-            persistentKeepalive = 25;
-          }
-        ] else [
-          # Peers reachable by the server
-          {
-            # voidm
-            publicKey = "UpbNJCv+/TVcdYUU8fAgaO6WWAakzuPliYY3OccVeX4=";
-            presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-lenovop1.key";
-            allowedIPs = [
-              "${cfg.subnet}.2/32"
-            ];
-          }
-          {
-            # Fairphone 4
-            publicKey = "4vbU0LMSSJ83Xgz5VXYe7QLE0hA648lmN97bAWHzvDE=";
-            presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-pixel4a.key";
-            allowedIPs = [
-              "${cfg.subnet}.3/32"
-            ];
-          }
-          {
-            # void0
-            publicKey = "tcRy0wI2Zi2gR0uhVglwZqObV1k/G4Bhn5EGCLdanmk=";
-            presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-void0.key";
-            allowedIPs = [
-              "${cfg.subnet}.4/32"
-            ];
-          }
-          {
-            # keeper
-            publicKey = "5DovjTjDv07ZEiJdY7ISpunpgTdOmPZvrMXDF2VML30=";
-            presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-keeper.key";
-            allowedIPs = [
-              "${cfg.subnet}.5/32"
-            ];
-          }
-        ];
+          endpoint = "vpn.skogsbrus.xyz:${toString cfg.port}";
+          persistentKeepalive = 25;
+        }
+        {
+          # voidm
+          publicKey = "UpbNJCv+/TVcdYUU8fAgaO6WWAakzuPliYY3OccVeX4=";
+          #presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-lenovop1.key";
+          allowedIPs = [
+            "${cfg.subnet}.2/32"
+          ];
+        }
+        {
+          # Fairphone 4
+          publicKey = "4vbU0LMSSJ83Xgz5VXYe7QLE0hA648lmN97bAWHzvDE=";
+          #presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-pixel4a.key";
+          allowedIPs = [
+            "${cfg.subnet}.3/32"
+          ];
+        }
+        {
+          # void0
+          publicKey = "tcRy0wI2Zi2gR0uhVglwZqObV1k/G4Bhn5EGCLdanmk=";
+          #presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-void0.key";
+          allowedIPs = [
+            "${cfg.subnet}.4/32"
+          ];
+        }
+        {
+          # keeper
+          publicKey = "5DovjTjDv07ZEiJdY7ISpunpgTdOmPZvrMXDF2VML30=";
+          #presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-keeper.key";
+          allowedIPs = [
+            "${cfg.subnet}.5/32"
+          ];
+        }
+      ];
     };
 
     networking.wg-quick.interfaces.wg1 = mkIf cfg.remoteVpn {
@@ -123,6 +119,7 @@ in
         "192.165.9.157"
         "2a07:a880:4601:12a0:adb::1"
         "2001:67c:750:1:adb::1"
+        "${cfg.serverSubnet}.1"
       ];
 
       peers = [
