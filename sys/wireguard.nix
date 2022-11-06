@@ -107,7 +107,7 @@ in
             # outgoing traffic for this peer is directed. The catch-all 0.0.0.0/0 may
             # be specified for matching all IPv4 addresses, and ::/0 may be specified
             # for matching all IPv6 addresses.
-            allowedIPs = [ "${cfg.subnet}.1/32" "${cfg.serverSubnet}.0/24" ];
+            allowedIPs = [ "${cfg.subnet}.0/24" "${cfg.serverSubnet}.0/24" ];
 
             endpoint = "vpn.skogsbrus.xyz:${toString cfg.port}";
             persistentKeepalive = 25;
