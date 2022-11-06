@@ -62,7 +62,14 @@ in
             # Router
             publicKey = "+52L7ozWbO40agAyfGO1rupLp532gYUNuv5xDoNkHjI=";
             presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-router.key";
+
+            # List of IP (v4 or v6) addresses with CIDR masks from
+            # which this peer is allowed to send incoming traffic and to which
+            # outgoing traffic for this peer is directed. The catch-all 0.0.0.0/0 may
+            # be specified for matching all IPv4 addresses, and ::/0 may be specified
+            # for matching all IPv6 addresses.
             allowedIPs = [ "${cfg.subnet}.1/32" "${cfg.serverSubnet}.1/24" ];
+
             endpoint = "vpn.skogsbrus.xyz:${toString cfg.port}";
             persistentKeepalive = 25;
           }
@@ -92,6 +99,14 @@ in
               "${cfg.subnet}.4/32"
             ];
           }
+          {
+            # keeper
+            publicKey = "5DovjTjDv07ZEiJdY7ISpunpgTdOmPZvrMXDF2VML30=";
+            presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-keeper.key";
+            allowedIPs = [
+              "${cfg.subnet}.5/32"
+            ];
+          }
         ];
     };
 
@@ -115,42 +130,15 @@ in
         {
           # OVPN
           publicKey = "ELx+DGi+E4Y+4m7Y7Bn2Y3Zo/4LuQJDR2U+WEskVigM=";
+
+          # List of IP (v4 or v6) addresses with CIDR masks from
+          # which this peer is allowed to send incoming traffic and to which
+          # outgoing traffic for this peer is directed. The catch-all 0.0.0.0/0 may
+          # be specified for matching all IPv4 addresses, and ::/0 may be specified
+          # for matching all IPv6 addresses.
           allowedIPs = [
-            # Tunnel everything except local traffic
-            "0.0.0.0/5"
-            "8.0.0.0/7"
-            "11.0.0.0/8"
-            "12.0.0.0/6"
-            "16.0.0.0/4"
-            "32.0.0.0/3"
-            "64.0.0.0/2"
-            "128.0.0.0/3"
-            "160.0.0.0/5"
-            "168.0.0.0/6"
-            "172.0.0.0/12"
-            "172.17.0.0/16" # VPN's block (estimate)
-            "185.86.0.0/16" # VPN's block (estimate)
-            "172.64.0.0/10"
-            "172.128.0.0/9"
-            "173.0.0.0/8"
-            "174.0.0.0/7"
-            "176.0.0.0/4"
-            "192.0.0.0/9"
-            "192.128.0.0/11"
-            "192.160.0.0/13"
-            "192.169.0.0/16"
-            "192.170.0.0/15"
-            "192.172.0.0/14"
-            "192.176.0.0/12"
-            "192.192.0.0/10"
-            "193.0.0.0/8"
-            "194.0.0.0/7"
-            "196.0.0.0/6"
-            "200.0.0.0/5"
-            "208.0.0.0/4"
-            "224.0.0.0/5"
-            "232.0.0.0/7"
-            "::/0" # Assume we don't have ipV6 on LAN
+            "0.0.0.0/0"
+            "::/0"
           ];
           endpoint = "vpn52.prd.malmo.ovpn.com:9929";
           persistentKeepalive = 25;
