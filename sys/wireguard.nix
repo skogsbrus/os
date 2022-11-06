@@ -43,38 +43,20 @@ in
 
   # TODO: parameterize things like presharedkey, public key
   config = {
-    networking.wg-quick.interfaces.wg0 = mkIf cfg.localVpn {
-      address = [
-        "${cfg.subnet}.${toString cfg.uniqueId}/32"
-      ];
-      privateKeyFile = "/home/johanan/os/secrets/wireguard-private.key";
+    networking.wg-quick.interfaces.wg0 = mkIf cfg.localVpn
+      {
+        address = [
+          "${cfg.subnet}.${toString cfg.uniqueId}/32"
+        ];
+        privateKeyFile = "/home/johanan/os/secrets/wireguard-private.key";
 
-      dns = mkIf (!cfg.server) [
-        "${cfg.serverSubnet}.1"
-      ];
+        dns = mkIf (!cfg.server && !cfg.remoteVpn) [
+          "${cfg.serverSubnet}.1"
+        ];
 
-      listenPort = mkIf cfg.server cfg.port;
+        listenPort = mkIf cfg.server cfg.port;
 
-      peers =
-        if (!cfg.server) then [
-          # Peers reachable by clients
-          {
-            # Router
-            publicKey = "+52L7ozWbO40agAyfGO1rupLp532gYUNuv5xDoNkHjI=";
-            presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-router.key";
-
-            # List of IP (v4 or v6) addresses with CIDR masks from
-            # which this peer is allowed to send incoming traffic and to which
-            # outgoing traffic for this peer is directed. The catch-all 0.0.0.0/0 may
-            # be specified for matching all IPv4 addresses, and ::/0 may be specified
-            # for matching all IPv6 addresses.
-            allowedIPs = [ "${cfg.subnet}.1/32" "${cfg.serverSubnet}.1/24" ];
-
-            endpoint = "vpn.skogsbrus.xyz:${toString cfg.port}";
-            persistentKeepalive = 25;
-          }
-        ] else [
-          # Peers reachable by the server
+        peers = (if cfg.server then [
           {
             # voidm
             publicKey = "UpbNJCv+/TVcdYUU8fAgaO6WWAakzuPliYY3OccVeX4=";
@@ -99,16 +81,23 @@ in
               "${cfg.subnet}.4/32"
             ];
           }
-          {
-            # keeper
-            publicKey = "5DovjTjDv07ZEiJdY7ISpunpgTdOmPZvrMXDF2VML30=";
-            presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-keeper.key";
-            allowedIPs = [
-              "${cfg.subnet}.5/32"
-            ];
-          }
-        ];
-    };
+        ] else [ ]) ++ (if !cfg.server then
+          [{
+            # Router
+            publicKey = "+52L7ozWbO40agAyfGO1rupLp532gYUNuv5xDoNkHjI=";
+            #presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-router.key";
+
+            # List of IP (v4 or v6) addresses with CIDR masks from
+            # which this peer is allowed to send incoming traffic and to which
+            # outgoing traffic for this peer is directed. The catch-all 0.0.0.0/0 may
+            # be specified for matching all IPv4 addresses, and ::/0 may be specified
+            # for matching all IPv6 addresses.
+            allowedIPs = [ "${cfg.subnet}.0/24" "${cfg.serverSubnet}.0/24" ];
+
+            endpoint = "vpn.skogsbrus.xyz:${toString cfg.port}";
+            persistentKeepalive = 25;
+          }] else [ ]);
+      };
 
     networking.wg-quick.interfaces.wg1 = mkIf cfg.remoteVpn {
       address = [
@@ -137,23 +126,14 @@ in
           # be specified for matching all IPv4 addresses, and ::/0 may be specified
           # for matching all IPv6 addresses.
           allowedIPs = [
-            "0.0.0.0/0"
+            # TODO: unreachable by wireguard peers connecting through router
             "::/0"
+            "0.0.0.0/0"
           ];
           endpoint = "vpn52.prd.malmo.ovpn.com:9929";
           persistentKeepalive = 25;
         }
       ];
-
-      # TODO: drops local traffic too?
-      # postUp = if cfg.killswitch then ''
-      #   ${pkgs.iptables}/bin/iptables -I OUTPUT ! -o wg0 -m mark ! --mark $(wg show wg0 fwmark) -m addrtype ! --dst-type LOCAL -j REJECT && ip6tables -I OUTPUT ! -o wg0 -m mark ! --mark $(wg show wg0 fwmark) -m addrtype ! --dst-type LOCAL -j REJECT
-      # '' else "";
-
-      # TODO: drops local traffic too?
-      # preDown = if cfg.killswitch then ''
-      #   ${pkgs.iptables}/bin/iptables -D OUTPUT ! -o wg0 -m mark ! --mark $(wg show  wg0 fwmark) -m addrtype ! --dst-type LOCAL -j REJECT && ip6tables -D OUTPUT ! -o wg0 -m mark ! --mark $(wg show  wg0 fwmark) -m addrtype ! --dst-type LOCAL -j REJECT
-      # '' else "";
     };
   };
 }
