@@ -62,7 +62,6 @@ in
             publicKey = "UpbNJCv+/TVcdYUU8fAgaO6WWAakzuPliYY3OccVeX4=";
             #presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-lenovop1.key";
             allowedIPs = [
-              "${cfg.serverSubnet}.0/24"
               "${cfg.subnet}.2/32"
             ];
           }
@@ -71,7 +70,6 @@ in
             publicKey = "4vbU0LMSSJ83Xgz5VXYe7QLE0hA648lmN97bAWHzvDE=";
             #presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-pixel4a.key";
             allowedIPs = [
-              "${cfg.serverSubnet}.0/24"
               "${cfg.subnet}.3/32"
             ];
           }
@@ -80,7 +78,6 @@ in
             publicKey = "tcRy0wI2Zi2gR0uhVglwZqObV1k/G4Bhn5EGCLdanmk=";
             #presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-void0.key";
             allowedIPs = [
-              "${cfg.serverSubnet}.0/24"
               "${cfg.subnet}.4/32"
             ];
           }
@@ -89,7 +86,6 @@ in
             publicKey = "5DovjTjDv07ZEiJdY7ISpunpgTdOmPZvrMXDF2VML30=";
             #presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-keeper.key";
             allowedIPs = [
-              "${cfg.serverSubnet}.0/24"
               "${cfg.subnet}.5/32"
             ];
           }
