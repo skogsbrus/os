@@ -60,7 +60,7 @@ in
           {
             # voidm
             publicKey = "UpbNJCv+/TVcdYUU8fAgaO6WWAakzuPliYY3OccVeX4=";
-            #presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-lenovop1.key";
+            presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-lenovop1.key";
             allowedIPs = [
               "${cfg.subnet}.2/32"
             ];
@@ -68,7 +68,7 @@ in
           {
             # Fairphone 4
             publicKey = "4vbU0LMSSJ83Xgz5VXYe7QLE0hA648lmN97bAWHzvDE=";
-            #presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-pixel4a.key";
+            presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-pixel4a.key";
             allowedIPs = [
               "${cfg.subnet}.3/32"
             ];
@@ -76,7 +76,7 @@ in
           {
             # void0
             publicKey = "tcRy0wI2Zi2gR0uhVglwZqObV1k/G4Bhn5EGCLdanmk=";
-            #presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-void0.key";
+            presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-void0.key";
             allowedIPs = [
               "${cfg.subnet}.4/32"
             ];
