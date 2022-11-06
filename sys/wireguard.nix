@@ -126,60 +126,14 @@ in
           # be specified for matching all IPv4 addresses, and ::/0 may be specified
           # for matching all IPv6 addresses.
           allowedIPs = [
+            # TODO: unreachable by wireguard peers connecting through router
             "::/0"
             "0.0.0.0/0"
-            # TODO: possible to interpolate bash subshell? depend on cfg.subnet
-            # & cfg.serverSubnet instead
-            # - `netmask -c 0.0.0.0:10.66.66.0`
-            # - `netmask -c 10.66.67.0:10.77.77.0`
-            # - `netmask -c 10.77.78.0:255.255.255.255`
-            #"0.0.0.0/5"
-            #"8.0.0.0/7"
-            #"10.0.0.0/10"
-            #"10.64.0.0/15"
-            #"10.66.0.0/18"
-            #"10.66.64.0/23"
-            ##10.66.66.0/24 ignored"
-            #"10.66.67.0/24"
-            #"10.66.68.0/22"
-            #"10.66.72.0/21"
-            #"10.66.80.0/20"
-            #"10.66.96.0/19"
-            #"10.66.128.0/17"
-            #"10.67.0.0/16"
-            #"10.68.0.0/14"
-            #"10.72.0.0/14"
-            #"10.76.0.0/16"
-            #"10.77.0.0/18"
-            #"10.77.64.0/21"
-            #"10.77.72.0/22"
-            #"10.77.76.0/24"
-            ## 10.77.77.0/24 ignored
-            #"10.78.0.0/15"
-            #"10.80.0.0/12"
-            #"10.96.0.0/11"
-            #"10.128.0.0/9"
-            #"11.0.0.0/8"
-            #"12.0.0.0/6"
-            #"16.0.0.0/4"
-            #"32.0.0.0/3"
-            #"64.0.0.0/2"
-            #"128.0.0.0/1"
           ];
           endpoint = "vpn52.prd.malmo.ovpn.com:9929";
           persistentKeepalive = 25;
         }
       ];
-
-      # TODO: drops local traffic too?
-      # postUp = if cfg.killswitch then ''
-      #   ${pkgs.iptables}/bin/iptables -I OUTPUT ! -o wg0 -m mark ! --mark $(wg show wg0 fwmark) -m addrtype ! --dst-type LOCAL -j REJECT && ip6tables -I OUTPUT ! -o wg0 -m mark ! --mark $(wg show wg0 fwmark) -m addrtype ! --dst-type LOCAL -j REJECT
-      # '' else "";
-
-      # TODO: drops local traffic too?
-      # preDown = if cfg.killswitch then ''
-      #   ${pkgs.iptables}/bin/iptables -D OUTPUT ! -o wg0 -m mark ! --mark $(wg show  wg0 fwmark) -m addrtype ! --dst-type LOCAL -j REJECT && ip6tables -D OUTPUT ! -o wg0 -m mark ! --mark $(wg show  wg0 fwmark) -m addrtype ! --dst-type LOCAL -j REJECT
-      # '' else "";
     };
   };
 }
