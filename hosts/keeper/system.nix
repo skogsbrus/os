@@ -1,4 +1,5 @@
 { config
+, lib
 , ...
 }:
 {
@@ -100,6 +101,10 @@
       rpc-bind-address = "0.0.0.0";
       rpc-whitelist-enabled = false;
       rpc-host-whitelist = "keeper.home";
+      # Hard links don't work across different ZFS datasets (different file systems)
+      # so here we need to use the same ZFS dataset as used for /tank/media/videos/{tv,movies}
+      # for optimal storage
+      download-dir = "/tank/media/videos/downloads";
     };
     openRPCPort = true;
   };
@@ -108,20 +113,34 @@
   networking.firewall = {
     allowedTCPPorts = [
       8080 # Kodi
+      #2049 # # TODO: NFSv4
     ];
     allowedUDPPorts = [
       8080 # Kodi
     ];
   };
 
-  fileSystems."/mnt/media/movies" = {
-    device = "10.77.77.65:/volume1/Movies";
-    fsType = "nfs";
-  };
-  fileSystems."/mnt/media/tv" = {
-    device = "10.77.77.65:/volume1/TV";
-    fsType = "nfs";
-  };
+  # TODO: enable NFS
+  #services.nfs.server.enable = true;
+  #services.nfs.server.exports = ''
+  #  /tank *(rw,fsid=root,no_subtree_check,all_squash)
+  #  ${lib.concatMapStringsSep "\n" (n: "/tank/media/${n} 10.77.77.0/24(ro,no_subtree_check,nohide)")
+  #    # read-only
+  #    [
+  #      "videos/tv"
+  #      "videos/movies"
+  #      "music"
+  #      "photos"
+  #      "books"
+  #    ]
+  #  }
+  #  ${lib.concatMapStringsSep "\n" (n: "/tank/${n} 10.77.77.0/24(rw,no_subtree_check,nohide)")
+  #    # read-write
+  #    [
+  #      "backup"
+  #    ]
+  #  }
+  #'';
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
