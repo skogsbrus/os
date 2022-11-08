@@ -100,6 +100,11 @@
       options = [ "bind" ];
     };
 
+  fileSystems."/tank" =
+    { device = "tank";
+      fsType = "zfs";
+    };
+
   swapDevices = [ ];
 
 
