@@ -105,6 +105,7 @@
       # so here we need to use the same ZFS dataset as used for /tank/media/videos/{tv,movies}
       # for optimal storage
       download-dir = "/tank/media/videos/downloads";
+      incomplete-dir = "/tank/media/videos/.downloads-incomplete";
     };
     openRPCPort = true;
   };
