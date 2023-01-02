@@ -24,7 +24,7 @@
           ];
         };
         router = nixpkgs.lib.nixosSystem {
-          system = " x86_64-linux ";
+          system = "x86_64-linux";
           modules = [
             ./hosts/router
             home-manager.nixosModules.home-manager
