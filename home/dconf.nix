@@ -582,7 +582,7 @@ with lib.hm.gvariant;
       disable-user-extensions = false;
       disabled-extensions = [ "native-window-placement@gnome-shell-extensions.gcampax.github.com" "window-list@gnome-shell-extensions.gcampax.github.com" "places-menu@gnome-shell-extensions.gcampax.github.com" "user-theme@gnome-shell-extensions.gcampax.github.com" ];
       enabled-extensions = [ "apps-menu@gnome-shell-extensions.gcampax.github.com" "sound-output-device-chooser@kgshank.net" "bluetooth-quick-connect@bjarosze.gmail.com" "workspace-indicator@gnome-shell-extensions.gcampax.github.com" "launch-new-instance@gnome-shell-extensions.gcampax.github.com" ];
-      favorite-apps = [ "org.gnome.Calendar.desktop" "org.gnome.Photos.desktop" "org.gnome.Nautilus.desktop" "chromium-browser.desktop" "spotify.desktop" "org.gnome.Terminal.desktop" "element-desktop.desktop" "slack.desktop" ];
+      favorite-apps = [ "org.gnome.Calendar.desktop" "org.gnome.Photos.desktop" "org.gnome.Nautilus.desktop" "chromium-browser.desktop" "spotify.desktop" "element-desktop.desktop" "firefox.desktop" ];
       had-bluetooth-devices-setup = true;
       welcome-dialog-last-shown-version = "40.1";
     };
@@ -613,8 +613,14 @@ with lib.hm.gvariant;
 
     "org/gnome/shell/extensions/sound-output-device-chooser" = {
       ports-settings = ''
-        {"version":3,"ports":[]}\\\\\\\\n\\\\n\\n\n
+        {"version":3,"ports":[]}\\\\\\\\\\\\\\\\n\\\\\\\\n\\\\n\\n\n
       '';
+    };
+
+    "org/gnome/shell/extensions/trayIconsReloaded" = {
+      icon-margin-horizontal = 4;
+      icon-padding-horizontal = 0;
+      icon-saturation = 100;
     };
 
     "org/gnome/shell/keybindings" = {
@@ -643,6 +649,7 @@ with lib.hm.gvariant;
     "org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9" = {
       audible-bell = false;
       background-color = "rgb(46,52,54)";
+      bold-is-bright = false;
       font = "JetBrains Mono 12";
       foreground-color = "rgb(211,215,207)";
       palette = [ "rgb(46,52,54)" "rgb(204,0,0)" "rgb(78,154,6)" "rgb(196,160,0)" "rgb(52,101,164)" "rgb(117,80,123)" "rgb(6,152,154)" "rgb(211,215,207)" "rgb(85,87,83)" "rgb(239,41,41)" "rgb(138,226,52)" "rgb(252,233,79)" "rgb(114,159,207)" "rgb(173,127,168)" "rgb(52,226,226)" "rgb(238,238,236)" ];
