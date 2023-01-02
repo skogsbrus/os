@@ -103,32 +103,38 @@
   # NOTE: use `zfs set mountpoint=legacy DATASET` and then add it here
 
   fileSystems."/tank/media/music" =
-    { device = "tank/media/music";
+    {
+      device = "tank/media/music";
       fsType = "zfs";
     };
 
   fileSystems."/tank/media/videos" =
-    { device = "tank/media/videos";
+    {
+      device = "tank/media/videos";
       fsType = "zfs";
     };
 
   fileSystems."/tank/media/photos" =
-    { device = "tank/media/photos";
+    {
+      device = "tank/media/photos";
       fsType = "zfs";
     };
 
   fileSystems."/tank/media/books" =
-    { device = "tank/media/books";
+    {
+      device = "tank/media/books";
       fsType = "zfs";
     };
 
   fileSystems."/tank/media/games" =
-    { device = "tank/media/games";
+    {
+      device = "tank/media/games";
       fsType = "zfs";
     };
 
   fileSystems."/tank/backup" =
-    { device = "tank/backup";
+    {
+      device = "tank/backup";
       fsType = "zfs";
     };
 

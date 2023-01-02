@@ -18,6 +18,19 @@
 
     fwupd.enable = true;
 
+    nfs_mount = {
+      enable = true;
+      mountpoint = "/mnt/keeper";
+      mounts = {
+        "backup" = "/tank/backup";
+        "books" = "/tank/media/books";
+        "games" = "/tank/media/games";
+        "music" = "/tank/media/music";
+        "photos" = "/tank/media/photos";
+        "videos" = "/tank/media/videos";
+      };
+    };
+
     networking = {
       enableNetworkManager = true;
       # Allow traffic from remarkable tablet via USB C

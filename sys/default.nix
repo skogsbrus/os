@@ -9,6 +9,7 @@
     ./fwupd.nix
     ./grafana.nix
     ./networking.nix
+    ./nfs_mount.nix
     ./nix.nix
     ./postgres.nix
     ./printing.nix

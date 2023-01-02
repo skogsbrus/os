@@ -114,34 +114,32 @@
   networking.firewall = {
     allowedTCPPorts = [
       8080 # Kodi
-      #2049 # # TODO: NFSv4
+      2049 # NFSv4
     ];
     allowedUDPPorts = [
       8080 # Kodi
     ];
   };
 
-  # TODO: enable NFS
-  #services.nfs.server.enable = true;
-  #services.nfs.server.exports = ''
-  #  /tank *(rw,fsid=root,no_subtree_check,all_squash)
-  #  ${lib.concatMapStringsSep "\n" (n: "/tank/media/${n} 10.77.77.0/24(ro,no_subtree_check,nohide)")
-  #    # read-only
-  #    [
-  #      "videos/tv"
-  #      "videos/movies"
-  #      "music"
-  #      "photos"
-  #      "books"
-  #    ]
-  #  }
-  #  ${lib.concatMapStringsSep "\n" (n: "/tank/${n} 10.77.77.0/24(rw,no_subtree_check,nohide)")
-  #    # read-write
-  #    [
-  #      "backup"
-  #    ]
-  #  }
-  #'';
+  services.nfs.server.enable = true;
+  services.nfs.server.exports = ''
+    ${lib.concatMapStringsSep "\n" (n: "/tank/media/${n} 10.77.77.0/24(ro,no_subtree_check,nohide,fsid=2)")
+      # read-only
+      [
+        "books"
+        "games"
+        "music"
+        "photos"
+        "videos"
+      ]
+    }
+    ${lib.concatMapStringsSep "\n" (n: "/tank/${n} 10.77.77.0/24(rw,no_subtree_check,nohide,fsid=1)")
+      # read-write
+      [
+        "backup"
+      ]
+    }
+  '';
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
