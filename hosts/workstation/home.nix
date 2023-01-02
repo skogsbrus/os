@@ -14,7 +14,7 @@
     client = {
       enable = true;
       extraPackages = with pkgs; [ bitwig-studio4 ];
-      activitywatch = false; # TODO(bump-22.11)
+      activitywatch = true;
     };
     dev = {
       aws = true;
@@ -28,6 +28,6 @@
       enable = true;
       enableAll = true;
     };
-    neovim.awWatcher = false; # TODO(bump-22.11)
+    neovim.awWatcher = true;
   };
 }

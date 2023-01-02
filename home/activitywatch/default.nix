@@ -48,6 +48,10 @@ stdenv.mkDerivation rec {
       license = licenses.bsd3;
     };
 
+    propagatedBuildInputs = with python3.pkgs; [
+      setuptools
+    ];
+
     src = python3.pkgs.fetchPypi {
       inherit pname version;
       sha256 = "5z3WJUXTflGSR9ljaL+lxRD95mmZozjW0tRHkNwQ+Js=";
@@ -74,6 +78,10 @@ stdenv.mkDerivation rec {
       inherit pname version;
       sha256 = "2+MEU6G1lqOPni4/qOGtxa8tv2RsoIN61cIFmhb+L/k=";
     };
+
+    propagatedBuildInputs = with python3.pkgs; [
+      setuptools
+    ];
 
     checkInputs = [
       python3.pkgs.nose
@@ -279,12 +287,11 @@ stdenv.mkDerivation rec {
         --replace 'flask-cors = "^3.0.8"' 'flask-cors = "*"'
     '';
 
-    # TODO: Possible to use wildcard for python version, e.g. python*?
     postInstall = ''
       # Couldn't get this configured correctly with
       # https://python-poetry.org/docs/pyproject/#include-and-exclude.
       # Symlink manually instead
-      ln -s ${aw-webui} "$out/lib/python3.9/site-packages/aw_server/static"
+      ln -s ${aw-webui} $(realpath "$out/lib/python3*/site-packages/aw_server/static")
     '';
 
     meta = with lib; {
@@ -302,6 +309,8 @@ stdenv.mkDerivation rec {
     yarnLock = ./yarn.lock;
 
     buildPhase = ''
+      # Circumvent 'ERR_OSSL_EVP_UNSUPPORTED' error
+      export NODE_OPTIONS=--openssl-legacy-provider
       yarn build --offline
     '';
 
