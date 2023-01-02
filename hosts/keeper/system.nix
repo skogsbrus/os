@@ -137,6 +137,7 @@
       # read-write
       [
         "backup"
+        "photos/input"
       ]
     }
   '';
