@@ -123,7 +123,6 @@
 
   services.nfs.server.enable = true;
   services.nfs.server.exports = ''
-    #/tank *(rw,fsid=root,no_subtree_check,all_squash)
     ${lib.concatMapStringsSep "\n" (n: "/tank/media/${n} 10.77.77.0/24(ro,no_subtree_check,nohide)")
       # read-only
       [
