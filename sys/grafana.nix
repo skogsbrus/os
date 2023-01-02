@@ -16,8 +16,10 @@ in
     # https://xeiaso.net/blog/prometheus-grafana-loki-nixos-2020-11-20
     services.grafana = {
       enable = true;
-      port = 8888;
-      addr = "0.0.0.0";
+      settings.server = {
+        http_port = 8888;
+        http_addr = "0.0.0.0";
+      };
       dataDir = "/var/lib/grafana";
     };
 
