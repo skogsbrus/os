@@ -23,7 +23,21 @@
       gcSchedule = "daily";
     };
 
+    radarr = {
+      enable = true;
+      openFirewall = true;
+      user = "kodi";
+      group = "users";
+    };
+
     ssh.enable = true;
+
+    sonarr = {
+      enable = true;
+      openFirewall = true;
+      user = "kodi";
+      group = "users";
+    };
 
     sound = {
       enable = true;
@@ -77,20 +91,6 @@
     displayManager.autoLogin.enable = true;
     displayManager.autoLogin.user = "kodi";
     xkbOptions = "caps:escape";
-  };
-
-  services.radarr = {
-    enable = true;
-    openFirewall = true;
-    user = "kodi";
-    group = "users";
-  };
-
-  services.sonarr = {
-    enable = true;
-    openFirewall = true;
-    user = "kodi";
-    group = "users";
   };
 
   services.transmission = {
