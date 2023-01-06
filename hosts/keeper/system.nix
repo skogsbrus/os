@@ -60,6 +60,18 @@
       fgColor = "black";
     };
 
+    transmission = {
+      enable = true;
+      user = "kodi";
+      group = "users";
+      address = "keeper.home";
+      openFirewall = true;
+      # Hard links don't work across different ZFS datasets (different file systems)
+      # so here we need to use the same ZFS dataset as used for /tank/media/videos/{tv,movies}
+      # for optimal storage
+      downloadDir = "/tank/media/videos/downloads";
+    };
+
     users = {
       groups = [ "networkmanager" ];
     };
@@ -93,22 +105,6 @@
     xkbOptions = "caps:escape";
   };
 
-  services.transmission = {
-    enable = true;
-    user = "kodi";
-    group = "users";
-    settings = {
-      rpc-bind-address = "0.0.0.0";
-      rpc-whitelist-enabled = false;
-      rpc-host-whitelist = "keeper.home";
-      # Hard links don't work across different ZFS datasets (different file systems)
-      # so here we need to use the same ZFS dataset as used for /tank/media/videos/{tv,movies}
-      # for optimal storage
-      download-dir = "/tank/media/videos/downloads";
-      incomplete-dir-enabled = false;
-    };
-    openRPCPort = true;
-  };
 
   # Allow remote control
   networking.firewall = {
