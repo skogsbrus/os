@@ -109,28 +109,25 @@ in
     allowedTCPPorts = [
       2049 # NFSv4
     ];
-    allowedUDPPorts = [
-      8080 # Kodi
-    ];
   };
 
   services.nfs.server.enable = true;
   services.nfs.server.exports = ''
     ${lib.concatMapStringsSep "\n" (n: "/tank/media/${n} 10.77.77.0/24(ro,no_subtree_check,nohide,fsid=2)")
-      # read-only
-      [
-        "books"
-        "games"
-        "music"
-        "photos"
-        "videos"
-      ]
+    # read-only
+    [
+      "books"
+      "games"
+      "music"
+      "photos"
+      "videos"
+    ]
     }
     ${lib.concatMapStringsSep "\n" (n: "/tank/${n} 10.77.77.0/24(rw,no_subtree_check,nohide,fsid=1)")
-      # read-write
-      [
-        "backup"
-      ]
+    # read-write
+    [
+      "backup"
+    ]
     }
   '';
 
