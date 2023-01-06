@@ -19,6 +19,11 @@ with lib.hm.gvariant;
       recording-output-format = "mp4";
     };
 
+    "org/gnome/Console" = {
+      font-scale = 1.2000000000000002;
+      theme = "night";
+    };
+
     "org/gnome/Totem" = {
       active-plugins = [ "variable-rate" "screenshot" "movie-properties" "open-directory" "apple-trailers" "recent" "rotation" "autoload-subtitles" "save-file" "vimeo" "media-player-keys" "skipto" "screensaver" ];
       subtitle-encoding = "UTF-8";
@@ -29,6 +34,7 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/baobab/ui" = {
+      is-maximized = false;
       window-size = mkTuple [ 1217 600 ];
       window-state = 87168;
     };
@@ -58,6 +64,7 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/clocks/state/window" = {
+      maximized = false;
       panel-id = "world";
       size = mkTuple [ 870 690 ];
       state = 87168;
@@ -88,8 +95,8 @@ with lib.hm.gvariant;
     "org/gnome/desktop/background" = {
       color-shading-type = "solid";
       picture-options = "zoom";
-      picture-uri = "file:///home/johanan/.local/share/backgrounds/2022-07-13-07-44-42-carina_nebula.jpg";
-      picture-uri-dark = "file:///home/johanan/.local/share/backgrounds/2022-07-13-07-44-42-carina_nebula.jpg";
+      picture-uri = "file:///home/johanan/.local/share/backgrounds/2023-01-06-13-57-54-pandora.webp";
+      picture-uri-dark = "file:///home/johanan/.local/share/backgrounds/2023-01-06-13-57-54-pandora.webp";
       primary-color = "#000000000000";
       secondary-color = "#000000000000";
     };
@@ -171,6 +178,14 @@ with lib.hm.gvariant;
       application-id = "org.gnome.baobab.desktop";
     };
 
+    "org/gnome/desktop/notifications/application/org-gnome-calendar" = {
+      application-id = "org.gnome.Calendar.desktop";
+    };
+
+    "org/gnome/desktop/notifications/application/org-gnome-console" = {
+      application-id = "org.gnome.Console.desktop";
+    };
+
     "org/gnome/desktop/notifications/application/org-gnome-eog" = {
       application-id = "org.gnome.eog.desktop";
     };
@@ -203,6 +218,10 @@ with lib.hm.gvariant;
       application-id = "org.gnome.Screenshot.desktop";
     };
 
+    "org/gnome/desktop/notifications/application/org-gnome-settings" = {
+      application-id = "org.gnome.Settings.desktop";
+    };
+
     "org/gnome/desktop/notifications/application/org-gnome-terminal" = {
       application-id = "org.gnome.Terminal.desktop";
     };
@@ -223,6 +242,10 @@ with lib.hm.gvariant;
       application-id = "steam.desktop";
     };
 
+    "org/gnome/desktop/notifications/application/virt-manager" = {
+      application-id = "virt-manager.desktop";
+    };
+
     "org/gnome/desktop/notifications/application/vlc" = {
       application-id = "vlc.desktop";
     };
@@ -241,6 +264,7 @@ with lib.hm.gvariant;
 
     "org/gnome/desktop/peripherals/mouse" = {
       natural-scroll = false;
+      speed = 0.4521739130434783;
     };
 
     "org/gnome/desktop/peripherals/touchpad" = {
@@ -256,13 +280,17 @@ with lib.hm.gvariant;
     "org/gnome/desktop/screensaver" = {
       color-shading-type = "solid";
       picture-options = "zoom";
-      picture-uri = "file:///home/johanan/.local/share/backgrounds/2022-07-13-07-44-42-carina_nebula.jpg";
+      picture-uri = "file:///home/johanan/.local/share/backgrounds/2023-01-06-13-57-54-pandora.webp";
       primary-color = "#000000000000";
       secondary-color = "#000000000000";
     };
 
     "org/gnome/desktop/search-providers" = {
       sort-order = [ "org.gnome.Contacts.desktop" "org.gnome.Documents.desktop" "org.gnome.Nautilus.desktop" ];
+    };
+
+    "org/gnome/desktop/session" = {
+      idle-delay = mkUint32 300;
     };
 
     "org/gnome/desktop/wm/keybindings" = {
@@ -286,6 +314,10 @@ with lib.hm.gvariant;
     "org/gnome/eog/view" = {
       background-color = "rgb(0,0,0)";
       use-background-color = true;
+    };
+
+    "org/gnome/epiphany" = {
+      ask-for-default = false;
     };
 
     "org/gnome/epiphany/state" = {
@@ -412,6 +444,7 @@ with lib.hm.gvariant;
 
     "org/gnome/nautilus/preferences" = {
       default-folder-viewer = "list-view";
+      migrated-gtk-settings = true;
       search-filter-time-type = "last_modified";
       search-view = "list-view";
     };
@@ -473,6 +506,11 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/nm-applet/eap/73124c4d-aaa4-474d-bf86-b7bb9d9ebe0f" = {
+      ignore-ca-cert = false;
+      ignore-phase2-ca-cert = false;
+    };
+
+    "org/gnome/nm-applet/eap/7ed7d4d1-9a95-3193-935a-13ddbbf9eb35" = {
       ignore-ca-cert = false;
       ignore-phase2-ca-cert = false;
     };
@@ -573,6 +611,7 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/settings-daemon/plugins/power" = {
+      power-button-action = "suspend";
       sleep-inactive-ac-timeout = 7200;
       sleep-inactive-ac-type = "nothing";
     };
@@ -584,6 +623,7 @@ with lib.hm.gvariant;
       enabled-extensions = [ "apps-menu@gnome-shell-extensions.gcampax.github.com" "sound-output-device-chooser@kgshank.net" "bluetooth-quick-connect@bjarosze.gmail.com" "workspace-indicator@gnome-shell-extensions.gcampax.github.com" "launch-new-instance@gnome-shell-extensions.gcampax.github.com" ];
       favorite-apps = [ "org.gnome.Calendar.desktop" "org.gnome.Photos.desktop" "org.gnome.Nautilus.desktop" "chromium-browser.desktop" "spotify.desktop" "element-desktop.desktop" "firefox.desktop" ];
       had-bluetooth-devices-setup = true;
+      last-selected-power-profile = "power-saver";
       welcome-dialog-last-shown-version = "40.1";
     };
 
@@ -696,7 +736,7 @@ with lib.hm.gvariant;
       sort-directories-first = false;
       sort-order = "descending";
       type-format = "category";
-      window-position = mkTuple [ 2037 344 ];
+      window-position = mkTuple [ 462 122 ];
       window-size = mkTuple [ 1124 822 ];
     };
 
