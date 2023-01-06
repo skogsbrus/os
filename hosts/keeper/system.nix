@@ -2,6 +2,9 @@
 , lib
 , ...
 }:
+let
+  username = "kodi";
+in
 {
   imports = [
     ../../sys
@@ -9,8 +12,16 @@
 
   networking.hostName = "keeper";
 
+  users.extraUsers."${username}".isNormalUser = true;
+
   skogsbrus = {
     fwupd.enable = true;
+
+    kodi = {
+      enable = true;
+      autoLogin = true;
+      user = username;
+    };
 
     networking = {
       enableNetworkManager = true;
@@ -26,7 +37,7 @@
     radarr = {
       enable = true;
       openFirewall = true;
-      user = "kodi";
+      user = username;
       group = "users";
     };
 
@@ -35,7 +46,7 @@
     sonarr = {
       enable = true;
       openFirewall = true;
-      user = "kodi";
+      user = username;
       group = "users";
     };
 
@@ -62,7 +73,7 @@
 
     transmission = {
       enable = true;
-      user = "kodi";
+      user = username;
       group = "users";
       address = "keeper.home";
       openFirewall = true;
@@ -89,27 +100,13 @@
     zsh.enable = true;
   };
 
-  # TODO: move kodi logic to modules
-  users.extraUsers.kodi.isNormalUser = true;
-  users.extraUsers.kodi.extraGroups = [ "dialout" ];
-
   services.postfix = {
     enable = true;
   };
 
-  services.xserver = {
-    desktopManager.kodi.enable = true;
-    enable = true;
-    displayManager.autoLogin.enable = true;
-    displayManager.autoLogin.user = "kodi";
-    xkbOptions = "caps:escape";
-  };
-
-
   # Allow remote control
   networking.firewall = {
     allowedTCPPorts = [
-      8080 # Kodi
       2049 # NFSv4
     ];
     allowedUDPPorts = [
