@@ -85,7 +85,7 @@ in
           [{
             # Router
             publicKey = "+52L7ozWbO40agAyfGO1rupLp532gYUNuv5xDoNkHjI=";
-            #presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-router.key";
+            presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-router.key";
 
             # List of IP (v4 or v6) addresses with CIDR masks from
             # which this peer is allowed to send incoming traffic and to which
