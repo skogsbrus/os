@@ -8,18 +8,22 @@
     ./docker.nix
     ./fwupd.nix
     ./grafana.nix
+    ./kodi.nix
     ./networking.nix
     ./nfs_mount.nix
     ./nix.nix
     ./postgres.nix
     ./printing.nix
+    ./radarr.nix
     ./router.nix
+    ./sonarr.nix
     ./sound.nix
     ./ssh.nix
     ./steam.nix
     ./syncthing.nix
     ./tlp.nix
     ./tmux.nix
+    ./transmission.nix
     ./users.nix
     ./wireguard.nix
     ./xserver.nix
