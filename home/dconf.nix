@@ -95,8 +95,8 @@ with lib.hm.gvariant;
     "org/gnome/desktop/background" = {
       color-shading-type = "solid";
       picture-options = "zoom";
-      picture-uri = "file:///home/johanan/.local/share/backgrounds/2023-01-06-13-57-54-pandora.webp";
-      picture-uri-dark = "file:///home/johanan/.local/share/backgrounds/2023-01-06-13-57-54-pandora.webp";
+      picture-uri = "file:///home/johanan/os/dotfiles/wallpapers/pandora.webp";
+      picture-uri-dark = "file:///home/johanan/os/dotfiles/wallpapers/pandora.webp";
       primary-color = "#000000000000";
       secondary-color = "#000000000000";
     };
@@ -280,7 +280,7 @@ with lib.hm.gvariant;
     "org/gnome/desktop/screensaver" = {
       color-shading-type = "solid";
       picture-options = "zoom";
-      picture-uri = "file:///home/johanan/.local/share/backgrounds/2023-01-06-13-57-54-pandora.webp";
+      picture-uri = "file:///home/johanan/os/dotfiles/wallpapers/pandora.webp";
       primary-color = "#000000000000";
       secondary-color = "#000000000000";
     };
