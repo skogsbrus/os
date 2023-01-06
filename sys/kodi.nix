@@ -25,6 +25,7 @@ in
     users.extraUsers."${cfg.user}".extraGroups = [ "dialout" ];
 
     services.xserver = {
+      enable = true;
       desktopManager.kodi.enable = true;
       displayManager.autoLogin.enable = cfg.autoLogin;
       displayManager.autoLogin.user = cfg.user;
