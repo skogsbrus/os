@@ -4,12 +4,12 @@
 , ...
 }:
 let
-  cfg = config.skogsbrus.radarr;
+  cfg = config.skogsbrus.transmission;
   inherit (lib) mkOption types mkIf mkEnableOption;
 in
 {
-  options.skogsbrus.radarr = {
-    enable = mkEnableOption "radarr";
+  options.skogsbrus.transmission = {
+    enable = mkEnableOption "transmission";
     openFirewall = mkEnableOption "Open a port in the firewall";
 
     address = mkOption {
