@@ -9,6 +9,7 @@
     ./fwupd.nix
     ./grafana.nix
     ./kodi.nix
+    ./jellyfin.nix
     ./networking.nix
     ./nfs_mount.nix
     ./nix.nix

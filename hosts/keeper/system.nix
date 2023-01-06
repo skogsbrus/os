@@ -4,6 +4,7 @@
 }:
 let
   username = "kodi";
+  usergroup = "users";
 in
 {
   imports = [
@@ -24,6 +25,13 @@ in
       openFirewall = true;
     };
 
+    jellyfin = {
+      enable = true;
+      user = username;
+      group = usergroup;
+      openFirewall = true;
+    };
+
     networking = {
       enableNetworkManager = true;
     };
@@ -39,7 +47,7 @@ in
       enable = true;
       openFirewall = true;
       user = username;
-      group = "users";
+      group = usergroup;
     };
 
     ssh.enable = true;
@@ -48,7 +56,7 @@ in
       enable = true;
       openFirewall = true;
       user = username;
-      group = "users";
+      group = usergroup;
     };
 
     sound = {
@@ -75,7 +83,7 @@ in
     transmission = {
       enable = true;
       user = username;
-      group = "users";
+      group = usergroup;
       address = "keeper.home";
       openFirewall = true;
       # Hard links don't work across different ZFS datasets (different file systems)
