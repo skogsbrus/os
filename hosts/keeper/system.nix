@@ -2,6 +2,9 @@
 , lib
 , ...
 }:
+let
+  username = "kodi";
+in
 {
   imports = [
     ../../sys
@@ -9,8 +12,17 @@
 
   networking.hostName = "keeper";
 
+  users.extraUsers."${username}".isNormalUser = true;
+
   skogsbrus = {
     fwupd.enable = true;
+
+    kodi = {
+      enable = true;
+      autoLogin = true;
+      user = username;
+      openFirewall = true;
+    };
 
     networking = {
       enableNetworkManager = true;
@@ -23,7 +35,21 @@
       gcSchedule = "daily";
     };
 
+    radarr = {
+      enable = true;
+      openFirewall = true;
+      user = username;
+      group = "users";
+    };
+
     ssh.enable = true;
+
+    sonarr = {
+      enable = true;
+      openFirewall = true;
+      user = username;
+      group = "users";
+    };
 
     sound = {
       enable = true;
@@ -46,6 +72,18 @@
       fgColor = "black";
     };
 
+    transmission = {
+      enable = true;
+      user = username;
+      group = "users";
+      address = "keeper.home";
+      openFirewall = true;
+      # Hard links don't work across different ZFS datasets (different file systems)
+      # so here we need to use the same ZFS dataset as used for /tank/media/videos/{tv,movies}
+      # for optimal storage
+      downloadDir = "/tank/media/videos/downloads";
+    };
+
     users = {
       groups = [ "networkmanager" ];
     };
@@ -63,81 +101,34 @@
     zsh.enable = true;
   };
 
-  # TODO: move kodi logic to modules
-  users.extraUsers.kodi.isNormalUser = true;
-  users.extraUsers.kodi.extraGroups = [ "dialout" ];
-
   services.postfix = {
     enable = true;
-  };
-
-  services.xserver = {
-    desktopManager.kodi.enable = true;
-    enable = true;
-    displayManager.autoLogin.enable = true;
-    displayManager.autoLogin.user = "kodi";
-    xkbOptions = "caps:escape";
-  };
-
-  services.radarr = {
-    enable = true;
-    openFirewall = true;
-    user = "kodi";
-    group = "users";
-  };
-
-  services.sonarr = {
-    enable = true;
-    openFirewall = true;
-    user = "kodi";
-    group = "users";
-  };
-
-  services.transmission = {
-    enable = true;
-    user = "kodi";
-    group = "users";
-    settings = {
-      rpc-bind-address = "0.0.0.0";
-      rpc-whitelist-enabled = false;
-      rpc-host-whitelist = "keeper.home";
-      # Hard links don't work across different ZFS datasets (different file systems)
-      # so here we need to use the same ZFS dataset as used for /tank/media/videos/{tv,movies}
-      # for optimal storage
-      download-dir = "/tank/media/videos/downloads";
-      incomplete-dir-enabled = false;
-    };
-    openRPCPort = true;
   };
 
   # Allow remote control
   networking.firewall = {
     allowedTCPPorts = [
-      8080 # Kodi
       2049 # NFSv4
-    ];
-    allowedUDPPorts = [
-      8080 # Kodi
     ];
   };
 
   services.nfs.server.enable = true;
   services.nfs.server.exports = ''
     ${lib.concatMapStringsSep "\n" (n: "/tank/media/${n} 10.77.77.0/24(ro,no_subtree_check,nohide,fsid=2)")
-      # read-only
-      [
-        "books"
-        "games"
-        "music"
-        "photos"
-        "videos"
-      ]
+    # read-only
+    [
+      "books"
+      "games"
+      "music"
+      "photos"
+      "videos"
+    ]
     }
     ${lib.concatMapStringsSep "\n" (n: "/tank/${n} 10.77.77.0/24(rw,no_subtree_check,nohide,fsid=1)")
-      # read-write
-      [
-        "backup"
-      ]
+    # read-write
+    [
+      "backup"
+    ]
     }
   '';
 
