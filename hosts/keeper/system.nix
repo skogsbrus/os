@@ -21,6 +21,7 @@ in
       enable = true;
       autoLogin = true;
       user = username;
+      openFirewall = true;
     };
 
     networking = {
