@@ -40,6 +40,7 @@ in
 
   config = mkIf cfg.enable {
     services.transmission = {
+      enable = true;
       user = cfg.user;
       group = cfg.group;
       openRPCPort = cfg.openFirewall;
