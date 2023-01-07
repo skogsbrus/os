@@ -15,6 +15,8 @@ in
 
     readonly = mkEnableOption "Enables readonly mode";
 
+    enableTensorflow = mkEnableOption "Enables Tensorflow";
+
     address = mkOption {
       type = types.str;
       example = "/tmp/foo/bar";
@@ -107,11 +109,12 @@ in
           "PHOTOPRISM_HTTP_MODE=release"
           "PHOTOPRISM_IMPORT_PATH='${cfg.importPath}'"
           "PHOTOPRISM_HTTP_COMPRESSION=gzip"
-          "PHOTOPRISM_READONLY=${(if cfg.readonly then "1" else "0")}"
-          "PHOTOPRISM_DETECT_NSFW=1"
+          "PHOTOPRISM_READONLY=${(if cfg.readonly then "true" else "false")}"
+          "PHOTOPRISM_DETECT_NSFW=${(if cfg.enableTensorflow then "true" else "false")}"
           "PHOTOPRISM_SITE_AUTHOR=skogsbrus"
           "PHOTOPRISM_SITE_URL='${cfg.httpUrl}:${toString cfg.httpPort}'"
           "PHOTOPRISM_HTTP_PORT='${toString cfg.httpPort}'"
+          "PHOTOPRISM_DISABLE_TENSORFLOW=${(if cfg.enableTensorflow then "false" else "true")}"
         ];
       };
     };
