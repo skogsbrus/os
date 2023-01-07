@@ -50,6 +50,18 @@ in
       group = usergroup;
     };
 
+    photoprism = {
+      enable = true;
+      user = username;
+      group = usergroup;
+      originalsPath="/tank/media/photos";
+      importPath="/tank/backup/input/photos";
+      storagePath="/var/lib/photoprism";
+      httpUrl="keeper.home";
+      adminUserPassword="foobar9000";
+      adminUser="johanan";
+    };
+
     ssh.enable = true;
 
     sonarr = {
