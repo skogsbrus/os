@@ -13,6 +13,7 @@
     ./networking.nix
     ./nfs_mount.nix
     ./nix.nix
+    ./photoprism.nix
     ./postgres.nix
     ./printing.nix
     ./radarr.nix
