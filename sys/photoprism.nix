@@ -89,7 +89,6 @@ in
       wants = [ "graphical-session.target" ];
       description = "Start Photoprism";
       unitConfig = {
-        RestartSec = 10;
         StartLimitInterval = 200;
         StartLimitBurst = 5;
       };
@@ -98,6 +97,7 @@ in
         Group = cfg.group;
         ExecStart = "${pkgs.photoprism}/bin/photoprism start";
         Restart = "always";
+        RestartSec = 10;
         Environment = [
           "PHOTOPRISM_AUTH_MODE=password"
           "PHOTOPRISM_ADMIN_USER='${cfg.adminUser}'"
