@@ -54,12 +54,14 @@ in
       enable = true;
       user = username;
       group = usergroup;
-      originalsPath="/tank/media/photos";
-      importPath="/tank/backup/input/photos";
-      storagePath="/var/lib/photoprism";
-      httpUrl="keeper.home";
-      adminUserPassword="foobar9000";
-      adminUser="johanan";
+      originalsPath = "/tank/media/photos";
+      importPath = "/tank/backup/input/photos";
+      storagePath = "/var/lib/photoprism";
+      httpUrl = "keeper.home";
+      adminUserPassword = "foobar9000";
+      adminUser = "johanan";
+      readonly = true;
+      openFirewall = true;
     };
 
     ssh.enable = true;

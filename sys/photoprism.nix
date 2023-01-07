@@ -76,7 +76,7 @@ in
     };
 
     httpPort = mkOption {
-      type = types.number;
+      type = types.int;
       default = 2342;
       example = 1337;
       description = "HTTP Port";
@@ -101,7 +101,7 @@ in
           "PHOTOPRISM_HTTP_MODE=release"
           "PHOTOPRISM_IMPORT_PATH='${cfg.importPath}'"
           "PHOTOPRISM_HTTP_COMPRESSION=gzip"
-          "PHOTOPRISM_READONLY=${(if cfg.readonly then 1 else 0)}"
+          "PHOTOPRISM_READONLY=${(if cfg.readonly then "1" else "0")}"
           "PHOTOPRISM_DETECT_NSFW=1"
           "PHOTOPRISM_SITE_AUTHOR=skogsbrus"
           "PHOTOPRISM_SITE_URL='${cfg.httpUrl}:${toString cfg.httpPort}'"
