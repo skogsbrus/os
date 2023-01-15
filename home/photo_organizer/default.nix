@@ -51,11 +51,8 @@ stdenv.mkDerivation rec {
     rev = "a74e9e7002d29c768faa7c21ebd96d68d4adef14";
   };
 
-  propgatedBuildInputs = [
-    exiftool
-  ];
-
   buildInputs = [
+    exiftool
     myPython
   ];
 
