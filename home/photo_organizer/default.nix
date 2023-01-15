@@ -54,7 +54,7 @@ stdenv.mkDerivation rec {
   src = fetchGit {
     url = "https://github.com/skogsbrus/photo_organizer.git";
     ref = "master";
-    rev = "a74e9e7002d29c768faa7c21ebd96d68d4adef14";
+    rev = "9d298cf5151dc7f34b7d5b96d33dceb16754fe4f";
   };
 
   buildInputs = [
