@@ -1,5 +1,5 @@
 { stdenv
-, pkgs ? import <nixpkgs> {}
+, pkgs ? import <nixpkgs> { }
 }:
 let
   inherit (pkgs)
@@ -30,11 +30,14 @@ let
         setuptools
       ];
 
+      pythonImportsCheck = [ "pyexifinfo" ];
+
       src = fetchPypi {
         inherit pname version;
         sha256 = "sha256-V4s0s8WT/ne75rYliPny7GedymP31IYUjJpv8f3Uvck=";
       };
     };
+  myPython = python310.withPackages (ps: with ps; [ pyexifinfo ]);
 in
 stdenv.mkDerivation rec {
   pname = "photo_organizer";
@@ -48,12 +51,12 @@ stdenv.mkDerivation rec {
     rev = "a74e9e7002d29c768faa7c21ebd96d68d4adef14";
   };
 
-  propagatedBuildInputs = [
-    pyexifinfo
+  propgatedBuildInputs = [
+    exiftool
   ];
 
-  nativeBuildInputs = [
-    exiftool
+  buildInputs = [
+    myPython
   ];
 
   installPhase = ''
