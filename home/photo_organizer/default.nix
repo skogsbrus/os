@@ -26,11 +26,17 @@ let
       };
 
       nativeBuildInputs = [
-        exiftool
         setuptools
       ];
 
-      pythonImportsCheck = [ "pyexifinfo" ];
+      propagatedNativeBuildInputs = [
+        exiftool
+      ];
+
+      postPatch = ''
+        substituteInPlace pyexifinfo/pyexifinfo.py \
+          --replace "exiftool" "${exiftool}/bin/exiftool"
+      '';
 
       src = fetchPypi {
         inherit pname version;
@@ -52,7 +58,6 @@ stdenv.mkDerivation rec {
   };
 
   buildInputs = [
-    exiftool
     myPython
   ];
 
