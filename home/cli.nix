@@ -5,7 +5,7 @@
 }:
 let
   cfg = config.skogsbrus.cli;
-  inherit (lib) mkOption types;
+  inherit (lib) mkOption mkEnableOption types;
 in
 {
   options.skogsbrus.cli = {
