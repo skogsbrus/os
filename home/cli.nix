@@ -8,7 +8,9 @@ let
   inherit (lib) mkOption types;
 in
 {
-  options.skogsbrus.cli = { };
+  options.skogsbrus.cli = {
+    photo_organizer = mkEnableOption "photo_organizer";
+  };
 
   config = {
     # Things I want to have on all machines, regardless of their purpose
@@ -49,7 +51,10 @@ in
       # misc
       usbutils
       zsh
-    ];
+    ]
+    ++ (if cfg.photo_organizer then [
+      (pkgs.callPackage ./photo_organizer { })
+    ] else [ ]);
 
     programs.fzf = {
       enable = true;
