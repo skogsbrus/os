@@ -43,6 +43,12 @@ in
       gcSchedule = "daily";
     };
 
+    photoOrganizer = {
+      enable = true;
+      inputDir = "/tank/backup/input";
+      outputDir = "/tank/media/photos";
+    };
+
     radarr = {
       enable = true;
       openFirewall = true;

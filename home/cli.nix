@@ -8,10 +8,6 @@ let
   inherit (lib) mkOption mkEnableOption types;
 in
 {
-  options.skogsbrus.cli = {
-    photo_organizer = mkEnableOption "photo_organizer";
-  };
-
   config = {
     # Things I want to have on all machines, regardless of their purpose
     home.packages = with pkgs; [

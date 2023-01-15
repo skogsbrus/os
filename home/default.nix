@@ -8,6 +8,7 @@
     ./kitty.nix
     ./lsp.nix
     ./neovim.nix
+    ./photo_organizer
   ];
 
   config = {

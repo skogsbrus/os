@@ -14,6 +14,7 @@
     ./nfs_mount.nix
     ./nix.nix
     ./photoprism.nix
+    ./photo_organizer
     ./postgres.nix
     ./printing.nix
     ./radarr.nix
