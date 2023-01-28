@@ -37,14 +37,14 @@
     rm -rf $ESP_MIRROR
   '';
   boot.loader.grub.devices = [
-    "/dev/disk/by-id/ata-KINGSTON_SA400S37240G_50026B77849CDC8B"
+    "/dev/disk/by-id/ata-WD_Green_M.2_2280_240GB_22126W805272"
   ];
 
   # Prevent https://github.com/NixOS/nixpkgs/issues/23926
   boot.loader.grub.configurationLimit = 10;
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ata_piix" "usb_storage" "usbhid" "sd_mod" ];
-  boot.initrd.kernelModules = [ ];
+  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "ehci_pci" "ata_piix" "usb_storage" "usbhid" "sd_mod" ];
+  boot.initrd.kernelModules = [ "kvm-amd" ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
@@ -54,51 +54,50 @@
 
   fileSystems."/" =
     {
-      device = "rpool/nixos/root";
+      device = "rpool-m2/nixos/root";
       fsType = "zfs";
       options = [ "zfsutil" "X-mount.mkdir" ];
     };
 
   fileSystems."/home" =
     {
-      device = "rpool/nixos/home";
+      device = "rpool-m2/nixos/home";
       fsType = "zfs";
       options = [ "zfsutil" "X-mount.mkdir" ];
     };
 
   fileSystems."/var/lib" =
     {
-      device = "rpool/nixos/var/lib";
+      device = "rpool-m2/nixos/var/lib";
       fsType = "zfs";
       options = [ "zfsutil" "X-mount.mkdir" ];
     };
 
   fileSystems."/var/log" =
     {
-      device = "rpool/nixos/var/log";
+      device = "rpool-m2/nixos/var/log";
       fsType = "zfs";
       options = [ "zfsutil" "X-mount.mkdir" ];
     };
 
   fileSystems."/boot" =
     {
-      device = "bpool/nixos/root";
+      device = "bpool-m2/nixos/root";
       fsType = "zfs";
       options = [ "zfsutil" "X-mount.mkdir" ];
     };
 
-  fileSystems."/boot/efis/ata-KINGSTON_SA400S37240G_50026B77849CDC8B-part1" =
-    {
-      device = "/dev/disk/by-uuid/E8BB-4359";
+  fileSystems."/boot/efis/ata-WD_Green_M.2_2280_240GB_22126W805272-part1" = {
+      device = "/dev/disk/by-uuid/BA1A-8708";
       fsType = "vfat";
     };
 
   fileSystems."/boot/efi" =
-    {
-      device = "/boot/efis/ata-KINGSTON_SA400S37240G_50026B77849CDC8B-part1";
+    { device = "/boot/efis/ata-WD_Green_M.2_2280_240GB_22126W805272-part1";
       fsType = "none";
       options = [ "bind" ];
     };
+
 
   # NOTE: use `zfs set mountpoint=legacy DATASET` and then add it here
 
@@ -162,5 +161,6 @@
   networking.useDHCP = lib.mkDefault true;
   # networking.interfaces.enp3s0.useDHCP = lib.mkDefault true;
 
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.video.hidpi.enable = lib.mkDefault true;
 }
