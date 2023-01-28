@@ -31,9 +31,6 @@ in
     systemd.services.photo_organizer_import = {
       enable = true;
       description = "Organize photos by date";
-      unitConfig = {
-        Type = "oneshot";
-      };
       serviceConfig = {
         ExecStart = "${photoOrganizer}/bin/photo_organizer.py --dir '${cfg.inputDir}' --out '${cfg.outputDir}' --silent";
       };

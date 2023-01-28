@@ -47,10 +47,7 @@ in
       # misc
       usbutils
       zsh
-    ]
-    ++ (if cfg.photo_organizer then [
-      (pkgs.callPackage ./photo_organizer { })
-    ] else [ ]);
+    ];
 
     programs.fzf = {
       enable = true;
