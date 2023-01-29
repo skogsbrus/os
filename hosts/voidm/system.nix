@@ -40,6 +40,8 @@
       user = "johanan";
     };
 
+    printing.enable = true;
+
     sound = {
       enable = true;
       enablePipewire = true;

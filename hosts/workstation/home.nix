@@ -15,7 +15,6 @@
       enable = true;
       extraPackages = with pkgs; [ bitwig-studio4 ];
       activitywatch = true;
-      photo_organizer = true;
     };
     dev = {
       aws = true;
