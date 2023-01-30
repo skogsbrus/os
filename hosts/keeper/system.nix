@@ -27,7 +27,7 @@ in
     };
 
     jellyfin = {
-      enable = false;
+      enable = true;
       user = username;
       group = usergroup;
       openFirewall = true;
