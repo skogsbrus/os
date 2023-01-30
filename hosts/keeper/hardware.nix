@@ -139,7 +139,11 @@
     };
 
 
-  swapDevices = [ ];
+  swapDevices = [
+    {
+    device = "/dev/disk/by-uuid/77437f46-16e2-4de0-8430-58619eb6a2a1";
+    }
+  ];
 
 
   # Recommended settings from Dan Langille's "ZFS For Newbies",
