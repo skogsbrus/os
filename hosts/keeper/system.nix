@@ -1,5 +1,6 @@
 { config
 , lib
+, pkgs
 , ...
 }:
 let
@@ -58,6 +59,7 @@ in
 
     photoprism = {
       enable = true;
+      enableTensorflow = true;
       user = username;
       group = usergroup;
       originalsPath = "/tank/media/photos";
@@ -139,6 +141,19 @@ in
       2049 # NFSv4
     ];
   };
+
+  services.xserver.videoDrivers = [ "amdgpu" ];
+  hardware.opengl.driSupport = true;
+  # For 32 bit applications
+  hardware.opengl.driSupport32Bit = true;
+  hardware.opengl.extraPackages = with pkgs; [
+    amdvlk
+  ];
+  # For 32 bit applications
+  # Only available on unstable
+  hardware.opengl.extraPackages32 = with pkgs; [
+    driversi686Linux.amdvlk
+  ];
 
   services.nfs.server.enable = true;
   services.nfs.server.exports = ''

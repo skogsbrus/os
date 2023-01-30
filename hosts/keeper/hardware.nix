@@ -44,8 +44,9 @@
   boot.loader.grub.configurationLimit = 10;
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "ehci_pci" "ata_piix" "usb_storage" "usbhid" "sd_mod" ];
-  boot.initrd.kernelModules = [ "kvm-amd" ];
+  boot.initrd.kernelModules = [ "amdgpu" "kvm-amd" ];
   boot.kernelModules = [ ];
+  boot.kernelParams = [ "nohibernate" ];
   boot.extraModulePackages = [ ];
 
   nixpkgs.config.packageOverrides = pkgs: {
