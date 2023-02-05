@@ -29,7 +29,6 @@ in
       dconf2nix # syntax converter: dconf -> home manager
       element-desktop
       discord
-      firefox
       gimp
       libreoffice
       peek

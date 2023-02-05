@@ -4,6 +4,7 @@
     ./client.nix
     ./cli.nix
     ./dev.nix
+    ./firefox.nix
     ./gnome.nix
     ./kitty.nix
     ./lsp.nix

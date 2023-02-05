@@ -21,6 +21,7 @@
       cxx = true;
       terraform = true;
     };
+    firefox.enable = true;
     gnome.enable = true;
     kitty.enable = true;
     lspServers = {
