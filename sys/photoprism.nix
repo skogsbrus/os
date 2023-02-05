@@ -119,6 +119,23 @@ in
       };
     };
 
+    systemd.services.photoprism_index = {
+      enable = true;
+      description = "Index existing photos";
+      serviceConfig = {
+        ExecStart = "${pkgs.photoprism}/bin/photoprism index";
+        Environment = [
+          "PHOTOPRISM_ORIGINALS_PATH='${cfg.originalsPath}'"
+          "PHOTOPRISM_STORAGE_PATH='${cfg.storagePath}'"
+          "PHOTOPRISM_IMPORT_PATH='${cfg.importPath}'"
+          "PHOTOPRISM_READONLY=${(if cfg.readonly then "true" else "false")}"
+          "PHOTOPRISM_DETECT_NSFW=${(if cfg.enableTensorflow then "true" else "false")}"
+          "PHOTOPRISM_DISABLE_TENSORFLOW=${(if cfg.enableTensorflow then "false" else "true")}"
+        ];
+      };
+      startAt = "daily";
+    };
+
     networking.firewall = mkIf cfg.openFirewall {
       allowedTCPPorts = [
         cfg.httpPort
