@@ -83,7 +83,7 @@ in
 
     sound = {
       enable = true;
-      enablePipewire = true;
+      enablePipewire = false;
     };
 
     steam = {
