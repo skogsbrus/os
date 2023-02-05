@@ -9,44 +9,21 @@
       (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.supportedFilesystems = [ "zfs" ];
+  # Required by ZFS
   networking.hostId = "f30d0712";
-  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
-  boot.loader.efi.efiSysMountPoint = "/boot/efi";
-  boot.loader.efi.canTouchEfiVariables = false;
-  boot.loader.generationsDir.copyKernels = true;
-  boot.loader.grub.efiInstallAsRemovable = true;
-  boot.loader.grub.enable = true;
-  boot.loader.grub.version = 2;
-  boot.loader.grub.copyKernels = true;
-  boot.loader.grub.efiSupport = true;
-  boot.loader.grub.zfsSupport = true;
-  boot.loader.grub.extraPrepareConfig = ''
-    mkdir -p /boot/efis
-    for i in  /boot/efis/*; do mount $i ; done
 
-    mkdir -p /boot/efi
-    mount /boot/efi
-  '';
-  boot.loader.grub.extraInstallCommands = ''
-    ESP_MIRROR=$(mktemp -d)
-    cp -r /boot/efi/EFI $ESP_MIRROR
-    for i in /boot/efis/*; do
-     cp -r $ESP_MIRROR/EFI $i
-    done
-    rm -rf $ESP_MIRROR
-  '';
+  boot.supportedFilesystems = [ "zfs" ];
+  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+
+  boot.loader.grub.enable = true;
+  boot.loader.grub.useOSProber = true;
   boot.loader.grub.devices = [
     "/dev/disk/by-id/ata-WD_Green_M.2_2280_240GB_22126W805272"
   ];
 
-  # Prevent https://github.com/NixOS/nixpkgs/issues/23926
-  boot.loader.grub.configurationLimit = 10;
-
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "ehci_pci" "ata_piix" "usb_storage" "usbhid" "sd_mod" ];
-  boot.initrd.kernelModules = [ "amdgpu" "kvm-amd" ];
+  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
+  boot.initrd.kernelModules = [ "kvm-amd" ];
   boot.kernelModules = [ ];
-  boot.kernelParams = [ "nohibernate" ];
   boot.extraModulePackages = [ ];
 
   nixpkgs.config.packageOverrides = pkgs: {
@@ -54,51 +31,33 @@
   };
 
   fileSystems."/" =
-    {
-      device = "rpool-m2/nixos/root";
-      fsType = "zfs";
-      options = [ "zfsutil" "X-mount.mkdir" ];
-    };
-
-  fileSystems."/home" =
-    {
-      device = "rpool-m2/nixos/home";
-      fsType = "zfs";
-      options = [ "zfsutil" "X-mount.mkdir" ];
-    };
-
-  fileSystems."/var/lib" =
-    {
-      device = "rpool-m2/nixos/var/lib";
-      fsType = "zfs";
-      options = [ "zfsutil" "X-mount.mkdir" ];
-    };
-
-  fileSystems."/var/log" =
-    {
-      device = "rpool-m2/nixos/var/log";
-      fsType = "zfs";
-      options = [ "zfsutil" "X-mount.mkdir" ];
+    { device = "/dev/disk/by-uuid/86e123ec-c715-4e54-8401-f88e9076ceef";
+      fsType = "ext4";
     };
 
   fileSystems."/boot" =
-    {
-      device = "bpool-m2/nixos/root";
-      fsType = "zfs";
-      options = [ "zfsutil" "X-mount.mkdir" ];
+    { device = "/dev/disk/by-uuid/3e3afe60-3a92-46dc-81f9-95c0b28c92ec";
+      fsType = "ext4";
     };
 
-  fileSystems."/boot/efis/ata-WD_Green_M.2_2280_240GB_22126W805272-part1" = {
-      device = "/dev/disk/by-uuid/BA1A-8708";
-      fsType = "vfat";
+  fileSystems."/home" =
+    { device = "/dev/disk/by-uuid/b6cbf7e1-35a5-42c9-8565-4ba3c0fcbc9e";
+      fsType = "ext4";
     };
 
-  fileSystems."/boot/efi" =
-    { device = "/boot/efis/ata-WD_Green_M.2_2280_240GB_22126W805272-part1";
-      fsType = "none";
-      options = [ "bind" ];
+  fileSystems."/nix" =
+    { device = "/dev/disk/by-uuid/d04f4a64-c14e-4252-9161-d6b18ec6c0be";
+      fsType = "ext4";
     };
 
+  fileSystems."/var" =
+    { device = "/dev/disk/by-uuid/db16e57d-d6c6-48c1-ae8c-8f5a340d0e42";
+      fsType = "ext4";
+    };
+
+  swapDevices =
+    [ { device = "/dev/disk/by-uuid/c9b3ed7c-17aa-488d-9a7b-dcc47bacfd73"; }
+    ];
 
   # NOTE: use `zfs set mountpoint=legacy DATASET` and then add it here
 
@@ -137,13 +96,6 @@
       device = "tank/backup";
       fsType = "zfs";
     };
-
-
-  swapDevices = [
-    {
-    device = "/dev/disk/by-uuid/77437f46-16e2-4de0-8430-58619eb6a2a1";
-    }
-  ];
 
 
   # Recommended settings from Dan Langille's "ZFS For Newbies",
