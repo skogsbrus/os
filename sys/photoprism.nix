@@ -101,6 +101,10 @@ in
         Restart = "always";
         RestartSec = 10;
         Environment = [
+          "PHOTOPRISM_DATABASE_DRIVER=mysql"
+          # TODO: don't use default socket
+          "PHOTOPRISM_DATABASE_SERVER=/run/mysqld/mysqld.sock"
+          "PHOTOPRISM_DATABASE_USER=${cfg.user}"
           "PHOTOPRISM_AUTH_MODE=password"
           "PHOTOPRISM_ADMIN_USER='${cfg.adminUser}'"
           "PHOTOPRISM_ADMIN_PASSWORD='${cfg.adminUserPassword}'"
@@ -117,6 +121,23 @@ in
           "PHOTOPRISM_DISABLE_TENSORFLOW=${(if cfg.enableTensorflow then "false" else "true")}"
         ];
       };
+    };
+
+    services.mysql = {
+      enable = true;
+      package = pkgs.mariadb;
+      user = cfg.user;
+      group = cfg.group;
+      dataDir = "/var/lib/mysql";
+      # TODO: don't use default socket
+      ensureUsers = [
+        {
+          name = cfg.user;
+          ensurePermissions = {
+            "*.*" = "ALL PRIVILEGES";
+          };
+        }
+      ];
     };
 
     systemd.services.photoprism_index = {
