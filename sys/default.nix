@@ -10,6 +10,7 @@
     ./grafana.nix
     ./kodi.nix
     ./jellyfin.nix
+    ./miniflux.nix
     ./networking.nix
     ./nfs_mount.nix
     ./nix.nix

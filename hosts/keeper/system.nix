@@ -33,6 +33,12 @@ in
       openFirewall = true;
     };
 
+    miniflux = {
+      enable = true;
+      port = 5656;
+      openFirewall = true;
+    };
+
     networking = {
       enableNetworkManager = true;
     };
@@ -72,6 +78,11 @@ in
       openFirewall = true;
     };
 
+    postgres = {
+      enable = true;
+      user = "johanan";
+    };
+
     ssh.enable = true;
 
     sonarr = {
@@ -84,6 +95,7 @@ in
     sound = {
       enable = true;
       enablePipewire = false;
+      channels = 4;
     };
 
     steam = {
