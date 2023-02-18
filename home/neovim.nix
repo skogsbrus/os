@@ -140,6 +140,9 @@ in
 
         lua << EOF
         -- enable color scheme
+        require('onedark').setup({
+          style = 'deep',
+        })
         require('onedark').load()
         EOF
 
