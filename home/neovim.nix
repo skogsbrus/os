@@ -31,6 +31,7 @@ in
       vimAlias = true;
       plugins = with pkgs.vimPlugins; [
         fzf-vim
+        nerdtree
         nvim-lspconfig
         nvim-treesitter
         rust-vim
@@ -76,14 +77,22 @@ in
         nnoremap <leader>fb :Buffers<CR>
         nnoremap <leader>fr :Rg<CR>
 
+        " Nerdtree
+        nnoremap <leader><Tab> :NERDTreeToggle<CR>
+        " Exit if NERDTree is the only window remaining in the only tab.
+        autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+        " Close the tab if NERDTree is the only window remaining in it.
+        autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+
+
         " Git
-        nnoremap <leader>gb <cmd>Git blame<cr>
-        nnoremap <leader>ga <cmd>Git add -p<cr>
-        nnoremap <leader>gdd <cmd>Git diff<cr>
-        nnoremap <leader>gdc <cmd>Git diff --cached<cr>
-        nnoremap <leader>gs <cmd>Git<cr>
-        nnoremap <leader>gr <cmd>Gread<cr>
-        nnoremap <leader>gw <cmd>Gwrite<cr>
+        nnoremap <leader>gb <cmd>Git blame<CR>
+        nnoremap <leader>ga <cmd>Git add -p<CR>
+        nnoremap <leader>gdd <cmd>Git diff<CR>
+        nnoremap <leader>gdc <cmd>Git diff --cached<CR>
+        nnoremap <leader>gs <cmd>Git<CR>
+        nnoremap <leader>gr <cmd>Gread<CR>
+        nnoremap <leader>gw <cmd>Gwrite<CR>
 
         " Keep it centered (thanks Prime)
         nnoremap n nzzzv
