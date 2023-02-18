@@ -31,6 +31,7 @@ in
       vimAlias = true;
       plugins = with pkgs.vimPlugins; [
         fzf-vim
+        gitsigns-nvim
         nerdtree
         nvim-lspconfig
         nvim-treesitter
@@ -130,6 +131,11 @@ in
         hi gitcommitDiff cterm=NONE ctermfg=DarkBlue
         hi diffIndexLine cterm=NONE ctermfg=DarkBlue
         hi diffLine cterm=NONE ctermfg=DarkBlue
+
+        lua << EOF
+        -- https://github.com/lewis6991/gitsigns.nvim
+        require('gitsigns').setup()
+        EOF
 
         lua << EOF
         local nvim_lsp = require('lspconfig')
