@@ -31,6 +31,7 @@ in
       discord
       gimp
       libreoffice
+      konsole
       peek
       picocom
       spotify

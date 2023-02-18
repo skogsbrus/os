@@ -27,7 +27,6 @@
     };
     firefox.enable = true;
     gnome.enable = true;
-    kitty.enable = true;
     lspServers = {
       enable = true;
       enableAll = true;

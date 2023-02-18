@@ -6,7 +6,6 @@
     ./dev.nix
     ./firefox.nix
     ./gnome.nix
-    ./kitty.nix
     ./lsp.nix
     ./neovim.nix
   ];
