@@ -130,20 +130,12 @@ with lib.hm.gvariant;
       show-banners = true;
     };
 
-    "org/gnome/desktop/notifications/application/alacritty" = {
-      application-id = "Alacritty.desktop";
-    };
-
     "org/gnome/desktop/notifications/application/chromium-browser" = {
       application-id = "chromium-browser.desktop";
     };
 
     "org/gnome/desktop/notifications/application/code" = {
       application-id = "code.desktop";
-    };
-
-    "org/gnome/desktop/notifications/application/com-uploadedlobster-peek" = {
-      application-id = "com.uploadedlobster.peek.desktop";
     };
 
     "org/gnome/desktop/notifications/application/element-desktop" = {
@@ -168,10 +160,6 @@ with lib.hm.gvariant;
 
     "org/gnome/desktop/notifications/application/gnome-power-panel" = {
       application-id = "gnome-power-panel.desktop";
-    };
-
-    "org/gnome/desktop/notifications/application/kitty" = {
-      application-id = "kitty.desktop";
     };
 
     "org/gnome/desktop/notifications/application/org-gnome-baobab" = {
@@ -771,11 +759,6 @@ with lib.hm.gvariant;
 
     "org/virt-manager/virt-manager/paths" = {
       media-default = "/home/johanan/Downloads";
-    };
-
-    "org/virt-manager/virt-manager/urls" = {
-      isos = [ "/home/johanan/Downloads/ubuntu-20.04.4-desktop-amd64.iso" ];
-      urls = [ "https://releases.ubuntu.com/20.04/ubuntu-20.04.4-desktop-amd64.iso" ];
     };
 
     "org/virt-manager/virt-manager/vmlist-fields" = {
