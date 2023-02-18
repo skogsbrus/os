@@ -35,6 +35,7 @@ in
         nerdtree
         nvim-lspconfig
         nvim-treesitter
+        onedark-nvim
         rust-vim
         vim-airline
         vim-elixir
@@ -135,6 +136,11 @@ in
         lua << EOF
         -- https://github.com/lewis6991/gitsigns.nvim
         require('gitsigns').setup()
+        EOF
+
+        lua << EOF
+        -- enable color scheme
+        require('onedark').load()
         EOF
 
         lua << EOF

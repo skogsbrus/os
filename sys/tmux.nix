@@ -88,6 +88,7 @@ in
 
       plugins = [
         pkgs.tmuxPlugins.resurrect
+        pkgs.tmuxPlugins.onedark-theme
       ] ++
       (if cfg.awWatcher then [ aw-watcher-tmux ] else [ ]);
     };
