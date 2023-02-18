@@ -31,7 +31,7 @@ in
       discord
       gimp
       libreoffice
-      konsole
+      xfce.xfce4-terminal
       peek
       picocom
       spotify
