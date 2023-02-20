@@ -124,6 +124,7 @@ in
       # so here we need to use the same ZFS dataset as used for /tank/media/videos/{tv,movies}
       # for optimal storage
       downloadDir = "/tank/media/videos/downloads";
+      rmUnregisteredTorrents = true;
     };
 
     users = {

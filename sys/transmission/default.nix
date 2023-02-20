@@ -4,6 +4,7 @@
 , ...
 }:
 let
+  rmUnregisteredTorrents = (pkgs.callPackage ./rm_unregistered_torrents.nix { });
   cfg = config.skogsbrus.transmission;
   inherit (lib) mkOption types mkIf mkEnableOption;
 in
@@ -36,6 +37,8 @@ in
       description = "Group that should run the service";
     };
 
+    rmUnregisteredTorrents = mkEnableOption "remove unregistered torrents";
+
   };
 
   config = mkIf cfg.enable {
@@ -51,6 +54,19 @@ in
         download-dir = cfg.downloadDir;
         incomplete-dir-enabled = false;
       };
+    };
+
+    environment.systemPackages = mkIf cfg.rmUnregisteredTorrents [
+      rmUnregisteredTorrents
+    ];
+
+    systemd.services.rm_unregistered_torrents = mkIf cfg.rmUnregisteredTorrents {
+      enable = true;
+      description = "Remove unregistered torrents";
+      serviceConfig = {
+        ExecStart = "${rmUnregisteredTorrents}/bin/rm_unregistered_torrents.py --host localhost --port 9091";
+      };
+      startAt = "daily";
     };
   };
 }

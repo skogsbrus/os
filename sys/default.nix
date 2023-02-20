@@ -27,7 +27,7 @@
     ./syncthing.nix
     ./tlp.nix
     ./tmux.nix
-    ./transmission.nix
+    ./transmission
     ./users.nix
     ./wireguard.nix
     ./xserver.nix
