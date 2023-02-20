@@ -106,7 +106,11 @@
 
   services.zfs.zed.enableMail = true;
   services.zfs.zed.settings = {
+    ZED_EMAIL_PROG = "${pkgs.mailutils}/bin/mail";
+    ZED_NOTIFY_INTERVAL_SECS = 3600;
+    ZED_SCRUB_AFTER_RESILVER = true;
     ZED_EMAIL_ADDR = [ "johan+zfs@skogsbrus.xyz" ];
+    ZED_DEBUG_LOG = "/tmp/zed.debug.log";
     ZED_NOTIFY_VERBOSE = true;
   };
 
