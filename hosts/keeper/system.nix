@@ -144,9 +144,6 @@ in
     zsh.enable = true;
   };
 
-  services.postfix = {
-    enable = true;
-  };
 
   # Allow remote control
   networking.firewall = {
