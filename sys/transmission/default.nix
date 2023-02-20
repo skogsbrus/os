@@ -54,6 +54,7 @@ in
         download-dir = cfg.downloadDir;
         incomplete-dir-enabled = false;
       };
+      credentialsFile = "/home/johanan/os/secrets/transmission.json";
     };
 
     environment.systemPackages = mkIf cfg.rmUnregisteredTorrents [

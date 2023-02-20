@@ -15,7 +15,7 @@ stdenv.mkDerivation rec {
   src = fetchGit {
     url = "https://github.com/skogsbrus//studious-octo-palm-tree.git";
     ref = "main";
-    rev = "0c7adda166537c4a0f7078131c99dc64e2cc5773";
+    rev = "98883187b8b6332446738b5c744b7cf8d2acf675";
   };
 
   buildInputs = [
