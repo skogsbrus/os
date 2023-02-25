@@ -15,6 +15,16 @@ let
       sha256 = "CXO7zl63qtwlHCMSa4NVSr5hoxsfc2fwc11a+tWszWU=";
     };
   };
+  delaytrain = pkgs.vimUtils.buildVimPlugin {
+    # TODO: contribute to nixpkgs
+    name = "delaytrain";
+    src = pkgs.fetchFromGitHub {
+      owner = "ja-ford";
+      repo = "delaytrain.nvim";
+      rev = "eb8d2157e6a7de1b4f024f7ca5bccc4014d88b05";
+      sha256 = "BZ2LSeD1lKyaP6CTSB9PmiGqUe8/p+Z3o56Mv6ZB2qM=";
+    };
+  };
   cfg = config.skogsbrus.neovim;
   inherit (lib) mkEnableOption;
 in
@@ -30,6 +40,7 @@ in
       viAlias = true;
       vimAlias = true;
       plugins = with pkgs.vimPlugins; [
+        delaytrain
         fzf-vim
         gitsigns-nvim
         nerdtree
@@ -136,6 +147,11 @@ in
         lua << EOF
         -- https://github.com/lewis6991/gitsigns.nvim
         require('gitsigns').setup()
+        EOF
+
+        lua << EOF
+        -- https://github.com/ja-ford/delaytrain.nvim
+        require('delaytrain').setup()
         EOF
 
         lua << EOF
