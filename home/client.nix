@@ -51,14 +51,17 @@ in
       (pkgs.callPackage ./activitywatch { })
     ] else [ ]);
 
-    pkgs.overlays = mkIf cfg.corporate [
+    # TODO(contribute to nixpkgs): taskw 1.3 is incompatible with taskwarrrior > 2.53
+    nixpkgs.overlays = mkIf cfg.corporate [
       (self: super: {
         python39Packages.taskw = super.python39Packages.taskw.overrideAttrs (old: rec {
-        version = "2.0.0";
-        src = fetchPypi {
-          inherit pname version;
-          sha256 = "1a68e49cac2d4f6da73c0ce554fd6f94932d95e20596f2ee44a769a28c12ba7d";
-        });
+          version = "2.0.0";
+          src = super.python39Packages.fetchPypi
+            {
+              pname = "taskw";
+              version = "2.0.0";
+              sha256 = "1a68e49cac2d4f6da73c0ce554fd6f94932d95e20596f2ee44a769a28c12ba7d";
+            };
         });
       })
     ];
