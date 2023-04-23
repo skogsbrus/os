@@ -85,10 +85,12 @@ in
         nnoremap <C-w><Bar> :vsplit<CR>
 
         " Fzf
-        nnoremap <leader>ff :Files<CR>
-        nnoremap <leader>fg :GitFiles<CR>
-        nnoremap <leader>fb :Buffers<CR>
-        nnoremap <leader>fr :Rg<CR>
+        nnoremap <leader><leader>f :Files<CR>
+        nnoremap <leader><leader>g :GitFiles<CR>
+        nnoremap <leader><leader>G :Commits<CR>
+        nnoremap <leader><leader>b :Buffers<CR>
+        nnoremap <leader><leader>c :Commands<CR>
+        nnoremap <leader><leader>r :Rg<CR>
 
         " Nerdtree
         nnoremap <leader><Tab> :NERDTreeToggle<CR>
