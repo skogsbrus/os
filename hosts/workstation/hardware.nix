@@ -31,6 +31,12 @@
       fsType = "ext4";
     };
 
+  fileSystems."/mnt/local" =
+    {
+      device = "/dev/disk/by-uuid/38da9f09-0158-4f3d-86bd-c23cd09e051d";
+      fsType = "ext4";
+    };
+
   fileSystems."/boot" =
     {
       device = "/dev/disk/by-uuid/7CEF-102A";
