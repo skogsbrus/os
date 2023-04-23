@@ -43,6 +43,11 @@
       gc = false;
     };
 
+    postgres = {
+      enable = true;
+      user = "johanan";
+    };
+
     sound = {
       enable = true;
       enablePipewire = true;
