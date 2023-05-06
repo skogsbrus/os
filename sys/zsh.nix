@@ -19,6 +19,17 @@ in
         # direnv hook
         eval "$(direnv hook zsh)"
 
+        # enable fzf
+        if command -v fzf-share &> /dev/null; then
+          source "$(fzf-share)/key-bindings.zsh"
+          source "$(fzf-share)/completion.zsh"
+        fi
+
+        # enable atuin
+        if command -v atuin &> /dev/null; then
+          eval "$(atuin init zsh)"
+        fi
+
         # Load version control info
         autoload -Uz vcs_info
         precmd() { vcs_info }
@@ -45,11 +56,6 @@ in
         # Add timestamps in history
         HIST_STAMPS="dd.mm.yyyy"
 
-        # enable fzf
-        if command -v fzf-share >/dev/null; then
-          source "$(fzf-share)/key-bindings.zsh"
-          source "$(fzf-share)/completion.zsh"
-        fi
 
         export EDITOR=vim
 
