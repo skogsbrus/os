@@ -1,6 +1,6 @@
-# OS dotfiles for NixOS
+# OS dotfiles for Nix(OS)
 
-This repository configures all of my digital devices that run ✨ NixOS ✨ !
+This repository configures all of my digital devices that run ✨ Nix(OS) ✨ !
 
 ## Help
 
@@ -21,11 +21,16 @@ looking elsewhere first:
 
 A machine, such as a server or laptop, is called a *host*.
 
-Host configurations live in the [hosts](./hosts) directory. The configuration of a  host is comprised of three parts:
+Host configurations live in the [hosts](./hosts) directory.
+
+If a host is using NixOS, the configuration of a  host is comprised of three
+parts:
 
 1. a hardware configuration
 2. a system configuration
 3. a home configuration
+
+If a host is using MacOS, the configuration is comprised only of a home configuration.
 
 All of these files are imported by [./flake.nix](./flake.nix).
 
@@ -45,3 +50,7 @@ Software and configuration files in user-land live in [home](./home) and is conf
 4. Done!
 
 Note that the hostname of the new device must match the name of the host in [./flake.nix](./flake.nix).
+
+### MacOS specifics
+
+For MacOS devices, some caveats apply. To set up my repository for compatibility with MacOS, I followed this excellent blog post: https://xyno.space/post/nix-darwin-introduction.

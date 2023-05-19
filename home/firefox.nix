@@ -3,12 +3,16 @@
 , pkgs
 , ...
 }:
+let
+  cfg = config.skogsbrus.firefox;
+  inherit (lib) mkIf;
+in
 {
   options.skogsbrus.firefox = {
     enable = lib.mkEnableOption "firefox";
   };
 
-  config = {
+  config = mkIf cfg.enable {
     programs.firefox = {
       enable = true;
       profiles.johanan = {
