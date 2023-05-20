@@ -127,6 +127,13 @@ in
       rmUnregisteredTorrents = true;
     };
 
+    time_machine = {
+      enable = true;
+      user = "airm2-time-machine";
+      openFirewall = true;
+      backupPath = "/tank/backup/time-machine";
+    };
+
     users = {
       groups = [ "networkmanager" ];
     };

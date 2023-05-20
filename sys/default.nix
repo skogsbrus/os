@@ -28,6 +28,7 @@
     ./tlp.nix
     ./tmux.nix
     ./transmission
+    ./time_machine.nix
     ./users.nix
     ./wireguard.nix
     ./xserver.nix
