@@ -35,7 +35,8 @@ in
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
       jetbrains-mono
-      docker
+      podman
+      qemu
       postgresql
     ] ++ (if stdenv.isLinux then [ zeal ] else [ ])
     ++ cfg.extraPackages

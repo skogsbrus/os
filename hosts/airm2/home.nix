@@ -8,7 +8,7 @@
   imports = [
     ../../home
   ];
-  
+
   skogsbrus = {
     dev = {
       enable = true;
@@ -20,9 +20,6 @@
     lspServers = {
       enable = true;
       enableAll = true;
-    };
-    darwin = {
-      enable = true;
     };
   };
 }
