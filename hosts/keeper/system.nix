@@ -155,7 +155,10 @@ in
   # Allow remote control
   networking.firewall = {
     allowedTCPPorts = [
-      2049 # NFSv4
+      111  2049 4000 4001 4002 20048
+    ];
+    allowedUDPPorts = [
+      111  2049 4000 4001 4002 20048
     ];
   };
 
@@ -172,24 +175,22 @@ in
     driversi686Linux.amdvlk
   ];
 
-  services.nfs.server.enable = true;
+  services.nfs.server = {
+    enable = true;
+    statdPort = 4000;
+    lockdPort = 4001;
+    mountdPort = 4002;
+    extraNfsdConfig = '''';
+  };
   services.nfs.server.exports = ''
-    ${lib.concatMapStringsSep "\n" (n: "/tank/media/${n} 10.77.77.0/24(ro,no_subtree_check,nohide,fsid=2)")
     # read-only
-    [
-      "books"
-      "games"
-      "music"
-      "photos"
-      "videos"
-    ]
-    }
-    ${lib.concatMapStringsSep "\n" (n: "/tank/${n} 10.77.77.0/24(rw,no_subtree_check,nohide,fsid=1)")
+    ${lib.concatMapStringsSep "\n" (n: "/tank/media/${n} 10.77.77.0/24(ro,insecure,no_subtree_check,nohide,fsid=1)") [ "books" ] }
+    ${lib.concatMapStringsSep "\n" (n: "/tank/media/${n} 10.77.77.0/24(ro,insecure,no_subtree_check,nohide,fsid=2)") [ "games" ] }
+    ${lib.concatMapStringsSep "\n" (n: "/tank/media/${n} 10.77.77.0/24(ro,insecure,no_subtree_check,nohide,fsid=3)") [ "music" ] }
+    ${lib.concatMapStringsSep "\n" (n: "/tank/media/${n} 10.77.77.0/24(ro,insecure,no_subtree_check,nohide,fsid=4)") [ "photos" ] }
+    ${lib.concatMapStringsSep "\n" (n: "/tank/media/${n} 10.77.77.0/24(ro,insecure,no_subtree_check,nohide,fsid=5)") [ "videos" ] }
     # read-write
-    [
-      "backup"
-    ]
-    }
+    ${lib.concatMapStringsSep "\n" (n: "/tank/${n} 10.77.77.0/24(rw,insecure,no_subtree_check,nohide,fsid=6)") [ "backup" ] }
   '';
 
   # This value determines the NixOS release from which the default
