@@ -8,6 +8,7 @@
     ./gnome.nix
     ./lsp.nix
     ./neovim.nix
+    ./shell.nix
   ];
 
   config = {

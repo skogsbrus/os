@@ -28,11 +28,6 @@
     ssh.enable = true;
     sound.enable = false;
 
-    tmux = {
-      enable = true;
-      bgColor = "red";
-    };
-
     users = {
       # TODO: parameterize user names etc
     };
@@ -46,7 +41,6 @@
       uniqueId = 1;
     };
 
-    zsh.enable = true;
   };
 
   # This value determines the NixOS release from which the default

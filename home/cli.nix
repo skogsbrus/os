@@ -45,25 +45,6 @@ in
       ranger
       ripgrep
       tig
-      tmux
-
-      # misc
-      zsh
     ] ++ (if stdenv.isLinux then linuxPackages else []);
-
-
-    programs.fzf = {
-      enable = true;
-    };
-
-    programs.atuin = {
-      enable = true;
-      enableZshIntegration = true;
-    };
-
-    programs.direnv = {
-      enable = true;
-      nix-direnv.enable = true;
-    };
   };
 }

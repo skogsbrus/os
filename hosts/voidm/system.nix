@@ -47,12 +47,6 @@
       enablePipewire = true;
     };
 
-    tmux = {
-      enable = true;
-      awWatcher = true;
-      bgColor = "blue";
-    };
-
     tlp.enable = false;
 
     users = {
@@ -68,7 +62,6 @@
     };
 
     xserver.enable = true;
-    zsh.enable = true;
   };
 
   services.udev.extraRules = ''

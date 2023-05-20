@@ -10,6 +10,13 @@
   ];
 
   skogsbrus = {
+    shell = {
+      zsh = true;
+      tmux = true;
+      tmuxBgColor = "blue";
+      tmuxFgColor = "white";
+    };
+
     lspServers = {
       enable = true;
       enableAll = true;

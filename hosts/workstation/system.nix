@@ -66,19 +66,11 @@
       expose = false;
     };
 
-    tmux = {
-      enable = true;
-      awWatcher = true;
-      bgColor = "orange";
-      fgColor = "black";
-    };
-
     users = {
       groups = [ "networkmanager" ];
     };
 
     xserver.enable = true;
-    zsh.enable = true;
   };
 
   # This value determines the NixOS release from which the default

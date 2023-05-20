@@ -17,6 +17,14 @@
       k8s = true;
       terraform = true;
     };
+
+    shell = {
+      zsh = true;
+      tmux = true;
+      tmuxBgColor = "yellow";
+      tmuxFgColor = "black";
+    };
+
     lspServers = {
       enable = true;
       enableAll = true;

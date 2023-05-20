@@ -108,12 +108,6 @@ in
       expose = true;
     };
 
-    tmux = {
-      enable = true;
-      bgColor = "yellow";
-      fgColor = "black";
-    };
-
     transmission = {
       enable = true;
       user = username;
@@ -147,8 +141,6 @@ in
 
       remoteVpn = true;
     };
-
-    zsh.enable = true;
   };
 
 

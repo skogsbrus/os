@@ -11,6 +11,13 @@
   ];
 
   skogsbrus = {
+    shell = {
+      zsh = true;
+      tmux = true;
+      tmuxBgColor = "orange";
+      tmuxFgColor = "black";
+    };
+
     client = {
       enable = true;
       extraPackages = with pkgs; [ bitwig-studio4 ];

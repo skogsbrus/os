@@ -11,11 +11,19 @@
   ];
 
   skogsbrus = {
+    shell = {
+      zsh = true;
+      tmux = true;
+      tmuxBgColor = "green";
+      tmuxFgColor = "black";
+    };
+
     client = {
       enable = true;
       corporate = true;
       activitywatch = true;
     };
+
     dev = {
       enable = true;
       aws = true;
@@ -25,12 +33,15 @@
       k8s = true;
       terraform = true;
     };
+
     firefox.enable = true;
     gnome.enable = true;
+
     lspServers = {
       enable = true;
       enableAll = true;
     };
+
     neovim.awWatcher = true;
   };
 }
