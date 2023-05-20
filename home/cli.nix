@@ -6,6 +6,12 @@
 let
   cfg = config.skogsbrus.cli;
   inherit (lib) mkOption mkEnableOption types;
+  linuxPackages = with pkgs; [
+    iputils    # Not supported on Darwin (22-05-19)
+    traceroute # Not supported on Darwin (22-05-19)
+    usbutils   # Not supported on Darwin (22-05-19)
+    iw         # Not supported on Darwin (22-05-19)
+  ];
 in
 {
   config = {
@@ -16,11 +22,8 @@ in
       curl
       dig
       iperf
-      iw
       mtr
       openssl
-      iputils
-      traceroute
       wget
 
       # build tools
@@ -45,9 +48,9 @@ in
       tmux
 
       # misc
-      usbutils
       zsh
-    ];
+    ] ++ (if stdenv.isLinux then linuxPackages else []);
+
 
     programs.fzf = {
       enable = true;

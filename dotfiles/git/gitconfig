@@ -1,5 +1,7 @@
 [include]
     path = ~/os/dotfiles/git/gituser-default
+[include]
+    path = ~/code/os/dotfiles/git/gituser-default
 [includeIf "gitdir:~/code/meraki/**"]
     path = ~/os/dotfiles/git/gituser-meraki
 [includeIf "gitdir:~/code/modcam/**"]

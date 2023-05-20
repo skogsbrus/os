@@ -81,6 +81,14 @@ in
               "${cfg.subnet}.4/32"
             ];
           }
+          {
+            # airm2
+            publicKey = "h4QkyuAWO7Iq3ZlHOSIjmvFGTuqCLhZSr94HDNl4xyw=";
+            presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-airm2.key";
+            allowedIPs = [
+              "${cfg.subnet}.5/32"
+            ];
+          }
         ] else [ ]) ++ (if !cfg.server then
           [{
             # Router

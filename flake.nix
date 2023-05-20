@@ -3,17 +3,13 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-22.11";
     unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager/release-22.11";
+    darwin.url = "github:lnl7/nix-darwin";
+    darwin.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, unstable, home-manager, ... }:
+  outputs = { self, nixpkgs, unstable, home-manager, darwin, ... }:
     {
-      nixosConfigurations = {
-        keeper = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            ./hosts/keeper
-            home-manager.nixosModules.home-manager
-            {
+      nixosConfigurations = { keeper = nixpkgs.lib.nixosSystem { system = "x86_64-linux"; modules = [ ./hosts/keeper home-manager.nixosModules.home-manager {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.users.johanan = { ... }: {
@@ -79,6 +75,24 @@
               home-manager.users.johanan = { ... }: {
                 _module.args.unstable = unstable;
                 imports = [ ./hosts/workstation/home.nix ];
+              };
+            }
+          ];
+        };
+      };
+
+      darwinConfigurations = {
+        airm2 = darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          modules = [
+            ./hosts/airm2
+            home-manager.darwinModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.johanan = { ... }: {
+                _module.args.unstable = unstable;
+                imports = [ ./hosts/airm2/home.nix ];
               };
             }
           ];

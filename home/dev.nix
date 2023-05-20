@@ -35,10 +35,10 @@ in
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
       jetbrains-mono
-      docker
+      podman
+      qemu
       postgresql
-      zeal
-    ]
+    ] ++ (if stdenv.isLinux then [ zeal ] else [ ])
     ++ cfg.extraPackages
     ++ (if cfg.enableAll || cfg.cuda then [ pkgs.cudatoolkit_11 ] else [ ])
     ++ (if cfg.enableAll || cfg.k8s then [
@@ -58,12 +58,10 @@ in
     ] else [ ])
     ++ (if cfg.enableAll || cfg.cxx then [
       pkgs.cmake
-      pkgs.coz
       pkgs.gcc
       pkgs.gdb
       pkgs.gnumake
-      pkgs.valgrind
-    ] else [ ])
+    ] else [ ] ++ (if stdenv.isLinux then [ pkgs.coz pkgs.valgrind ] else [ ]))
     ++ (if cfg.enableAll || cfg.corporate then [
       pkgs.go-jira
     ] else [ ]);
