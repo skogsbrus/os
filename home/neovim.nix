@@ -5,6 +5,7 @@
 , ...
 }:
 let
+  cfg = config.skogsbrus.neovim;
   delaytrain = pkgs.vimUtils.buildVimPlugin {
     # TODO: contribute to nixpkgs
     name = "delaytrain";
@@ -15,11 +16,48 @@ let
       sha256 = "BZ2LSeD1lKyaP6CTSB9PmiGqUe8/p+Z3o56Mv6ZB2qM=";
     };
   };
-  cfg = config.skogsbrus.neovim;
+  auto-dark-mode = pkgs.vimUtils.buildVimPlugin {
+    # TODO: contribute to nixpkgs
+    name = "auto-dark-mode";
+    src = pkgs.fetchFromGitHub {
+      owner = "f-person";
+      repo = "auto-dark-mode.nvim";
+      rev = "79a614f12ec21f99123c61a9b85e441238455113";
+      sha256 = "IQ5bI7KCflxzeTd3QbynX+yzHSuODxOxEzPE1yW4Iaw=";
+    };
+  };
+  darkModeVimCfg = (if cfg.autoDarkMode then ''
+    lua << EOF
+      local auto_dark_mode = require('auto-dark-mode')
+
+      auto_dark_mode.setup({
+      	update_interval = 1000,
+      	set_dark_mode = function()
+      		vim.api.nvim_set_option('background', 'dark')
+      		vim.cmd('colorscheme onedark')
+      	end,
+      	set_light_mode = function()
+      		vim.api.nvim_set_option('background', 'light')
+      		vim.cmd('colorscheme onedark')
+      	end,
+      })
+      auto_dark_mode.init()
+    EOF
+  '' else "");
   inherit (lib) mkEnableOption;
 in
 {
+  options.skogsbrus.neovim = {
+    autoDarkMode = mkEnableOption "Enable auto dark mode (Mac only)";
+  };
+
   config = {
+    assertions = [
+      {
+        assertion = !cfg.autoDarkMode || (cfg.autoDarkMode && pkgs.stdenv.isDarwin);
+        message = "auto-dark-mode for Neovim is only supported on Mac";
+      }
+    ];
     programs.neovim = {
       enable = true;
       package = with unstable.legacyPackages.${pkgs.system}; neovim-unwrapped;
@@ -40,9 +78,7 @@ in
         vim-nix
         vim-obsession
         vim-terraform
-        #comment-nvim # crashes on launch with 22.05
-        #which-key-nvim # stopped working with 22.05
-      ];
+      ] ++ (if cfg.autoDarkMode then [ auto-dark-mode ] else [ ]);
 
       extraConfig = ''
         set nocompatible
@@ -149,6 +185,8 @@ in
         require('onedark').load()
         EOF
 
+        ${darkModeVimCfg}
+
         lua << EOF
         local nvim_lsp = require('lspconfig')
 
@@ -219,25 +257,6 @@ in
             debounce_text_changes = 150,
           }
         }
-
-        --require('Comment').setup {
-        --  opleader = {
-        --    line = "gc",
-        --    block = "gb",
-        --  },
-        --  toggler = {
-        --    line = "gcc",
-        --    block = "gbc",
-        --  },
-        --  basic = true,
-        --  extra = true,
-        --}
-
-        --require("which-key").setup {
-        ---- your configuration comes here
-        ---- or leave it empty to use the default settings
-        ---- refer to the configuration section below
-        --}
         EOF
       '';
     };

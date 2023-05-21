@@ -29,5 +29,9 @@
       enable = true;
       enableAll = true;
     };
+
+    neovim = {
+      autoDarkMode = true;
+    };
   };
 }
