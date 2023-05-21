@@ -12,7 +12,6 @@ in
   options.skogsbrus.client = {
     enable = mkEnableOption "client (non-server) applications";
     enableAll = mkEnableOption "installation of everything this module has to offer";
-    activitywatch = mkEnableOption "activitywatch";
     corporate = mkEnableOption "corporate applications";
     extraPackages = mkOption
       {
@@ -44,9 +43,6 @@ in
     ++ cfg.extraPackages
     ++ (if cfg.enableAll || cfg.corporate then [
       pkgs.slack
-    ] else [ ])
-    ++ (if cfg.enableAll || cfg.activitywatch then [
-      (pkgs.callPackage ./activitywatch { })
     ] else [ ]);
   };
 }

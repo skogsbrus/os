@@ -5,16 +5,6 @@
 , ...
 }:
 let
-  aw-watcher-vim = pkgs.vimUtils.buildVimPlugin {
-    # TODO: contribute to nixpkgs
-    name = "aw-watcher-vim";
-    src = pkgs.fetchFromGitHub {
-      owner = "ActivityWatch";
-      repo = "aw-watcher-vim";
-      rev = "efdf283f879a89dccd5f4ba71a27f43303577aea";
-      sha256 = "CXO7zl63qtwlHCMSa4NVSr5hoxsfc2fwc11a+tWszWU=";
-    };
-  };
   delaytrain = pkgs.vimUtils.buildVimPlugin {
     # TODO: contribute to nixpkgs
     name = "delaytrain";
@@ -29,10 +19,6 @@ let
   inherit (lib) mkEnableOption;
 in
 {
-  options.skogsbrus.neovim = {
-    awWatcher = mkEnableOption "aw-watcher-vim";
-  };
-
   config = {
     programs.neovim = {
       enable = true;
@@ -56,8 +42,7 @@ in
         vim-terraform
         #comment-nvim # crashes on launch with 22.05
         #which-key-nvim # stopped working with 22.05
-      ] ++
-      (if cfg.awWatcher then [ aw-watcher-vim ] else [ ]);
+      ];
 
       extraConfig = ''
         set nocompatible

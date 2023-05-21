@@ -34,6 +34,5 @@
       enable = true;
       enableAll = true;
     };
-    neovim.awWatcher = false;
   };
 }
