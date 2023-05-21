@@ -44,6 +44,14 @@ let
       auto_dark_mode.init()
     EOF
   '' else "");
+  treesitterCfg = ''
+    lua << EOF
+      require("nvim-treesitter.configs").setup({
+        ensure_installed = {},
+        highlight = { enable = true},
+      })
+    EOF
+  '';
   inherit (lib) mkEnableOption;
 in
 {
@@ -69,7 +77,7 @@ in
         gitsigns-nvim
         nerdtree
         nvim-lspconfig
-        nvim-treesitter
+        nvim-treesitter.withAllGrammars # TODO: add option for disabling/enabling this
         onedark-nvim
         rust-vim
         vim-airline
@@ -186,6 +194,8 @@ in
         EOF
 
         ${darkModeVimCfg}
+
+        ${treesitterCfg}
 
         lua << EOF
         local nvim_lsp = require('lspconfig')
