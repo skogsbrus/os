@@ -57,6 +57,7 @@ in
 {
   options.skogsbrus.neovim = {
     autoDarkMode = mkEnableOption "Enable auto dark mode (Mac only)";
+    allGrammars = mkEnableOption "Enable all treesitter grammars";
   };
 
   config = {
@@ -77,7 +78,6 @@ in
         gitsigns-nvim
         nerdtree
         nvim-lspconfig
-        nvim-treesitter.withAllGrammars # TODO: add option for disabling/enabling this
         onedark-nvim
         rust-vim
         vim-airline
@@ -86,7 +86,8 @@ in
         vim-nix
         vim-obsession
         vim-terraform
-      ] ++ (if cfg.autoDarkMode then [ auto-dark-mode ] else [ ]);
+      ] ++ (if cfg.autoDarkMode then [ auto-dark-mode ] else [ ])
+      ++ (if cfg.allGrammars then [ nvim-treesitter.withAllGrammars ] else [ ]);
 
       extraConfig = ''
         set nocompatible

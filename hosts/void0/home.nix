@@ -34,5 +34,9 @@
       enable = true;
       enableAll = true;
     };
-  };
-}
+
+    neovim = {
+      allGrammars = true;
+    }
+      };
+  }

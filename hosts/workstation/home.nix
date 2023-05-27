@@ -39,6 +39,8 @@
       enableAll = true;
     };
 
-    neovim.awWatcher = true;
+    neovim = {
+      allGrammars = true;
+    };
   };
 }
