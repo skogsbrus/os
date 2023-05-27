@@ -31,7 +31,6 @@
     ./users.nix
     ./wireguard.nix
     ./xserver.nix
-    ./zsh.nix
   ];
 
   # Set local time
