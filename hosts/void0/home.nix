@@ -37,6 +37,6 @@
 
     neovim = {
       allGrammars = true;
-    }
-      };
-  }
+    };
+  };
+}

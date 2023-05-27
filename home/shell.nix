@@ -32,11 +32,6 @@ let
           source "$(fzf-share)/completion.zsh"
         fi
 
-        # enable atuin
-        if command -v atuin &> /dev/null; then
-          eval "$(atuin init zsh)"
-        fi
-
         # Load version control info
         autoload -Uz vcs_info
         precmd() { vcs_info }
@@ -114,7 +109,7 @@ let
   };
 
   atuin = {
-    programs.atuin = {
+    programs.atuin = mkIf cfg.atuin {
       enable = true;
       enableZshIntegration = true;
       settings = {
@@ -144,6 +139,7 @@ in
   options.skogsbrus.shell = {
     zsh = mkEnableOption "Enable ZSH shell";
     tmux = mkEnableOption "Enable Tmux config";
+    atuin = mkEnableOption "Enable atuin";
 
     tmuxBgColor = mkOption {
       type = types.str;

@@ -54,6 +54,67 @@ in
     networking.interfaces.enp2s0.useDHCP = true;
     networking.interfaces.wlp3s0.useDHCP = true;
 
+    networking = {
+        firewall.extraCommands = ''
+            iptables -A FORWARD -i enp1s0 -p tcp --dport 80 -d 10.77.77.38 -j ACCEPT
+            iptables -A FORWARD -i enp1s0 -p tcp --dport 443 -d 10.77.77.38 -j ACCEPT
+
+            iptables -A POSTROUTING -t nat -p tcp -d 10.77.77.38 --dport 80 -j SNAT --to-source 10.77.77.1
+            iptables -A POSTROUTING -t nat -p tcp -d 10.77.77.38 --dport 443 -j SNAT --to-source 10.77.77.1
+        '';
+        firewall.allowedTCPPorts = [ 80 443 ];
+    };
+
+    networking.firewall = {
+      enable = true;
+      trustedInterfaces = [ "br0" "wg0" ];
+
+
+      interfaces = {
+        enp1s0 = {
+          allowedTCPPorts = [ ];
+          allowedUDPPorts = [
+            # Wireguard
+            666
+          ];
+        };
+        # https://serverfault.com/a/424226
+        wguest = {
+          allowedTCPPorts = [
+            # DNS
+            53
+            # HTTP(S)
+            80
+            443
+            110
+            # Email (pop3, pop3s)
+            995
+            114
+            # Email (imap, imaps)
+            993
+            # Email (SMTP Submission RFC 6409)
+            587
+            # Git
+            2222
+          ];
+          allowedUDPPorts = [
+            # https://serverfault.com/a/424226
+            # DNS
+            53
+            # DHCP
+            67
+            68
+            # NTP
+            123
+            # Wireguard
+            666
+          ];
+        };
+      };
+    };
+    # Prevent sshd from opening port 22 (circumventing the firewall)
+    services.openssh.openFirewall = false;
+
     networking.nat = {
       enable = true;
       internalInterfaces = [
@@ -142,55 +203,6 @@ in
         ${cfg.privateSubnet}.83 workstation
         ${cfg.privateSubnet}.90 kodi
       '';
-
-    networking.firewall = {
-      enable = true;
-      trustedInterfaces = [ "br0" "wg0" ];
-
-      interfaces = {
-        enp1s0 = {
-          allowedTCPPorts = [ ];
-          allowedUDPPorts = [
-            # Wireguard
-            666
-          ];
-        };
-        # https://serverfault.com/a/424226
-        wguest = {
-          allowedTCPPorts = [
-            # DNS
-            53
-            # HTTP(S)
-            80
-            443
-            110
-            # Email (pop3, pop3s)
-            995
-            114
-            # Email (imap, imaps)
-            993
-            # Email (SMTP Submission RFC 6409)
-            587
-            # Git
-            2222
-          ];
-          allowedUDPPorts = [
-            # https://serverfault.com/a/424226
-            # DNS
-            53
-            # DHCP
-            67
-            68
-            # NTP
-            123
-            # Wireguard
-            666
-          ];
-        };
-      };
-    };
-    # Prevent sshd from opening port 22 (circumventing the firewall)
-    services.openssh.openFirewall = false;
 
     services.hostapd = {
       enable = true;

@@ -5,11 +5,29 @@
     home-manager.url = "github:nix-community/home-manager/release-22.11";
     darwin.url = "github:lnl7/nix-darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
+    agenix.url = "github:ryantm/agenix";
+    agenix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, unstable, home-manager, darwin, ... }:
+  outputs = { self, nixpkgs, unstable, home-manager, darwin, agenix }:
+  let
+      skogsbrus = import ./lib { inherit nixpkgs; };
+  in
     {
-      nixosConfigurations = { keeper = nixpkgs.lib.nixosSystem { system = "x86_64-linux"; modules = [ ./hosts/keeper home-manager.nixosModules.home-manager {
+      nixosConfigurations = {
+        keeper = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = {
+            inherit
+              agenix
+              skogsbrus
+              unstable;
+          };
+          modules = [
+            ./hosts/keeper
+            agenix.nixosModules.age
+            home-manager.nixosModules.home-manager
+            {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.users.johanan = { ... }: {
@@ -21,8 +39,12 @@
         };
         router = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
+          specialArgs = {
+            inherit agenix;
+          };
           modules = [
             ./hosts/router
+            agenix.nixosModules.age
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
