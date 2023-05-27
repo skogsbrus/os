@@ -19,6 +19,14 @@ in
   skogsbrus = {
     fwupd.enable = true;
 
+    caddy = {
+      enable = true;
+      publicUrl = "vpn.skogsbrus.xyz";
+      openFirewall = true;
+    };
+
+    authelia.enable = true;
+
     kodi = {
       enable = true;
       autoLogin = true;
@@ -147,10 +155,20 @@ in
   # Allow remote control
   networking.firewall = {
     allowedTCPPorts = [
-      111  2049 4000 4001 4002 20048
+      111
+      2049
+      4000
+      4001
+      4002
+      20048
     ];
     allowedUDPPorts = [
-      111  2049 4000 4001 4002 20048
+      111
+      2049
+      4000
+      4001
+      4002
+      20048
     ];
   };
 

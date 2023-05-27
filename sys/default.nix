@@ -1,10 +1,13 @@
 { config
 , pkgs
+, agenix
 , ...
 }:
 {
   # System defaults for all machines
   imports = [
+    ./caddy.nix
+    ./authelia.nix
     ./docker.nix
     ./fwupd.nix
     ./grafana.nix
@@ -48,5 +51,6 @@
     python3
     tmux
     vim
+    agenix.packages.${pkgs.system}.default
   ];
 }
