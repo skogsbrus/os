@@ -26,7 +26,6 @@
     ./steam.nix
     ./syncthing.nix
     ./tlp.nix
-    ./tmux.nix
     ./transmission
     ./time_machine.nix
     ./users.nix
