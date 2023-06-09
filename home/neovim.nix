@@ -244,7 +244,7 @@ in
             'terraformls',
             'rnix',
             'clangd',
-            'sumneko_lua',
+            'lua_ls',
             'yamlls',
             'rust_analyzer'
         }

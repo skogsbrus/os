@@ -22,7 +22,7 @@ in
   config = with pkgs; mkIf cfg.enable {
     home.packages = [
       rnix-lsp
-      sumneko-lua-language-server
+      luaPackages.lua-lsp
       yaml-language-server
     ]
     ++ (if cfg.enableAll || cfg.cxx then [

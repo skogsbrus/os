@@ -108,10 +108,6 @@ in
       channels = 4;
     };
 
-    steam = {
-      steamlink = true;
-    };
-
     syncthing = {
       enable = true;
       user = "johanan";
