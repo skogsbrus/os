@@ -47,6 +47,8 @@ in
       openFirewall = true;
     };
 
+    email.nullmailer = true;
+
     networking = {
       enableNetworkManager = true;
     };

@@ -46,7 +46,7 @@ let
         BindReadOnlyPaths = [
           "/nix/store"
           "/run/agenix" # TODO: bind /run/agenix/name instead
-          "/etc/" # Needed for e.g. /etc/resolv.conf
+          "/etc/" # # needed for resolv.conf and ssl cert trust chain
         ];
       }
       options

@@ -9,4 +9,5 @@ in
 {
   "secrets/authelia_cfg_yaml.age".publicKeys = user_keys ++ host_keys;
   "secrets/authelia_users_yaml.age".publicKeys = user_keys ++ host_keys;
+  "secrets/nullmailer_remotes.age".publicKeys = user_keys ++ host_keys;
 }

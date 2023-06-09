@@ -14,6 +14,7 @@
     ./kodi.nix
     ./jellyfin.nix
     ./miniflux.nix
+    ./email.nix
     ./networking.nix
     ./nfs_mount.nix
     ./nix.nix
