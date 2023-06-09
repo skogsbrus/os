@@ -115,6 +115,7 @@ in
           # Since PrivatUsers=false, we need access to the host's /var/run folder
           BindPaths = [
             "/var/run/caddy"
+            "/var/lib/caddy"
           ];
 
           # Needs to be able to reach outside services such as let's encrypt
@@ -123,7 +124,7 @@ in
           IPAddressAllow = [ "0.0.0.0/0" "::/0" ];
           IPAddressDeny = [ ];
           Environment = [
-            "HOME=/var/run/caddy"
+            "HOME=/var/lib/caddy"
           ];
         };
       };
