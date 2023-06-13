@@ -159,6 +159,7 @@ in
 
     services.dnsmasq = {
       enable = true;
+      # TODO: extraConfig deprecated in favor of settings attribute set
       extraConfig = ''
         # sensible behaviours
         domain-needed
