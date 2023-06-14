@@ -55,12 +55,28 @@ in
     networking.interfaces.wlp3s0.useDHCP = true;
 
     networking = {
-        firewall.extraCommands = ''
-            iptables -A FORWARD -i enp1s0 -p tcp --dport 80 -d 10.77.77.38 -j ACCEPT
-            iptables -A FORWARD -i enp1s0 -p tcp --dport 443 -d 10.77.77.38 -j ACCEPT
-
+        firewall.extraCommands = lib.concatStrings([
+        # Rewrite destination IP of of incoming HTTP(s) requests to Keeper
+        # TODO: possible to get prerouting working without specifying the external IP?
+        # Doesn't work with `-i enp1s0` as an alternative.
+        ''
+            iptables -A PREROUTING -t nat -p tcp -d 158.174.180.100 --dport 80 -j DNAT --to-destination 10.77.77.38:80
+            iptables -A PREROUTING -t nat -p tcp -d 158.174.180.100 --dport 443 -j DNAT --to-destination 10.77.77.38:443
+        ''
+        # Forward incoming HTTP(s) requests with a destination IP to Keeper
+        ''
+            iptables -A FORWARD -i enp1s0 -p tcp --dport 80 -d 10.77.77.38 -j ACCEPT -m state --state NEW,RELATED,ESTABLISHED
+            iptables -A FORWARD -i enp1s0 -p tcp --dport 443 -d 10.77.77.38 -j ACCEPT -m state --state NEW,RELATED,ESTABLISHED
+        ''
+        # Rewrite source IP of HTTP(s) requests for Keeper to Router
+        ''
             iptables -A POSTROUTING -t nat -p tcp -d 10.77.77.38 --dport 80 -j SNAT --to-source 10.77.77.1
             iptables -A POSTROUTING -t nat -p tcp -d 10.77.77.38 --dport 443 -j SNAT --to-source 10.77.77.1
+        '']);
+        # Flush config on reload
+        firewall.extraStopCommands = ''
+          iptables -F
+          ip6tables -F
         '';
         firewall.allowedTCPPorts = [ 80 443 ];
     };
