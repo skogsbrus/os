@@ -59,7 +59,7 @@ in
     ++ (if cfg.enableAll || cfg.cxx then [
       pkgs.cmake
       pkgs.gcc
-      pkgs.gdb
+      #pkgs.gdb
       pkgs.gnumake
     ] else [ ] ++ (if stdenv.isLinux then [ pkgs.coz pkgs.valgrind ] else [ ]))
     ++ (if cfg.enableAll || cfg.corporate then [
