@@ -13,7 +13,7 @@ in
     nullmailer = mkEnableOption "enable nullmailer";
   };
 
-  config = {
+  config = mkIf cfg.nullmailer {
     age.secrets.nullmailer_remotes = {
       file = ../secrets/nullmailer_remotes.age;
       path = "/etc/nullmailer/remotes";
