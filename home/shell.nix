@@ -32,6 +32,9 @@ let
           source "$(fzf-share)/completion.zsh"
         fi
 
+        # enable atuin
+        eval "$(atuin init zsh)"
+
         # Load version control info
         autoload -Uz vcs_info
         precmd() { vcs_info }
@@ -111,7 +114,7 @@ let
   atuin = {
     programs.atuin = mkIf cfg.atuin {
       enable = true;
-      enableZshIntegration = true;
+      enableZshIntegration = false;
       settings = {
         dialect = "uk"; # don't use American date formats
         update_check = false;
