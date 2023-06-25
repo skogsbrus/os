@@ -21,7 +21,7 @@
     shell = {
       zsh = true;
       tmux = true;
-      atuin = true;
+      atuin = false;
       tmuxBgColor = "yellow";
       tmuxFgColor = "black";
     };

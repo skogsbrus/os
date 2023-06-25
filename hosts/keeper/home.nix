@@ -11,7 +11,7 @@
 
   skogsbrus = {
     shell = {
-      atuin = true;
+      atuin = false;
       zsh = true;
       tmux = true;
       tmuxBgColor = "blue";
