@@ -33,7 +33,7 @@ let
         fi
 
         # enable atuin
-        eval "$(atuin init zsh)"
+        #eval "$(atuin init zsh)"
 
         # Load version control info
         autoload -Uz vcs_info
