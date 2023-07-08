@@ -23,6 +23,7 @@
     ./photo_organizer
     ./postgres.nix
     ./printing.nix
+    ./rclone_backup.nix
     ./radarr.nix
     ./router.nix
     ./sonarr.nix

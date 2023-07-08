@@ -10,4 +10,5 @@ in
   "secrets/authelia_cfg_yaml.age".publicKeys = user_keys ++ host_keys;
   "secrets/authelia_users_yaml.age".publicKeys = user_keys ++ host_keys;
   "secrets/nullmailer_remotes.age".publicKeys = user_keys ++ host_keys;
+  "secrets/backblaze_b2_backup_prod_rclone_config.age".publicKeys = user_keys ++ host_keys;
 }

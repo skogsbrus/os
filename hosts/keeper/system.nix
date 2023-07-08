@@ -42,9 +42,9 @@ in
     };
 
     komga = {
-        enable = true;
-        port = 4246;
-        openFirewall = true;
+      enable = true;
+      port = 4246;
+      openFirewall = true;
     };
 
     miniflux = {
@@ -77,6 +77,14 @@ in
       openFirewall = true;
       user = username;
       group = usergroup;
+    };
+
+    rcloneBackup = {
+      enable = true;
+      b2_directories = {
+        "/tank/media/photos" = "keeper/tank/media/photos";
+        "/tank/media/books" = "keeper/tank/media/books";
+      };
     };
 
     photoprism = {
