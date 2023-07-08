@@ -41,6 +41,12 @@ in
       openFirewall = true;
     };
 
+    komga = {
+        enable = true;
+        port = 4246;
+        openFirewall = true;
+    };
+
     miniflux = {
       enable = true;
       port = 5656;

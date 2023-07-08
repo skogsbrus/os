@@ -13,6 +13,7 @@
     ./grafana.nix
     ./kodi.nix
     ./jellyfin.nix
+    ./komga.nix
     ./miniflux.nix
     ./email.nix
     ./networking.nix
