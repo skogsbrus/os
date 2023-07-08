@@ -144,7 +144,9 @@ in
       enable = true;
       description = "Index existing photos";
       serviceConfig = {
-        ExecStart = "${pkgs.photoprism}/bin/photoprism index";
+        User = cfg.user;
+        Group = cfg.group;
+        ExecStart = "${pkgs.photoprism}/bin/photoprism index --cleanup";
         Environment = [
           "PHOTOPRISM_ORIGINALS_PATH='${cfg.originalsPath}'"
           "PHOTOPRISM_STORAGE_PATH='${cfg.storagePath}'"
@@ -152,6 +154,13 @@ in
           "PHOTOPRISM_READONLY=${(if cfg.readonly then "true" else "false")}"
           "PHOTOPRISM_DETECT_NSFW=${(if cfg.enableTensorflow then "true" else "false")}"
           "PHOTOPRISM_DISABLE_TENSORFLOW=${(if cfg.enableTensorflow then "false" else "true")}"
+          "PHOTOPRISM_DATABASE_DRIVER=mysql"
+          # TODO: don't use default socket
+          "PHOTOPRISM_DATABASE_SERVER=/run/mysqld/mysqld.sock"
+          "PHOTOPRISM_DATABASE_USER=${cfg.user}"
+          "PHOTOPRISM_AUTH_MODE=password"
+          "PHOTOPRISM_ADMIN_USER='${cfg.adminUser}'"
+          "PHOTOPRISM_ADMIN_PASSWORD='${cfg.adminUserPassword}'"
         ];
       };
       startAt = "daily";

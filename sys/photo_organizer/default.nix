@@ -33,8 +33,9 @@ in
       description = "Organize photos by date";
       serviceConfig = {
         ExecStart = "${photoOrganizer}/bin/photo_organizer.py --dir '${cfg.inputDir}' --out '${cfg.outputDir}' --silent";
+        ExecStartPost = "systemctl start photoprism_index"; # Hacky dependency to auto-trigger indexing once import is complete
       };
-      startAt = "daily";
+      startAt = "hourly";
     };
   };
 }
