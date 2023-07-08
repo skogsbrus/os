@@ -6,7 +6,7 @@
 let
   cfg = config.skogsbrus.rcloneBackup;
   rclone_config_entry = "backblaze-backup-prod";
-  b2_bucket = "skogsbrus-bucket-prod";
+  b2_bucket = "skogsbrus-backup-prod";
   inherit (lib) mkIf mkOption mkEnableOption types mapAttrs';
 in
 {
