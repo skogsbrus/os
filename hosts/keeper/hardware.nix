@@ -31,35 +31,45 @@
   };
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/86e123ec-c715-4e54-8401-f88e9076ceef";
+    {
+      device = "/dev/disk/by-uuid/86e123ec-c715-4e54-8401-f88e9076ceef";
       fsType = "ext4";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/3e3afe60-3a92-46dc-81f9-95c0b28c92ec";
+    {
+      device = "/dev/disk/by-uuid/3e3afe60-3a92-46dc-81f9-95c0b28c92ec";
       fsType = "ext4";
     };
 
   fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/b6cbf7e1-35a5-42c9-8565-4ba3c0fcbc9e";
+    {
+      device = "/dev/disk/by-uuid/b6cbf7e1-35a5-42c9-8565-4ba3c0fcbc9e";
       fsType = "ext4";
     };
 
   fileSystems."/nix" =
-    { device = "/dev/disk/by-uuid/d04f4a64-c14e-4252-9161-d6b18ec6c0be";
+    {
+      device = "/dev/disk/by-uuid/d04f4a64-c14e-4252-9161-d6b18ec6c0be";
       fsType = "ext4";
     };
 
   fileSystems."/var" =
-    { device = "/dev/disk/by-uuid/db16e57d-d6c6-48c1-ae8c-8f5a340d0e42";
+    {
+      device = "/dev/disk/by-uuid/db16e57d-d6c6-48c1-ae8c-8f5a340d0e42";
       fsType = "ext4";
     };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/c9b3ed7c-17aa-488d-9a7b-dcc47bacfd73"; }
-    ];
+    [{ device = "/dev/disk/by-uuid/c9b3ed7c-17aa-488d-9a7b-dcc47bacfd73"; }];
 
   # NOTE: use `zfs set mountpoint=legacy DATASET` and then add it here
+
+  fileSystems."/tank/media/documents" =
+    {
+      device = "tank/media/documents";
+      fsType = "zfs";
+    };
 
   fileSystems."/tank/media/music" =
     {
