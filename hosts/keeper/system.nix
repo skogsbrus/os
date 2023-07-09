@@ -56,7 +56,7 @@ in
     email.nullmailer = true;
 
     networking = {
-      enableNetworkManager = true;
+      enableNetworkManager = false;
     };
 
     nix = {
