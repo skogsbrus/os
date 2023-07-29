@@ -20,7 +20,8 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/Console" = {
-      font-scale = 1.2000000000000002;
+      font-scale = 1.2;
+      last-window-size = mkTuple [ 972 673 ];
       theme = "night";
     };
 
@@ -75,6 +76,10 @@ with lib.hm.gvariant;
       window-state = mkTuple [ 980 640 ];
     };
 
+    "org/gnome/desktop/a11y/interface" = {
+      high-contrast = false;
+    };
+
     "org/gnome/desktop/app-folders" = {
       folder-children = [ "Utilities" "YaST" ];
     };
@@ -95,10 +100,10 @@ with lib.hm.gvariant;
     "org/gnome/desktop/background" = {
       color-shading-type = "solid";
       picture-options = "zoom";
-      picture-uri = "file:///home/johanan/os/dotfiles/wallpapers/pandora.webp";
-      picture-uri-dark = "file:///home/johanan/os/dotfiles/wallpapers/pandora.webp";
-      primary-color = "#000000000000";
-      secondary-color = "#000000000000";
+      picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/adwaita-l.webp";
+      picture-uri-dark = "file:///run/current-system/sw/share/backgrounds/gnome/adwaita-d.webp";
+      primary-color = "#3071AE";
+      secondary-color = "#000000";
     };
 
     "org/gnome/desktop/calendar" = {
@@ -122,6 +127,7 @@ with lib.hm.gvariant;
       font-name = "Source Sans Variable 10";
       gtk-theme = "Numix";
       show-battery-percentage = true;
+      text-scaling-factor = 1.25;
       toolkit-accessibility = false;
     };
 
@@ -252,7 +258,7 @@ with lib.hm.gvariant;
 
     "org/gnome/desktop/peripherals/mouse" = {
       natural-scroll = false;
-      speed = 0.4521739130434783;
+      speed = 0.452174;
     };
 
     "org/gnome/desktop/peripherals/touchpad" = {
@@ -267,10 +273,11 @@ with lib.hm.gvariant;
 
     "org/gnome/desktop/screensaver" = {
       color-shading-type = "solid";
+      lock-enabled = false;
       picture-options = "zoom";
-      picture-uri = "file:///home/johanan/os/dotfiles/wallpapers/pandora.webp";
-      primary-color = "#000000000000";
-      secondary-color = "#000000000000";
+      picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/adwaita-l.webp";
+      primary-color = "#3071AE";
+      secondary-color = "#000000";
     };
 
     "org/gnome/desktop/search-providers" = {
@@ -278,7 +285,7 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/desktop/session" = {
-      idle-delay = mkUint32 300;
+      idle-delay = mkUint32 0;
     };
 
     "org/gnome/desktop/wm/keybindings" = {
@@ -641,7 +648,7 @@ with lib.hm.gvariant;
 
     "org/gnome/shell/extensions/sound-output-device-chooser" = {
       ports-settings = ''
-        {"version":3,"ports":[]}\\\\\\\\\\\\\\\\n\\\\\\\\n\\\\n\\n\n
+        {"version":3,"ports":[]}\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\n\\\\\\\\\\\\\\\\n\\\\\\\\n\\\\n\\n\n
       '';
     };
 
@@ -705,6 +712,7 @@ with lib.hm.gvariant;
       sort-directories-first = false;
       sort-order = "ascending";
       type-format = "category";
+      view-type = "list";
       window-size = mkTuple [ 853 374 ];
     };
 

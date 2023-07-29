@@ -86,6 +86,28 @@
             }
           ];
         };
+        airm2_vm = nixpkgs.lib.nixosSystem {
+          system = "aarch64-linux";
+          specialArgs = {
+            inherit
+              agenix
+              skogsbrus
+              unstable;
+          };
+          modules = [
+            ./hosts/airm2_vm
+            agenix.nixosModules.age
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.johanan = { ... }: {
+                _module.args.unstable = unstable;
+                imports = [ ./hosts/airm2_vm/home.nix ];
+              };
+            }
+          ];
+        };
         workstation = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [

@@ -15,6 +15,13 @@ in
       default = [ ];
       description = "Groups to add the user to";
     };
+
+    uid = mkOption {
+      type = types.int;
+      example = 999;
+      default = null;
+      description = "User ID to use";
+    };
   };
 
   # TODO: parameterize users
