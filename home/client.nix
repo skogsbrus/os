@@ -12,7 +12,8 @@ in
   options.skogsbrus.client = {
     enable = mkEnableOption "client (non-server) applications";
     enableAll = mkEnableOption "installation of everything this module has to offer";
-    corporate = mkEnableOption "corporate applications";
+    media = mkEnableOption "media apps";
+    comms = mkEnableOption "communication apps";
     extraPackages = mkOption
       {
         type = types.listOf types.package;
@@ -26,23 +27,21 @@ in
     home.packages = with pkgs; [
       chromium
       dconf2nix # syntax converter: dconf -> home manager
-      element-desktop
-      discord
-      gimp
       libreoffice
-      xfce.xfce4-terminal
       peek
       picocom
-      spotify
-      vlc
       vscode
       xclip
-
-      #(pkgs.callPackage pkgs/webex {})
     ]
-    ++ cfg.extraPackages
-    ++ (if cfg.enableAll || cfg.corporate then [
-      pkgs.slack
-    ] else [ ]);
+    ++ (if cfg.enableAll || cfg.media then [
+      gimp
+      spotify
+      vlc
+    ] else [])
+    ++ (if cfg.enableAll || cfg.comms then [
+      discord
+      element-desktop
+      slack
+    ] else []);
   };
 }
