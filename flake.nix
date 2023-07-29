@@ -86,7 +86,7 @@
             }
           ];
         };
-        airm2_vm = nixpkgs.lib.nixosSystem {
+        vm-airm2 = nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
           specialArgs = {
             inherit
@@ -95,7 +95,7 @@
               unstable;
           };
           modules = [
-            ./hosts/airm2_vm
+            ./hosts/vm-airm2
             agenix.nixosModules.age
             home-manager.nixosModules.home-manager
             {
@@ -103,7 +103,7 @@
               home-manager.useUserPackages = true;
               home-manager.users.johanan = { ... }: {
                 _module.args.unstable = unstable;
-                imports = [ ./hosts/airm2_vm/home.nix ];
+                imports = [ ./hosts/vm-airm2/home.nix ];
               };
             }
           ];

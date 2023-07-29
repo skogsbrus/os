@@ -5,7 +5,7 @@
     ../../sys
   ];
 
-  networking.hostName = "airm2_vm";
+  networking.hostName = "vm-airm2";
 
   skogsbrus = {
 
