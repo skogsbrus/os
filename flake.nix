@@ -141,6 +141,21 @@
             }
           ];
         };
+        JOHANAN-M-1H6F = darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          modules = [
+            ./hosts/prom2
+            home-manager.darwinModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.johanan = { ... }: {
+                _module.args.unstable = unstable;
+                imports = [ ./hosts/prom2/home.nix ];
+              };
+            }
+          ];
+        };
       };
     };
 }
