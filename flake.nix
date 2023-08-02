@@ -108,6 +108,28 @@
             }
           ];
         };
+        vm-prom2 = nixpkgs.lib.nixosSystem {
+          system = "aarch64-linux";
+          specialArgs = {
+            inherit
+              agenix
+              skogsbrus
+              unstable;
+          };
+          modules = [
+            ./hosts/vm-prom2
+            agenix.nixosModules.age
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.johanan = { ... }: {
+                _module.args.unstable = unstable;
+                imports = [ ./hosts/vm-prom2/home.nix ];
+              };
+            }
+          ];
+        };
         workstation = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
