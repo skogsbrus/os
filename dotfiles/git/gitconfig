@@ -4,6 +4,8 @@
     path = ~/code/os/dotfiles/git/gituser-default
 [includeIf "gitdir:~/code/meraki/**"]
     path = ~/os/dotfiles/git/gituser-meraki
+[includeIf "gitdir:~/code/meraki/**"]
+    path = ~/code/os/dotfiles/git/gituser-meraki
 [includeIf "gitdir:~/code/modcam/**"]
     path = ~/os/dotfiles/git/gituser-meraki
 [alias]
