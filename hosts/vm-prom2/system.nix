@@ -6,6 +6,7 @@
   ];
 
   networking.hostName = "vm-prom2";
+  networking.nameservers = [ "1.1.1.1" "8.8.8.8" ];
 
   skogsbrus = {
 
