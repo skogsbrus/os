@@ -25,6 +25,9 @@ in
       openFirewall = true;
     };
 
+    grafana.enable = true;
+    prometheus.enable = true;
+
     authelia.enable = true;
 
     kodi = {

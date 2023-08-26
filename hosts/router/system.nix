@@ -10,7 +10,7 @@
 
   skogsbrus = {
     fwupd.enable = true;
-    grafana.enable = true;
+    prometheus.enable = true;
 
     nix = {
       allowUnfree = true;
