@@ -35,7 +35,7 @@ in
       config = {
         LISTEN_ADDR = "0.0.0.0:${toString cfg.port}";
       };
-      adminCredentialsFile = "/home/johanan/os/secrets/miniflux.env";
+      adminCredentialsFile = "/home/johanan/code/os/secrets/miniflux.env";
     };
 
     networking.firewall = mkIf cfg.openFirewall {

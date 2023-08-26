@@ -44,7 +44,7 @@ in
       protocol = "namecheap";
       server = "dynamicdns.park-your-domain.com";
       username = "skogsbrus.xyz";
-      passwordFile = "/home/johanan/os/secrets/ddns.pw";
+      passwordFile = "/home/johanan/code/os/secrets/ddns.pw";
       domains = [ "vpn" "www.vpn" ];
     };
 
@@ -251,7 +251,7 @@ in
         # private network
         ssid=morot
         auth_algs=1
-        wpa_psk_file=/home/johanan/os/secrets/morot.pw
+        wpa_psk_file=/home/johanan/code/os/secrets/morot.pw
         wpa=2
         wpa_pairwise=CCMP
         wpa_key_mgmt=WPA-PSK
@@ -260,7 +260,7 @@ in
         ssid=icecreamiscream
         auth_algs=1
         ap_isolate=1
-        wpa_psk_file=/home/johanan/os/secrets/icecreamiscream.pw
+        wpa_psk_file=/home/johanan/code/os/secrets/icecreamiscream.pw
         wpa=2
         wpa_pairwise=CCMP
         wpa_key_mgmt=WPA-PSK

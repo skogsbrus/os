@@ -48,7 +48,7 @@ in
         address = [
           "${cfg.subnet}.${toString cfg.uniqueId}/32"
         ];
-        privateKeyFile = "/home/johanan/os/secrets/wireguard-private.key";
+        privateKeyFile = "/home/johanan/code/os/secrets/wireguard-private.key";
 
         dns = mkIf (!cfg.server && !cfg.remoteVpn) [
           "${cfg.serverSubnet}.1"
@@ -60,7 +60,7 @@ in
           {
             # voidm
             publicKey = "UpbNJCv+/TVcdYUU8fAgaO6WWAakzuPliYY3OccVeX4=";
-            presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-lenovop1.key";
+            presharedKeyFile = "/home/johanan/code/os/secrets/wireguard-psk-lenovop1.key";
             allowedIPs = [
               "${cfg.subnet}.2/32"
             ];
@@ -68,7 +68,7 @@ in
           {
             # Fairphone 4
             publicKey = "4vbU0LMSSJ83Xgz5VXYe7QLE0hA648lmN97bAWHzvDE=";
-            presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-pixel4a.key";
+            presharedKeyFile = "/home/johanan/code/os/secrets/wireguard-psk-pixel4a.key";
             allowedIPs = [
               "${cfg.subnet}.3/32"
             ];
@@ -76,7 +76,7 @@ in
           {
             # void0
             publicKey = "tcRy0wI2Zi2gR0uhVglwZqObV1k/G4Bhn5EGCLdanmk=";
-            presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-void0.key";
+            presharedKeyFile = "/home/johanan/code/os/secrets/wireguard-psk-void0.key";
             allowedIPs = [
               "${cfg.subnet}.4/32"
             ];
@@ -84,7 +84,7 @@ in
           {
             # airm2
             publicKey = "h4QkyuAWO7Iq3ZlHOSIjmvFGTuqCLhZSr94HDNl4xyw=";
-            presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-airm2.key";
+            presharedKeyFile = "/home/johanan/code/os/secrets/wireguard-psk-airm2.key";
             allowedIPs = [
               "${cfg.subnet}.5/32"
             ];
@@ -93,7 +93,7 @@ in
           [{
             # Router
             publicKey = "+52L7ozWbO40agAyfGO1rupLp532gYUNuv5xDoNkHjI=";
-            presharedKeyFile = "/home/johanan/os/secrets/wireguard-psk-router.key";
+            presharedKeyFile = "/home/johanan/code/os/secrets/wireguard-psk-router.key";
 
             # List of IP (v4 or v6) addresses with CIDR masks from
             # which this peer is allowed to send incoming traffic and to which
@@ -122,7 +122,7 @@ in
         ${pkgs.iproute}/bin/ip route delete ${cfg.subnet}.0/24
       '';
 
-      privateKeyFile = "/home/johanan/os/secrets/wireguard-private.key";
+      privateKeyFile = "/home/johanan/code/os/secrets/wireguard-private.key";
 
       dns = [
         "217.64.148.33"
