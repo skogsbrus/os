@@ -172,6 +172,7 @@ in
     allowedTCPPorts = [
       111
       2049
+      2222 # SSH during boot
       4000
       4001
       4002
