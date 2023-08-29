@@ -21,7 +21,7 @@
     "/dev/disk/by-id/ata-WD_Green_M.2_2280_240GB_22126W805272"
   ];
 
-  boot.kernelModules = [ "igb" ];
+  boot.kernelModules = [ "igb" "r8169" ];
   boot.extraModulePackages = [ ];
   #boot.kernelParams = [
   #  # See https://www.kernel.org/doc/Documentation/filesystems/nfs/nfsroot.txt for syntax
@@ -30,7 +30,7 @@
 
   boot.initrd = {
     availableKernelModules = [ "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" "igb" ];
-    kernelModules = [ "kvm-amd" "igb" ];
+    kernelModules = [ "kvm-amd" "igb" "r8169" ];
     network = {
       # This will use udhcp to get an ip address.
       # Make sure you have added the kernel module for your network driver to `boot.initrd.availableKernelModules`,
