@@ -28,9 +28,9 @@
   #  "ip=10.77.77.38::10.77.77.1::keeper::off" # Needs to be in sync with IP assigned by router
   #];
 
-  boot.initrd.secrets = {
-  "/root/initrd-ssh-key" = " /etc/secrets/initrd/ssh_host_ed25519_key ";
-};
+#  boot.initrd.secrets = {
+#  "/etc/secrets/initrd/ssh_host_ed25519_key" = null;
+# };
 
   boot.initrd = {
     availableKernelModules = [ "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" "igb" ];
@@ -50,7 +50,7 @@
         # the keys are copied to initrd from the path specified; multiple keys can be set
         # you can generate any number of host keys using
         # `ssh-keygen -t ed25519 -N "" -f /path/to/ssh_host_ed25519_key`
-        hostKeys = [ /root/initrd-ssh-key ];
+        hostKeys = [ /boot/intrd_ssh_host_ed25519_key ];
         # public ssh key used for login
         authorizedKeys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINug6YZP5It5utF3UALqq+Wq93Taj+xtzaOMv6qwVfWc contact@skogsbrus.xyz" ];
       };
