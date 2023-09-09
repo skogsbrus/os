@@ -15,6 +15,7 @@ in
   networking.hostName = "keeper";
 
   users.extraUsers."${username}".isNormalUser = true;
+  users.extraUsers.emma.isNormalUser = true;
 
   skogsbrus = {
     fwupd.enable = true;
@@ -108,6 +109,26 @@ in
     postgres = {
       enable = true;
       user = "johanan";
+    };
+
+    sambaServer = {
+      enable = true;
+      openFirewall = true;
+      allowedSubnet = "10.77.77.";
+      enableWebServiceDiscoveryDaemon = true;
+      name = "keeper";
+      shares = {
+        dell-xps = {
+          path = "/tank/backup/windows/dell-xps/veeam";
+          browseable = "yes";
+          "read only" = "no";
+          "guest ok" = "no";
+          "create mask" = "0644";
+          "directory mask" = "0755";
+          "valid users" = "emma";
+          "force group" = "users";
+        };
+      };
     };
 
     ssh.enable = true;
@@ -209,14 +230,12 @@ in
     extraNfsdConfig = '''';
   };
   services.nfs.server.exports = ''
-    # read-only
-    ${lib.concatMapStringsSep "\n" (n: "/tank/media/${n} 10.77.77.0/24(ro,insecure,no_subtree_check,nohide,fsid=1)") [ "books" ] }
-    ${lib.concatMapStringsSep "\n" (n: "/tank/media/${n} 10.77.77.0/24(ro,insecure,no_subtree_check,nohide,fsid=2)") [ "games" ] }
-    ${lib.concatMapStringsSep "\n" (n: "/tank/media/${n} 10.77.77.0/24(ro,insecure,no_subtree_check,nohide,fsid=3)") [ "music" ] }
-    ${lib.concatMapStringsSep "\n" (n: "/tank/media/${n} 10.77.77.0/24(ro,insecure,no_subtree_check,nohide,fsid=4)") [ "photos" ] }
-    ${lib.concatMapStringsSep "\n" (n: "/tank/media/${n} 10.77.77.0/24(ro,insecure,no_subtree_check,nohide,fsid=5)") [ "videos" ] }
-    # read-write
-    ${lib.concatMapStringsSep "\n" (n: "/tank/${n} 10.77.77.0/24(rw,insecure,no_subtree_check,nohide,fsid=6)") [ "backup" ] }
+    /tank/media/books 10.77.77.0/24(ro,insecure,no_subtree_check,nohide,fsid=1)
+    /tank/media/games 10.77.77.0/24(ro,insecure,no_subtree_check,nohide,fsid=2)
+    /tank/media/music 10.77.77.0/24(ro,insecure,no_subtree_check,nohide,fsid=3)
+    /tank/media/photos 10.77.77.0/24(ro,insecure,no_subtree_check,nohide,fsid=4)
+    /tank/media/videos 10.77.77.0/24(ro,insecure,no_subtree_check,nohide,fsid=5)
+    /tank/backup 10.77.77.0/24(rw,insecure,no_subtree_check,nohide,fsid=6)
   '';
 
   # This value determines the NixOS release from which the default

@@ -27,6 +27,7 @@
     ./rclone_backup.nix
     ./radarr.nix
     ./router.nix
+    ./samba_server.nix
     ./sonarr.nix
     ./sound.nix
     ./ssh.nix
