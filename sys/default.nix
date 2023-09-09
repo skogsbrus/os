@@ -14,6 +14,7 @@
     ./kodi.nix
     ./jellyfin.nix
     ./komga.nix
+    ./lidarr.nix
     ./miniflux.nix
     ./email.nix
     ./networking.nix

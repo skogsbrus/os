@@ -57,6 +57,13 @@ in
       openFirewall = true;
     };
 
+    lidarr = {
+      enable = true;
+      openFirewall = true;
+      user = username;
+      group = usergroup;
+    };
+
     email.nullmailer = true;
 
     networking = {
