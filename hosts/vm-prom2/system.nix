@@ -15,6 +15,8 @@
       users = [ "johanan" ];
     };
 
+    ssh.enable = true;
+
     fwupd.enable = true;
 
     networking = {
