@@ -150,6 +150,7 @@
   # Recommended settings from Dan Langille's "ZFS For Newbies",
   # https://www.youtube.com/watch?v=3oG-1U5AI9A
   services.zfs.autoScrub.enable = true;
+  services.zfs.autoScrub.interval = "Wed *-*-1/4 11:00:00";
   services.zfs.trim.enable = true;
   # zfs set atime=off <POOL>
 
