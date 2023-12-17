@@ -54,14 +54,17 @@ in
     networking.interfaces.enp2s0.useDHCP = true;
     networking.interfaces.wlp3s0.useDHCP = true;
 
-    networking = {
-        firewall.extraCommands = lib.concatStrings([
+    networking.firewall = {
+      enable = true;
+      trustedInterfaces = [ "br0" "wg0" ];
+
+      extraCommands = lib.concatStrings([
         # Rewrite destination IP of of incoming HTTP(s) requests to Keeper
         # TODO: possible to get prerouting working without specifying the external IP?
         # Doesn't work with `-i enp1s0` as an alternative.
         ''
-            iptables -A PREROUTING -t nat -p tcp -d 158.174.180.100 --dport 80 -j DNAT --to-destination 10.77.77.38:80
-            iptables -A PREROUTING -t nat -p tcp -d 158.174.180.100 --dport 443 -j DNAT --to-destination 10.77.77.38:443
+            iptables -A PREROUTING -t nat -p tcp -d 78.82.200.36 --dport 80 -j DNAT --to-destination 10.77.77.38:80
+            iptables -A PREROUTING -t nat -p tcp -d 78.82.200.36 --dport 443 -j DNAT --to-destination 10.77.77.38:443
         ''
         # Forward incoming HTTP(s) requests with a destination IP to Keeper
         ''
@@ -72,23 +75,17 @@ in
         ''
             iptables -A POSTROUTING -t nat -p tcp -d 10.77.77.38 --dport 80 -j SNAT --to-source 10.77.77.1
             iptables -A POSTROUTING -t nat -p tcp -d 10.77.77.38 --dport 443 -j SNAT --to-source 10.77.77.1
-        '']);
-        # Flush config on reload
-        firewall.extraStopCommands = ''
-          iptables -F
-          ip6tables -F
-        '';
-        firewall.allowedTCPPorts = [ 80 443 ];
-    };
+      '']);
 
-    networking.firewall = {
-      enable = true;
-      trustedInterfaces = [ "br0" "wg0" ];
-
+      # Flush config on reload
+      extraStopCommands = ''
+        iptables -F
+        ip6tables -F
+      '';
 
       interfaces = {
         enp1s0 = {
-          allowedTCPPorts = [ ];
+          allowedTCPPorts = [ 80 443 ];
           allowedUDPPorts = [
             # Wireguard
             666
@@ -128,6 +125,7 @@ in
         };
       };
     };
+
     # Prevent sshd from opening port 22 (circumventing the firewall)
     services.openssh.openFirewall = false;
 
