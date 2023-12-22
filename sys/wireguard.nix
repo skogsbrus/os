@@ -89,6 +89,14 @@ in
               "${cfg.subnet}.5/32"
             ];
           }
+          {
+            # iPhone 15
+            publicKey = "yikrWPt+Ayir6aK7BTrVQQ4mlkiQpwvdMZbGEBBFrzM=";
+            presharedKeyFile = "/home/johanan/code/os/secrets/wireguard-psk-iphone15.key";
+            allowedIPs = [
+              "${cfg.subnet}.6/32"
+            ];
+          }
         ] else [ ]) ++ (if !cfg.server then
           [{
             # Router
