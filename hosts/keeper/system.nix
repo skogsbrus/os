@@ -77,6 +77,8 @@ in
       gcSchedule = "daily";
     };
 
+    paperless_ngx.enable = true;
+
     photoOrganizer = {
       enable = true;
       inputDir = "/tank/backup/input";

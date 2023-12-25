@@ -20,6 +20,7 @@
     ./networking.nix
     ./nfs_mount.nix
     ./nix.nix
+    ./paperless_ngx.nix
     ./photoprism.nix
     ./photo_organizer
     ./postgres.nix
