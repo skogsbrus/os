@@ -38,6 +38,20 @@ in
       };
     };
 
+    age.secrets.morot_pw = {
+      file = ../secrets/morot.age;
+      owner = "root";
+      group = "root";
+      mode = "400";
+    };
+
+    age.secrets.icecream_pw = {
+      file = ../secrets/icecreamiscream.age;
+      owner = "root";
+      group = "root";
+      mode = "400";
+    };
+
     services.ddclient = {
       enable = true;
       use = "web";
@@ -50,32 +64,33 @@ in
 
     networking.hostName = "router";
     networking.useDHCP = false;
-    networking.interfaces.enp1s0.useDHCP = true;
     networking.interfaces.enp2s0.useDHCP = true;
-    networking.interfaces.wlp3s0.useDHCP = true;
+    networking.interfaces.enp3s0.useDHCP = true;
+    networking.interfaces.wlp1s0.useDHCP = true;
 
     networking.firewall = {
       enable = true;
       trustedInterfaces = [ "br0" "wg0" ];
 
-      extraCommands = lib.concatStrings([
+      extraCommands = lib.concatStrings ([
         # Rewrite destination IP of of incoming HTTP(s) requests to Keeper
         # TODO: possible to get prerouting working without specifying the external IP?
-        # Doesn't work with `-i enp1s0` as an alternative.
+        # Doesn't work with `-i enp2s0` as an alternative.
         ''
-            iptables -A PREROUTING -t nat -p tcp -d 78.82.200.36 --dport 80 -j DNAT --to-destination 10.77.77.38:80
-            iptables -A PREROUTING -t nat -p tcp -d 78.82.200.36 --dport 443 -j DNAT --to-destination 10.77.77.38:443
+          iptables -A PREROUTING -t nat -p tcp -d 78.82.200.36 --dport 80 -j DNAT --to-destination 10.77.77.38:80
+          iptables -A PREROUTING -t nat -p tcp -d 78.82.200.36 --dport 443 -j DNAT --to-destination 10.77.77.38:443
         ''
         # Forward incoming HTTP(s) requests with a destination IP to Keeper
         ''
-            iptables -A FORWARD -i enp1s0 -p tcp --dport 80 -d 10.77.77.38 -j ACCEPT -m state --state NEW,RELATED,ESTABLISHED
-            iptables -A FORWARD -i enp1s0 -p tcp --dport 443 -d 10.77.77.38 -j ACCEPT -m state --state NEW,RELATED,ESTABLISHED
+          iptables -A FORWARD -i enp2s0 -p tcp --dport 80 -d 10.77.77.38 -j ACCEPT -m state --state NEW,RELATED,ESTABLISHED
+          iptables -A FORWARD -i enp2s0 -p tcp --dport 443 -d 10.77.77.38 -j ACCEPT -m state --state NEW,RELATED,ESTABLISHED
         ''
         # Rewrite source IP of HTTP(s) requests for Keeper to Router
         ''
-            iptables -A POSTROUTING -t nat -p tcp -d 10.77.77.38 --dport 80 -j SNAT --to-source 10.77.77.1
-            iptables -A POSTROUTING -t nat -p tcp -d 10.77.77.38 --dport 443 -j SNAT --to-source 10.77.77.1
-      '']);
+          iptables -A POSTROUTING -t nat -p tcp -d 10.77.77.38 --dport 80 -j SNAT --to-source 10.77.77.1
+          iptables -A POSTROUTING -t nat -p tcp -d 10.77.77.38 --dport 443 -j SNAT --to-source 10.77.77.1
+        ''
+      ]);
 
       # Flush config on reload
       extraStopCommands = ''
@@ -84,7 +99,7 @@ in
       '';
 
       interfaces = {
-        enp1s0 = {
+        enp2s0 = {
           allowedTCPPorts = [ 80 443 ];
           allowedUDPPorts = [
             # Wireguard
@@ -92,7 +107,7 @@ in
           ];
         };
         # https://serverfault.com/a/424226
-        wguest = {
+        wlp4s0 = {
           allowedTCPPorts = [
             # DNS
             53
@@ -133,17 +148,17 @@ in
       enable = true;
       internalInterfaces = [
         "br0"
-        "wguest"
+        "wlp4s0"
         "wg0" # ./wireguard.nix
       ];
-      externalInterface = "enp1s0";
+      externalInterface = "enp2s0";
     };
 
     networking.bridges = {
       br0 = {
         interfaces = [
-          "enp2s0"
-          "wlp3s0"
+          "enp3s0"
+          # Wireless interfaces should be added by hostapd ('bridge=1')
         ];
       };
     };
@@ -158,8 +173,8 @@ in
           }
         ];
       };
-      wguest = {
-        useDHCP = false;
+      wlp4s0 = {
+        useDHCP = true;
         ipv4.addresses = [
           {
             address = "${cfg.guestSubnet}.1";
@@ -191,7 +206,7 @@ in
 
         # Interfaces to use DNS on
         interface=br0
-        interface=wguest
+        interface=wlp4s0
         interface=wg0
 
         # subnet IP blocks to use DHCP on
@@ -221,62 +236,71 @@ in
 
     services.hostapd = {
       enable = true;
-      # TODO: generalize with options
-      interface = "wlp3s0";
-      extraConfig = ''
-        ### hostapd configuration file
-        # generic
-        beacon_int=100
-        channel=0
-        driver=nl80211
-        country_code=SE
-        interface=wlp3s0
-
-        logger_syslog=127
-        logger_syslog_level=2
-        logger_stdout=127
-        logger_stdout_level=2
-
-        ieee80211d=1
-        # Disable due to `DFS start_dfs_cac() failed, -1`
-        ieee80211h=0
-        ieee80211n=1
-        # 'a'=5ghz, 'g'=2ghz
-        hw_mode=g
-
-        ht_capab=[HT40+][SHORT-GI-40][TX-STBC][RX-STBC1][DSSS_CCK-40]
-
-        # private network
-        ssid=morot
-        auth_algs=1
-        wpa_psk_file=/home/johanan/code/os/secrets/morot.pw
-        wpa=2
-        wpa_pairwise=CCMP
-        wpa_key_mgmt=WPA-PSK
-
-        bss=wguest
-        ssid=icecreamiscream
-        auth_algs=1
-        ap_isolate=1
-        wpa_psk_file=/home/johanan/code/os/secrets/icecreamiscream.pw
-        wpa=2
-        wpa_pairwise=CCMP
-        wpa_key_mgmt=WPA-PSK
-      '';
+      radios = {
+        # Compex WLE200NX
+        wlp4s0 = {
+          countryCode = "SE";
+          channel = 0;
+          band = "2g";
+          settings = {
+            logger_syslog = 127;
+            logger_syslog_level = 2;
+            logger_stdout = 127;
+            logger_stdout_level = 2;
+          };
+          wifi4 = {
+            enable = true;
+            capabilities = [ "HT40+" "SHORT-GI-40" "TX-STBC" "RX-STBC1" "DSSS_CCK-40" ];
+            require = false;
+          };
+          wifi5 = {
+            enable = false;
+          };
+          networks = {
+            wlp4s0 = {
+              ssid = "icecreamiscream";
+              authentication = {
+                wpaPasswordFile = config.age.secrets.icecream_pw.path;
+                mode = "wpa2-sha256";
+              };
+              logLevel = 2;
+              apIsolate = true;
+              settings = { };
+            };
+          };
+        };
+        # Compex WLE600VX
+        wlp1s0 = {
+          countryCode = "SE";
+          channel = 0;
+          band = "5g";
+          settings = {
+            logger_syslog = 127;
+            logger_syslog_level = 2;
+            logger_stdout = 127;
+            logger_stdout_level = 2;
+          };
+          wifi4 = {
+            enable = true;
+            capabilities = [ "HT40+" "SHORT-GI-40" "TX-STBC" "RX-STBC1" "DSSS_CCK-40" ];
+            require = false;
+          };
+          networks = {
+            wlp1s0 = {
+              ssid = "morot";
+              authentication = {
+                wpaPasswordFile = config.age.secrets.morot_pw.path;
+                mode = "wpa2-sha256";
+              };
+              logLevel = 2;
+              settings = {
+                # Add to bridge once AP is live
+                bridge = "br0";
+              };
+            };
+          };
+        };
+      };
     };
-
-    nixpkgs.overlays = [
-      (self: super: {
-        hostapd = super.hostapd.overrideAttrs (old: rec {
-          patches = [ ];
-          version = "2.10";
-          src = (builtins.fetchGit {
-            url = "http://w1.fi/hostap.git";
-            ref = "main";
-            rev = "72d4ca2fca983adbec82b0ef64dfcc2c9b971f5e";
-          });
-        });
-      })
-    ];
   };
 }

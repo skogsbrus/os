@@ -21,7 +21,7 @@ let
         gpfw = "CMD= \"git push origin $(git rev-parse --abbrev-ref HEAD) --force-with-lease\" ; echo \"$CMD\" ; echo \"Confirm [y/n]\" && read && if [[ $REPLY =~ ^[Yy]$ ]]; then eval $CMD ; else echo \"Aborted.\" ; fi";
         gp = "git push origin $(git rev-parse --abbrev-ref HEAD)";
       };
-      enableSyntaxHighlighting = true;
+      syntaxHighlighting.enable = true;
       initExtra = ''
         # direnv hook
         eval "$(direnv hook zsh)"

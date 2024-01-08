@@ -31,5 +31,6 @@
     "console=tty1"
   ];
 
+  hardware.enableRedistributableFirmware = true;
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }
