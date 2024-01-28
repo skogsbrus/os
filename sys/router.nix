@@ -5,6 +5,7 @@
 }:
 let
   cfg = config.skogsbrus.router;
+  externalIp = "78.82.197.99";
   inherit (lib) mapAttrs' genAttrs nameValuePair mkOption types mkIf mkEnableOption;
 in
 {
@@ -77,8 +78,8 @@ in
         # TODO: possible to get prerouting working without specifying the external IP?
         # Doesn't work with `-i enp2s0` as an alternative.
         ''
-          iptables -A PREROUTING -t nat -p tcp -d 78.82.200.36 --dport 80 -j DNAT --to-destination 10.77.77.38:80
-          iptables -A PREROUTING -t nat -p tcp -d 78.82.200.36 --dport 443 -j DNAT --to-destination 10.77.77.38:443
+          iptables -A PREROUTING -t nat -p tcp -d ${externalIp} --dport 80 -j DNAT --to-destination 10.77.77.38:80
+          iptables -A PREROUTING -t nat -p tcp -d ${externalIp} --dport 443 -j DNAT --to-destination 10.77.77.38:443
         ''
         # Forward incoming HTTP(s) requests with a destination IP to Keeper
         ''
