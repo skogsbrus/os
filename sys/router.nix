@@ -71,7 +71,7 @@ in
 
     networking.firewall = {
       enable = true;
-      trustedInterfaces = [ "br0" "wg0" "wlp4s0" ];
+      trustedInterfaces = [ "br0" "wg0" ];
 
       extraCommands = lib.concatStrings ([
         # Rewrite destination IP of of incoming HTTP(s) requests to Keeper
@@ -108,41 +108,37 @@ in
           ];
         };
         # https://serverfault.com/a/424226
-        #wlp4s0 = {
-        #  allowedTCPPorts = [
-        #    # DNS
-        #    53
-        #    # HTTP(S)
-        #    80
-        #    443
-        #    110
-        #    # Email (pop3, pop3s)
-        #    995
-        #    114
-        #    # Email (imap, imaps)
-        #    993
-        #    # Email (SMTP Submission RFC 6409)
-        #    587
-        #    # Git
-        #    2222
-        #    # Roborock
-        #    8883
-        #  ];
-        #  allowedUDPPorts = [
-        #    # https://serverfault.com/a/424226
-        #    # DNS
-        #    53
-        #    # DHCP
-        #    67
-        #    68
-        #    # NTP
-        #    123
-        #    # Wireguard
-        #    666
-        #    # Roborock
-        #    58866
-        #  ];
-        #};
+        wlp4s0 = {
+          allowedTCPPorts = [
+            # DNS
+            53
+            # HTTP(S)
+            80
+            443
+            110
+            # Email (pop3, pop3s)
+            995
+            114
+            # Email (imap, imaps)
+            993
+            # Email (SMTP Submission RFC 6409)
+            587
+            # Git
+            2222
+          ];
+          allowedUDPPorts = [
+            # https://serverfault.com/a/424226
+            # DNS
+            53
+            # DHCP
+            67
+            68
+            # NTP
+            123
+            # Wireguard
+            666
+          ];
+        };
       };
     };
 
@@ -201,7 +197,6 @@ in
         no-resolv
 
         # upstream name servers
-        server=8.8.8.8
         server=9.9.9.9
         server=1.1.1.1
 
@@ -226,8 +221,6 @@ in
         dhcp-host=00:11:32:33:30:5b,${cfg.privateSubnet}.65
         dhcp-host=30:9c:23:1b:a5:4d,${cfg.privateSubnet}.83
         dhcp-host=b8:27:eb:84:09:f8,${cfg.privateSubnet}.90
-        # roborock
-        dhcp-host=9a:f1:c3:61:03:a0,${cfg.guestSubnet}.19
       '';
     };
 
@@ -252,9 +245,9 @@ in
           band = "2g";
           settings = {
             logger_syslog = 127;
-            logger_syslog_level = 1;
+            logger_syslog_level = 2;
             logger_stdout = 127;
-            logger_stdout_level = 1;
+            logger_stdout_level = 2;
           };
           wifi4 = {
             enable = true;
@@ -272,11 +265,8 @@ in
                 mode = "wpa2-sha256";
               };
               logLevel = 2;
-              settings = {
-                ieee80211w = 0;
-                wmm_enabled = false;
-                sae_require_mfp = false;
-              };
+              apIsolate = true;
+              settings = { };
             };
           };
         };
