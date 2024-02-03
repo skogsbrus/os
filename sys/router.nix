@@ -262,11 +262,17 @@ in
               ssid = "icecreamiscream";
               authentication = {
                 wpaPasswordFile = config.age.secrets.icecream_pw.path;
-                mode = "wpa2-sha256";
+                # tmp hack to allow setting WPA-PSK auth
+                # TODO: contribute to nixpkgs (allow WPA-PSK)
+                mode = "none";
               };
               logLevel = 2;
               apIsolate = true;
-              settings = { };
+              settings = {
+                wpa = 2;
+                wpa_key_mgmt = "WPA-PSK";
+                wpa_pairwise = "CCMP";
+              };
             };
           };
         };
@@ -291,12 +297,18 @@ in
               ssid = "morot";
               authentication = {
                 wpaPasswordFile = config.age.secrets.morot_pw.path;
-                mode = "wpa2-sha256";
+                mode = "none";
+                # tmp hack to allow setting WPA-PSK auth
+                # TODO: contribute to nixpkgs (allow WPA-PSK)
               };
               logLevel = 2;
               settings = {
                 # Add to bridge once AP is live
                 bridge = "br0";
+
+                wpa = 2;
+                wpa_key_mgmt = "WPA-PSK";
+                wpa_pairwise = "CCMP";
               };
             };
           };
