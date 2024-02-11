@@ -13,4 +13,5 @@ in
   "secrets/backblaze_b2_backup_prod_rclone_config.age".publicKeys = user_keys ++ host_keys;
   "secrets/morot.age".publicKeys = user_keys ++ host_keys;
   "secrets/icecreamiscream.age".publicKeys = user_keys ++ host_keys;
+  "secrets/cybercorp.age".publicKeys = user_keys ++ host_keys;
 }

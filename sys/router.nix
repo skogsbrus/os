@@ -5,7 +5,44 @@
 }:
 let
   cfg = config.skogsbrus.router;
+  formatDhcpHost = key: value: "dhcp-host=${key},${value.ip}";
+  formatHostName = key: value: "${value.ip} ${value.name}";
+  formatDhcpRange = x: "dhcp-range=${x}.10,${x}.245,24h";
+  formatDnsInterface = x: "interface=${x}";
   externalIp = "78.82.197.99";
+
+  allowedUdpPorts = [
+    # https://serverfault.com/a/424226
+    # DNS
+    53
+    # DHCP
+    67
+    68
+    # NTP
+    123
+    # Wireguard
+    666
+  ];
+  allowedTcpPorts = [
+    # https://serverfault.com/a/424226
+    # SSH
+    22
+    # DNS
+    53
+    # HTTP(S)
+    80
+    443
+    110
+    # Email (pop3, pop3s)
+    995
+    114
+    # Email (imap, imaps)
+    993
+    # Email (SMTP Submission RFC 6409)
+    587
+    # Git
+    2222
+  ];
   inherit (lib) mapAttrs' genAttrs nameValuePair mkOption types mkIf mkEnableOption;
 in
 {
@@ -22,6 +59,24 @@ in
       type = types.str;
       example = "192.168.2";
       description = "IP block (/24) to use for the guest subnet";
+    };
+
+    workSubnet = mkOption {
+      type = types.str;
+      example = "192.168.2";
+      description = "IP block (/24) to use for the work subnet.";
+    };
+
+    hosts = mkOption {
+      type = types.attrsOf (types.attrsOf types.str);
+      default = { };
+      example = {
+        "00:00:00:00:00:00" = {
+          ip = "192.168.1.1";
+          name = "Bob's phone";
+        };
+      };
+      description = "Known hosts that should be assigned a static IP";
     };
   };
 
@@ -46,6 +101,13 @@ in
       mode = "400";
     };
 
+    age.secrets.cybercorp_pw = {
+      file = ../secrets/cybercorp.age;
+      owner = "root";
+      group = "root";
+      mode = "400";
+    };
+
     age.secrets.icecream_pw = {
       file = ../secrets/icecreamiscream.age;
       owner = "root";
@@ -65,9 +127,9 @@ in
 
     networking.hostName = "router";
     networking.useDHCP = false;
+
+    # request an IP from ISP
     networking.interfaces.enp2s0.useDHCP = true;
-    networking.interfaces.enp3s0.useDHCP = true;
-    networking.interfaces.wlp1s0.useDHCP = true;
 
     networking.firewall = {
       enable = true;
@@ -99,6 +161,7 @@ in
         ip6tables -F
       '';
 
+      # TODO: add VLANs
       interfaces = {
         enp2s0 = {
           allowedTCPPorts = [ 80 443 ];
@@ -107,37 +170,13 @@ in
             666
           ];
         };
-        # https://serverfault.com/a/424226
         wlp4s0 = {
-          allowedTCPPorts = [
-            # DNS
-            53
-            # HTTP(S)
-            80
-            443
-            110
-            # Email (pop3, pop3s)
-            995
-            114
-            # Email (imap, imaps)
-            993
-            # Email (SMTP Submission RFC 6409)
-            587
-            # Git
-            2222
-          ];
-          allowedUDPPorts = [
-            # https://serverfault.com/a/424226
-            # DNS
-            53
-            # DHCP
-            67
-            68
-            # NTP
-            123
-            # Wireguard
-            666
-          ];
+          allowedTCPPorts = allowedTcpPorts;
+          allowedUDPPorts = allowedUdpPorts;
+        };
+        wlp1s0-1 = {
+          allowedTCPPorts = allowedTcpPorts;
+          allowedUDPPorts = allowedUdpPorts;
         };
       };
     };
@@ -150,6 +189,7 @@ in
       internalInterfaces = [
         "br0"
         "wlp4s0"
+        "wlp1s0-1"
         "wg0" # ./wireguard.nix
       ];
       externalInterface = "enp2s0";
@@ -159,14 +199,16 @@ in
       br0 = {
         interfaces = [
           "enp3s0"
-          # Wireless interfaces should be added by hostapd ('bridge=1')
+
+          # This should be added by hostapd, but seems like there's an issue
+          # when there are multiple BSSIDs on the same interface.
+          "wlp1s0"
         ];
       };
     };
 
     networking.interfaces = {
       br0 = {
-        useDHCP = false;
         ipv4.addresses = [
           {
             address = "${cfg.privateSubnet}.1";
@@ -175,10 +217,17 @@ in
         ];
       };
       wlp4s0 = {
-        useDHCP = true;
         ipv4.addresses = [
           {
             address = "${cfg.guestSubnet}.1";
+            prefixLength = 24;
+          }
+        ];
+      };
+      wlp1s0-1 = {
+        ipv4.addresses = [
+          {
+            address = "${cfg.workSubnet}.1";
             prefixLength = 24;
           }
         ];
@@ -206,35 +255,23 @@ in
         local=/home/
 
         # Interfaces to use DNS on
-        interface=br0
-        interface=wlp4s0
-        interface=wg0
+        ${lib.concatStringsSep "\n" (map formatDnsInterface ["br0" "wlp4s0" "wlp4s0-1" "wg0"])}
 
         # subnet IP blocks to use DHCP on
-        dhcp-range=${cfg.privateSubnet}.10,${cfg.privateSubnet}.254,24h
-        dhcp-range=${cfg.guestSubnet}.10,${cfg.guestSubnet}.254,24h
+        ${lib.concatStringsSep "\n" (map formatDhcpRange [cfg.privateSubnet cfg.guestSubnet cfg.workSubnet ])}
 
         # static IPs
-        # TODO: generalize with options
-        dhcp-host=00:0d:b9:5e:22:91,${cfg.privateSubnet}.1
-        dhcp-host=9c:6b:00:05:1c:b3,${cfg.privateSubnet}.38
-        dhcp-host=00:11:32:33:30:5b,${cfg.privateSubnet}.65
-        dhcp-host=30:9c:23:1b:a5:4d,${cfg.privateSubnet}.83
-        dhcp-host=b8:27:eb:84:09:f8,${cfg.privateSubnet}.90
+        ${lib.concatStringsSep "\n" (lib.mapAttrsToList formatDhcpHost cfg.hosts)}
       '';
     };
 
     # Define host names to make dnsmasq resolve them, e.g. http://router.home
-    # TODO: generalize with options
     networking.extraHosts =
-      ''
-        ${cfg.privateSubnet}.1 router
-        ${cfg.privateSubnet}.38 keeper
-        ${cfg.privateSubnet}.65 choklad
-        ${cfg.privateSubnet}.83 workstation
-        ${cfg.privateSubnet}.90 kodi
-      '';
+      lib.concatStringsSep "\n" (lib.mapAttrsToList formatHostName cfg.hosts);
 
+    # Some notes:
+    # 2.4ghz network is for guests / IOT devices that don't need LAN discoverability
+    # Work network is essentially also a guest network, but 5ghz (interference on 2.4ghz is too much for video calls)
     services.hostapd = {
       enable = true;
       radios = {
@@ -295,6 +332,10 @@ in
           networks = {
             wlp1s0 = {
               ssid = "morot";
+              # As per comments from the hostapd module,
+              # bssid is set to the interface MAC with the second character being incremented
+              # 2, 6, A, ...
+              bssid = "06:f0:21:b2:52:07";
               authentication = {
                 wpaPasswordFile = config.age.secrets.morot_pw.path;
                 mode = "none";
@@ -306,6 +347,26 @@ in
                 # Add to bridge once AP is live
                 bridge = "br0";
 
+                wpa = 2;
+                wpa_key_mgmt = "WPA-PSK";
+                wpa_pairwise = "CCMP";
+              };
+            };
+            wlp1s0-1 = {
+              ssid = "cybercorp";
+              # As per comments from the hostapd module,
+              # bssid is set to the interface MAC with the second character being incremented
+              # 2, 6, A, ...
+              bssid = "0a:f0:21:b2:52:07";
+              authentication = {
+                wpaPasswordFile = config.age.secrets.cybercorp_pw.path;
+                # tmp hack to allow setting WPA-PSK auth
+                # TODO: contribute to nixpkgs (allow WPA-PSK)
+                mode = "none";
+              };
+              logLevel = 2;
+              apIsolate = true;
+              settings = {
                 wpa = 2;
                 wpa_key_mgmt = "WPA-PSK";
                 wpa_pairwise = "CCMP";

@@ -23,6 +23,21 @@
       enable = true;
       privateSubnet = "10.77.77";
       guestSubnet = "10.88.88";
+      workSubnet = "10.99.99";
+      hosts = {
+        "00:0d:b9:5e:22:91" = {
+          ip = "10.77.77.1";
+          name = "router";
+        };
+        "9c:6b:00:05:1c:b3" = {
+          ip = "10.77.77.38";
+          name = "keeper";
+        };
+        "30:9c:23:1b:a5:4d" = {
+          ip = "10.77.77.83";
+          name = "workstation";
+        };
+      };
     };
 
     ssh.enable = true;
