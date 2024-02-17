@@ -58,14 +58,6 @@ in
 
         peers = (if cfg.server then [
           {
-            # voidm
-            publicKey = "UpbNJCv+/TVcdYUU8fAgaO6WWAakzuPliYY3OccVeX4=";
-            presharedKeyFile = "/home/johanan/code/os/secrets/wireguard-psk-lenovop1.key";
-            allowedIPs = [
-              "${cfg.subnet}.2/32"
-            ];
-          }
-          {
             # Fairphone 4
             publicKey = "4vbU0LMSSJ83Xgz5VXYe7QLE0hA648lmN97bAWHzvDE=";
             presharedKeyFile = "/home/johanan/code/os/secrets/wireguard-psk-pixel4a.key";

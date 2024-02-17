@@ -53,7 +53,7 @@ in
       pkgs.wineWowPackages.stable # 32- and 64-bit
     ] else [ ])
     ++ (if cfg.enableAll || cfg.terraform then [
-      unstable.legacyPackages.${pkgs.system}.terraform
+      unstable.legacyPackages.${pkgs.system}.opentofu
       unstable.legacyPackages.${pkgs.system}.tflint
     ] else [ ])
     ++ (if cfg.enableAll || cfg.cxx then [

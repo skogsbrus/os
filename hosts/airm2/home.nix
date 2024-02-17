@@ -9,6 +9,10 @@
     ../../home
   ];
 
+  home.packages = with pkgs; [
+    openscad
+  ];
+
   skogsbrus = {
     dev = {
       enable = true;
