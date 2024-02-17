@@ -13,6 +13,12 @@
     openscad
   ];
 
+  nix.package = lib.mkForce pkgs.nixFlakes;
+  nix.extraOptions = ''
+    experimental-features = nix-command flakes
+  '';
+  nixpkgs.config.allowUnfree = true;
+
   skogsbrus = {
     dev = {
       enable = true;
