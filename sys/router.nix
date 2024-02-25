@@ -255,7 +255,7 @@ in
         local=/home/
 
         # Interfaces to use DNS on
-        ${lib.concatStringsSep "\n" (map formatDnsInterface ["br0" "wlp4s0" "wlp4s0-1" "wg0"])}
+        ${lib.concatStringsSep "\n" (map formatDnsInterface ["br0" "wlp4s0" "wlp1s0-1" "wg0"])}
 
         # subnet IP blocks to use DHCP on
         ${lib.concatStringsSep "\n" (map formatDhcpRange [cfg.privateSubnet cfg.guestSubnet cfg.workSubnet ])}
