@@ -31,13 +31,6 @@ in
 
     authelia.enable = true;
 
-    kodi = {
-      enable = true;
-      autoLogin = true;
-      user = username;
-      openFirewall = true;
-    };
-
     jellyfin = {
       enable = true;
       user = username;

@@ -70,15 +70,6 @@ in
             reverse_proxy localhost:8888 { }
           '';
         };
-        "kodi.${cfg.publicUrl}" = {
-          extraConfig = ''
-            forward_auth localhost:9999 {
-                uri /api/verify?rd=https://auth.${cfg.publicUrl}/
-                copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
-            }
-            reverse_proxy localhost:8080 { }
-          '';
-        };
         "syncthing.${cfg.publicUrl}" = {
           extraConfig = ''
             forward_auth localhost:9999 {
