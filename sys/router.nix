@@ -5,9 +5,10 @@
 }:
 let
   cfg = config.skogsbrus.router;
+  dhcpLease = "infinite";
   formatDhcpHost = key: value: "dhcp-host=${key},${value.ip}";
   formatHostName = key: value: "${value.ip} ${value.name}";
-  formatDhcpRange = x: "dhcp-range=${x}.10,${x}.245,24h";
+  formatDhcpRange = x: "dhcp-range=${x}.10,${x}.245,${dhcpLease}";
   formatDnsInterface = x: "interface=${x}";
   externalIp = "78.82.197.99";
 
