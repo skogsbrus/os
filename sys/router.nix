@@ -278,7 +278,7 @@ in
         # Compex WLE200NX
         wlp4s0 = {
           countryCode = "SE";
-          channel = 0;
+          channel = 6;
           band = "2g";
           settings = {
             logger_syslog = 127;
@@ -316,7 +316,7 @@ in
         # Compex WLE600VX
         wlp1s0 = {
           countryCode = "SE";
-          channel = 0;
+          channel = 124;
           band = "5g";
           settings = {
             logger_syslog = 127;
