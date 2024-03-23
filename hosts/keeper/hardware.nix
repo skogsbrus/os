@@ -23,6 +23,10 @@
 
   boot.kernelModules = [ "igb" "r8169" ];
   boot.extraModulePackages = [ ];
+
+  # https://bbs.archlinux.org/viewtopic.php?id=254383
+  boot.kernelParams = [ "amdgpu.dc=0" ];
+
   #boot.kernelParams = [
   #  # See https://www.kernel.org/doc/Documentation/filesystems/nfs/nfsroot.txt for syntax
   #  "ip=10.77.77.38::10.77.77.1::keeper::off" # Needs to be in sync with IP assigned by router
