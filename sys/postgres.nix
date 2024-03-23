@@ -22,7 +22,7 @@ in
   config = mkIf cfg.enable {
     services.postgresql = {
       enable = true;
-      package = pkgs.postgresql;
+      package = pkgs.postgresql_14;
       enableTCPIP = false;
       authentication = pkgs.lib.mkForce ''
         # Generated file; do not edit!
