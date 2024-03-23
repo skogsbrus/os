@@ -123,9 +123,10 @@ in
       };
     };
 
+    # TODO: move to separate module
     services.mysql = {
       enable = true;
-      package = pkgs.mariadb;
+      package = pkgs.mariadb_1011;
       user = cfg.user;
       group = cfg.group;
       dataDir = "/var/lib/mysql";
