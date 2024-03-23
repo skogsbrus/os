@@ -26,6 +26,8 @@ in
       openFirewall = true;
     };
 
+    security.enable = true;
+
     grafana.enable = true;
     prometheus.enable = true;
 

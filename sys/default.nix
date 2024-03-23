@@ -30,6 +30,7 @@
     ./radarr.nix
     ./router.nix
     ./samba_server.nix
+    ./security.nix
     ./sonarr.nix
     ./sound.nix
     ./ssh.nix
