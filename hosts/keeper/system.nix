@@ -92,6 +92,12 @@ in
       b2_directories = {
         "/tank/media/photos" = "keeper/tank/media/photos";
         "/tank/media/books" = "keeper/tank/media/books";
+        "/var/lib/mysql" = "keeper/var/lib/mysql";
+        "/var/lib/postgresql" = "keeper/var/lib/postgresql";
+        "/var/lib/paperless" = "keeper/var/lib/paperless";
+        "/var/lib/photoprism" = "keeper/var/lib/photoprism";
+        "/var/lib/grafana" = "keeper/var/lib/grafana";
+        "/var/lib/prometheus2" = "keeper/var/lib/prometheus2";
       };
     };
 
