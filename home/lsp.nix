@@ -21,7 +21,7 @@ in
 
   config = with pkgs; mkIf cfg.enable {
     home.packages = [
-      rnix-lsp
+      #rnix-lsp # Disabled due to nix dependency being insecure
       luaPackages.lua-lsp
       yaml-language-server
     ]
