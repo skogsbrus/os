@@ -200,23 +200,12 @@ in
       br0 = {
         interfaces = [
           "enp3s0"
-
-          # This should be added by hostapd, but seems like there's an issue
-          # when there are multiple BSSIDs on the same interface.
-          "wlp1s0"
+          # wireless interface added by hostapd
         ];
       };
     };
 
     networking.interfaces = {
-      br0 = {
-        ipv4.addresses = [
-          {
-            address = "${cfg.privateSubnet}.1";
-            prefixLength = 24;
-          }
-        ];
-      };
       wlp4s0 = {
         ipv4.addresses = [
           {
@@ -225,12 +214,20 @@ in
           }
         ];
       };
+      br0 = {
+        ipv4.addresses = [
+            {
+                address = "${cfg.privateSubnet}.1";
+                prefixLength = 24;
+            }
+        ];
+      };
       wlp1s0-1 = {
         ipv4.addresses = [
-          {
-            address = "${cfg.workSubnet}.1";
-            prefixLength = 24;
-          }
+            {
+                address = "${cfg.workSubnet}.1";
+                prefixLength = 24;
+            }
         ];
       };
     };
@@ -256,7 +253,7 @@ in
         local=/home/
 
         # Interfaces to use DNS on
-        ${lib.concatStringsSep "\n" (map formatDnsInterface ["br0" "wlp4s0" "wlp1s0-1" "wg0"])}
+        ${lib.concatStringsSep "\n" (map formatDnsInterface ["br0" "wlp4s0" "wlp1s0-1" "wg0" ])}
 
         # subnet IP blocks to use DHCP on
         ${lib.concatStringsSep "\n" (map formatDhcpRange [cfg.privateSubnet cfg.guestSubnet cfg.workSubnet ])}
@@ -278,7 +275,6 @@ in
       radios = {
         # Compex WLE200NX
         wlp4s0 = {
-          countryCode = "SE";
           channel = 6;
           band = "2g";
           settings = {
@@ -289,6 +285,7 @@ in
           };
           wifi4 = {
             enable = true;
+            # TODO: 20MHz instead?
             capabilities = [ "HT40+" "SHORT-GI-40" "TX-STBC" "RX-STBC1" "DSSS_CCK-40" ];
             require = false;
           };
@@ -313,11 +310,16 @@ in
               };
             };
           };
+          settings = {
+            # Country code and 80211d are set manually to avoid 80211h when
+            # countryCode is set (NIC seems to freak out when doing DFS)
+            country_code = "SE";
+            ieee80211d = true;
+          };
         };
         # Compex WLE600VX
         wlp1s0 = {
-          countryCode = "SE";
-          channel = 124;
+          channel = 149;
           band = "5g";
           settings = {
             logger_syslog = 127;
@@ -373,6 +375,12 @@ in
                 wpa_pairwise = "CCMP";
               };
             };
+          };
+          settings = {
+            # Country code and 80211d are set manually to avoid 80211h when
+            # countryCode is set (NIC seems to freak out when doing DFS)
+            country_code = "SE";
+            ieee80211d = true;
           };
         };
       };
