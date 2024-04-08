@@ -319,7 +319,7 @@ in
         };
         # Compex WLE600VX
         wlp1s0 = {
-          channel = 149;
+          channel = 36;
           band = "5g";
           settings = {
             logger_syslog = 127;
@@ -380,7 +380,7 @@ in
             # Country code and 80211d are set manually to avoid 80211h when
             # countryCode is set (NIC seems to freak out when doing DFS)
             country_code = "SE";
-            ieee80211d = true;
+            ieee80211d = false;
           };
         };
       };
