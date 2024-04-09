@@ -13,6 +13,12 @@ in
   ];
 
   networking.hostName = "keeper";
+  networking.hostId = "deadcafe";
+  # NOTE: uncomment if server is moved to location without ethernet
+  #networking.wireless.enable = true;
+  #networking.wireless.networks.morot = {
+  #  psk = "foobar";
+  #};
 
   users.extraUsers."${username}".isNormalUser = true;
   users.extraUsers.emma.isNormalUser = true;
@@ -21,39 +27,39 @@ in
     fwupd.enable = true;
 
     caddy = {
-      enable = true;
+      enable = false;
       publicUrl = "vpn.skogsbrus.xyz";
       openFirewall = true;
     };
 
     security.enable = true;
 
-    grafana.enable = true;
-    prometheus.enable = true;
+    grafana.enable = false;
+    prometheus.enable = false;
 
-    authelia.enable = true;
+    authelia.enable = false;
 
     jellyfin = {
-      enable = true;
+      enable = false;
       user = username;
       group = usergroup;
       openFirewall = true;
     };
 
     komga = {
-      enable = true;
+      enable = false;
       port = 4246;
       openFirewall = true;
     };
 
     miniflux = {
-      enable = true;
+      enable = false;
       port = 5656;
       openFirewall = true;
     };
 
     lidarr = {
-      enable = true;
+      enable = false;
       openFirewall = true;
       user = username;
       group = usergroup;
@@ -72,23 +78,23 @@ in
       gcSchedule = "daily";
     };
 
-    paperless_ngx.enable = true;
+    paperless_ngx.enable = false;
 
     photoOrganizer = {
-      enable = true;
+      enable = false;
       inputDir = "/tank/backup/input";
       outputDir = "/tank/media/photos";
     };
 
     radarr = {
-      enable = true;
+      enable = false;
       openFirewall = true;
       user = username;
       group = usergroup;
     };
 
     rcloneBackup = {
-      enable = true;
+      enable = false;
       b2_directories = {
         "/tank/media/photos" = "keeper/tank/media/photos";
         "/tank/media/books" = "keeper/tank/media/books";
@@ -102,7 +108,7 @@ in
     };
 
     photoprism = {
-      enable = true;
+      enable = false;
       enableTensorflow = true;
       user = username;
       group = usergroup;
@@ -117,12 +123,12 @@ in
     };
 
     postgres = {
-      enable = true;
+      enable = false;
       user = "johanan";
     };
 
     sambaServer = {
-      enable = true;
+      enable = false;
       openFirewall = true;
       allowedSubnet = "10.77.77.";
       enableWebServiceDiscoveryDaemon = true;
@@ -144,26 +150,26 @@ in
     ssh.enable = true;
 
     sonarr = {
-      enable = true;
+      enable = false;
       openFirewall = true;
       user = username;
       group = usergroup;
     };
 
     sound = {
-      enable = true;
+      enable = false;
       enablePipewire = false;
       channels = 4;
     };
 
     syncthing = {
-      enable = true;
+      enable = false;
       user = "johanan";
       expose = true;
     };
 
     transmission = {
-      enable = true;
+      enable = false;
       user = username;
       group = usergroup;
       address = "keeper.home";
@@ -176,7 +182,7 @@ in
     };
 
     time_machine = {
-      enable = true;
+      enable = false;
       user = "airm2-time-machine";
       openFirewall = true;
       backupPath = "/tank/backup/time-machine";
@@ -203,7 +209,6 @@ in
     allowedTCPPorts = [
       111
       2049
-      2222 # SSH during boot
       4000
       4001
       4002
@@ -221,19 +226,19 @@ in
 
   services.xserver.videoDrivers = [ "amdgpu" ];
   hardware.opengl.driSupport = true;
-  # For 32 bit applications
-  hardware.opengl.driSupport32Bit = true;
   hardware.opengl.extraPackages = with pkgs; [
     amdvlk
   ];
+
   # For 32 bit applications
   # Only available on unstable
+  hardware.opengl.driSupport32Bit = true;
   hardware.opengl.extraPackages32 = with pkgs; [
     driversi686Linux.amdvlk
   ];
 
   services.nfs.server = {
-    enable = true;
+    enable = false;
     statdPort = 4000;
     lockdPort = 4001;
     mountdPort = 4002;
@@ -254,5 +259,5 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "22.05"; # Did you read the comment?
+  system.stateVersion = "23.11"; # Did you read the comment?
 }
