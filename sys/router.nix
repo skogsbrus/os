@@ -10,7 +10,7 @@ let
   formatHostName = key: value: "${value.ip} ${value.name}";
   formatDhcpRange = x: "dhcp-range=${x}.10,${x}.245,${dhcpLease}";
   formatDnsInterface = x: "interface=${x}";
-  externalIp = "78.82.197.99";
+  externalIp = "78.82.199.100";
 
   allowedUdpPorts = [
     # https://serverfault.com/a/424226
