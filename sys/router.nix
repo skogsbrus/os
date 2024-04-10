@@ -118,7 +118,7 @@ in
 
     services.ddclient = {
       enable = true;
-      use = "web";
+      use = "web, web=checkip.amazonaws.com, web-skip=''";
       protocol = "namecheap";
       server = "dynamicdns.park-your-domain.com";
       username = "skogsbrus.xyz";
