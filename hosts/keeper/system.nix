@@ -4,8 +4,19 @@
 , ...
 }:
 let
-  username = "kodi";
+  users = [
+    "emma"
+    "jellyfin"
+    "transmission"
+    "syncthing"
+    "sonarr"
+    "postgres-user"
+    "photoprism"
+    "radarr"
+    "lidarr"
+  ];
   usergroup = "users";
+  inherit (builtins) listToAttrs;
 in
 {
   imports = [
@@ -20,28 +31,28 @@ in
   #  psk = "foobar";
   #};
 
-  users.extraUsers."${username}".isNormalUser = true;
-  users.extraUsers.emma.isNormalUser = true;
+  # Manually created users for services that don't have auto-generated systemd users
+  users.extraUsers = listToAttrs (map (x: { name = x; value = { isNormalUser = true; }; }) users);
 
   skogsbrus = {
     fwupd.enable = true;
 
     caddy = {
-      enable = false;
+      enable = true;
       publicUrl = "vpn.skogsbrus.xyz";
       openFirewall = true;
     };
 
     security.enable = true;
 
-    grafana.enable = false;
-    prometheus.enable = false;
+    grafana.enable = true;
+    prometheus.enable = true;
 
-    authelia.enable = false;
+    authelia.enable = true;
 
     jellyfin = {
       enable = false;
-      user = username;
+      user = "jellyfin";
       group = usergroup;
       openFirewall = true;
     };
@@ -61,7 +72,7 @@ in
     lidarr = {
       enable = false;
       openFirewall = true;
-      user = username;
+      user = "lidarr";
       group = usergroup;
     };
 
@@ -89,7 +100,7 @@ in
     radarr = {
       enable = false;
       openFirewall = true;
-      user = username;
+      user = "radarr";
       group = usergroup;
     };
 
@@ -110,7 +121,7 @@ in
     photoprism = {
       enable = false;
       enableTensorflow = true;
-      user = username;
+      user = "photoprism";
       group = usergroup;
       originalsPath = "/tank/media/photos";
       importPath = "/tank/backup/input/photos";
@@ -123,12 +134,12 @@ in
     };
 
     postgres = {
-      enable = false;
-      user = "johanan";
+      enable = true;
+      user = "postgres-user";
     };
 
     sambaServer = {
-      enable = false;
+      enable = true;
       openFirewall = true;
       allowedSubnet = "10.77.77.";
       enableWebServiceDiscoveryDaemon = true;
@@ -152,7 +163,7 @@ in
     sonarr = {
       enable = false;
       openFirewall = true;
-      user = username;
+      user = "sonarr";
       group = usergroup;
     };
 
@@ -170,7 +181,7 @@ in
 
     transmission = {
       enable = false;
-      user = username;
+      user = "transmission";
       group = usergroup;
       address = "keeper.home";
       openFirewall = true;
