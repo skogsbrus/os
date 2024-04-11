@@ -4,9 +4,8 @@
 , ...
 }:
 let
-  users = [
+  normalUsers = [
     "emma"
-    "jellyfin"
     "transmission"
     "syncthing"
     "sonarr"
@@ -14,6 +13,10 @@ let
     "photoprism"
     "radarr"
     "lidarr"
+  ];
+  systemUsers = [
+    "jellyfin"
+    "postgres"
   ];
   usergroup = "users";
   inherit (builtins) listToAttrs;
@@ -32,7 +35,9 @@ in
   #};
 
   # Manually created users for services that don't have auto-generated systemd users
-  users.extraUsers = listToAttrs (map (x: { name = x; value = { isNormalUser = true; }; }) users);
+  users.extraUsers =
+    listToAttrs (map (x: { name = x; value = { isNormalUser = true; }; }) normalUsers) //
+    listToAttrs (map (x: { name = x; value = { isSystemUser = true; }; }) systemUsers);
 
   skogsbrus = {
     fwupd.enable = true;
@@ -51,7 +56,7 @@ in
     authelia.enable = true;
 
     jellyfin = {
-      enable = false;
+      enable = true;
       user = "jellyfin";
       group = usergroup;
       openFirewall = true;
