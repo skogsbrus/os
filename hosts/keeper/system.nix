@@ -40,7 +40,7 @@ in
     listToAttrs (map (x: { name = x; value = { isSystemUser = true; }; }) systemUsers);
 
   skogsbrus = {
-    fwupd.enable = true;
+    fwupd.enable = false;
 
     caddy = {
       enable = true;
