@@ -44,7 +44,7 @@ let
       auto_dark_mode.init()
     EOF
   '' else "");
-  treesitterCfg = ''
+  treesitterContextCfg = ''
     lua << EOF
       require("nvim-treesitter.configs").setup({
         ensure_installed = {},
@@ -52,7 +52,7 @@ let
       })
       require("treesitter-context").setup({
         enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-        max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
+        max_lines = 3, -- How many lines the window should span. Values <= 0 mean no limit.
         min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
         line_numbers = true,
         multiline_threshold = 20, -- Maximum number of lines to show for a single context
@@ -144,18 +144,13 @@ in
         " Close the tab if NERDTree is the only window remaining in it.
         autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 
-
         " Git
         nnoremap <leader>gb <cmd>Git blame<CR>
-        nnoremap <leader>ga <cmd>Git add -p<CR>
-        nnoremap <leader>gdd <cmd>Git diff<CR>
         nnoremap <leader>gdc <cmd>Git diff --cached<CR>
         nnoremap <leader>gs <cmd>Git<CR>
-        nnoremap <leader>gr <cmd>Gread<CR>
         nnoremap <leader>gw <cmd>Gwrite<CR>
 
         " Quickfix list
-
         nnoremap <leader>cf <cmd>cfirst<CR>
         nnoremap <leader>cn <cmd>cnext<CR>
         nnoremap <leader>cp <cmd>cprevious<CR>
@@ -217,6 +212,8 @@ in
 
         ${darkModeVimCfg}
 
+        ${treesitterContextCfg}
+
         lua << EOF
         local nvim_lsp = require('lspconfig')
 
@@ -261,11 +258,10 @@ in
             'solargraph',
             'cmake',
             'terraformls',
-            'rnix',
             'clangd',
             'lua_ls',
             'yamlls',
-            'rust_analyzer'
+            'rust_analyzer',
         }
 
         -- Use a loop to conveniently call 'setup' on multiple servers and
@@ -278,6 +274,20 @@ in
             }
           }
         end
+
+        -- Configure Nix manually due to non-generic setup
+
+        require('lspconfig').nil_ls.setup({
+          autostart = true,
+          cmd = { "nil" },
+          settings = {
+            ['nil'] = {
+              formatting = {
+                command = { "nixpkgs-fmt" },
+              },
+            },
+          },
+        });
 
         -- do this one manually due to custom cmd
         nvim_lsp['elixirls'].setup {

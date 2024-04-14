@@ -17,14 +17,22 @@ in
     ruby = mkEnableOption "ruby";
     rust = mkEnableOption "rust";
     terraform = mkEnableOption "terraform";
+    nix = mkEnableOption "nix";
+    yaml = mkEnableOption "yaml";
+    lua = mkEnableOption "lua";
   };
 
   config = with pkgs; mkIf cfg.enable {
-    home.packages = [
-      #rnix-lsp # Disabled due to nix dependency being insecure
+    home.packages = []
+    ++ (if cfg.enableAll || cfg.lua then [
       luaPackages.lua-lsp
+    ] else [ ])
+    ++ (if cfg.enableAll || cfg.yaml then [
       yaml-language-server
-    ]
+    ] else [ ])
+    ++ (if cfg.enableAll || cfg.nix then [
+      nil
+    ] else [ ])
     ++ (if cfg.enableAll || cfg.cxx then [
       clang-tools # clangd included
       cmake-language-server
