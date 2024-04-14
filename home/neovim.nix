@@ -154,19 +154,25 @@ in
         nnoremap <leader>gr <cmd>Gread<CR>
         nnoremap <leader>gw <cmd>Gwrite<CR>
 
+        " Quickfix list
+
+        nnoremap <leader>cf <cmd>cfirst<CR>
+        nnoremap <leader>cn <cmd>cnext<CR>
+        nnoremap <leader>cp <cmd>cprevious<CR>
+        nnoremap <leader>cl <cmd>clast<CR>
+        nnoremap <leader>co <cmd>copen<CR>
+        nnoremap <leader>cw <cmd>cdo bd | update<CR>
+        nnoremap <leader>cq <cmd>cfdo bd<CR>
+        nnoremap <leader>cw <cmd>cdo bd | update<CR>
+        nnoremap <leader>cx <cmd>cfdo bd | update<CR>
+        nnoremap <leader>cq <cmd>cfdo bd<CR><cmd>cclose<CR>
+        nnoremap <leader>ci :vimgrep<space>
+        nnoremap <leader>c<leader> :cdo<space>
+
         " Keep it centered (thanks Prime)
         nnoremap n nzzzv
         nnoremap N Nzzzv
         nnoremap J mzJ`z
-
-        " Highlight traling whitespaces
-        " highlight ExtraWhitespace ctermbg=red guibg=red
-        " match ExtraWhitespace /\s\+$/
-        " au BufWinEnter * match ExtraWhitespace /\s\+$/
-        " au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-        " au InsertLeave * match ExtraWhitespace /\s\+$/
-        " au BufWinLeave * call clearmatches()
-        " nnoremap <silent> <leader>rs :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :nohl <Bar> :unlet _s <CR>
 
         " Remove all trailing whitespaces on save
         autocmd BufWritePre * :%s/\s\+$//e
