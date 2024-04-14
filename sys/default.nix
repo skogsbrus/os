@@ -26,6 +26,7 @@
     ./postgres.nix
     ./printing.nix
     ./prometheus.nix
+    ./prowlarr.nix
     ./rclone_backup.nix
     ./radarr.nix
     ./router.nix

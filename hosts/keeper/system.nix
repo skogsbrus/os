@@ -6,17 +6,17 @@
 let
   normalUsers = [
     "emma"
-    "transmission"
     "syncthing"
-    "sonarr"
     "postgres-user"
     "photoprism"
-    "radarr"
-    "lidarr"
   ];
   systemUsers = [
     "jellyfin"
+    "transmission"
     "postgres"
+    "sonarr"
+    "radarr"
+    "lidarr"
   ];
   usergroup = "users";
   inherit (builtins) listToAttrs;
@@ -75,7 +75,7 @@ in
     };
 
     lidarr = {
-      enable = false;
+      enable = true;
       openFirewall = true;
       user = "lidarr";
       group = usergroup;
@@ -103,7 +103,7 @@ in
     };
 
     radarr = {
-      enable = false;
+      enable = true;
       openFirewall = true;
       user = "radarr";
       group = usergroup;
@@ -165,8 +165,13 @@ in
 
     ssh.enable = true;
 
+    prowlarr = {
+      enable = true;
+      openFirewall = true;
+    };
+
     sonarr = {
-      enable = false;
+      enable = true;
       openFirewall = true;
       user = "sonarr";
       group = usergroup;
@@ -185,7 +190,7 @@ in
     };
 
     transmission = {
-      enable = false;
+      enable = true;
       user = "transmission";
       group = usergroup;
       address = "keeper.home";

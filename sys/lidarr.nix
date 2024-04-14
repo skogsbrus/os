@@ -27,6 +27,8 @@ in
   };
 
   config = mkIf cfg.enable {
+    users.users.lidarr.group = cfg.group;
+
     services.lidarr = {
       enable = true;
       openFirewall = true;
