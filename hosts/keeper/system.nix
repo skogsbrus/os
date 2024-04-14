@@ -198,7 +198,7 @@ in
     };
 
     time_machine = {
-      enable = false;
+      enable = true;
       user = "airm2-time-machine";
       openFirewall = true;
       backupPath = "/tank/backup/time-machine";
