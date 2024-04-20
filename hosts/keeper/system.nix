@@ -94,7 +94,7 @@ in
       gcSchedule = "daily";
     };
 
-    paperless_ngx.enable = false;
+    paperless_ngx.enable = true;
 
     photoOrganizer = {
       enable = false;
