@@ -16,6 +16,16 @@ let
       sha256 = "BZ2LSeD1lKyaP6CTSB9PmiGqUe8/p+Z3o56Mv6ZB2qM=";
     };
   };
+  gen = pkgs.vimUtils.buildVimPlugin {
+    # TODO: contribute to nixpkgs
+    name = "gen";
+    src = pkgs.fetchFromGitHub {
+      owner = "David-Kunz";
+      repo = "gen.nvim";
+      rev = "87fbe811155b90eea58622614809705b966009ad";
+      sha256 = "Bt7yJxToUnPv3JqBwWQeywIbVRqzHBqnu3NUaIxFx/M=";
+    };
+  };
   auto-dark-mode = pkgs.vimUtils.buildVimPlugin {
     # TODO: contribute to nixpkgs
     name = "auto-dark-mode";
@@ -89,6 +99,7 @@ in
       plugins = with pkgs.vimPlugins; [
         delaytrain
         fzf-vim
+        gen
         gitsigns-nvim
         nerdtree
         nvim-lspconfig
@@ -200,6 +211,33 @@ in
         lua << EOF
         -- https://github.com/ja-ford/delaytrain.nvim
         require('delaytrain').setup()
+        EOF
+
+        lua << EOF
+        -- https://github.com/David-Kunz/gen.nvim
+        require('gen').setup({
+          model = "llama3:latest", -- The default model to use.
+          host = "localhost", -- The host running the Ollama service.
+          port = "11434", -- The port on which the Ollama service is listening.
+          quit_map = "q", -- set keymap for close the response window
+          retry_map = "<c-r>", -- set keymap to re-send the current prompt
+          init = function(options) pcall(io.popen, "ollama serve > /dev/null 2>&1 &") end,
+          -- Function to initialize Ollama
+          command = function(options)
+              local body = {model = options.model, stream = true}
+              return "curl --silent --no-buffer -X POST http://" .. options.host .. ":" .. options.port .. "/api/chat -d $body"
+          end,
+          -- The command for the Ollama service. You can use placeholders $prompt, $model and $body (shellescaped).
+          -- This can also be a command string.
+          -- The executed command must return a JSON object with { response, context }
+          -- (context property is optional).
+          -- list_models = '<omitted lua function>', -- Retrieves a list of model names
+          display_mode = "float", -- The display mode. Can be "float" or "split".
+          show_prompt = false, -- Shows the prompt submitted to Ollama.
+          show_model = false, -- Displays which model you are using at the beginning of your chat session.
+          no_auto_close = false, -- Never closes the window automatically.
+          debug = false -- Prints errors and the command which is run.
+        })
         EOF
 
         lua << EOF
