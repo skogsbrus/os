@@ -36,6 +36,7 @@ in
         PAPERLESS_DBUSER = "postgres";
         PAPERLESS_DBPASS = "postgres";
         PAPERLESS_DBSSLMODE= "allow";
+        PAPERLESS_OCR_USER_ARGS="{\"invalidate_digital_signatures\": true}";
         HOME = "/tmp"; # Prevent GNUPG home dir error
       };
       user = "johanan";
