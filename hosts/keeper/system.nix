@@ -28,6 +28,7 @@ in
 
   networking.hostName = "keeper";
   networking.hostId = "deadcafe";
+
   # NOTE: uncomment if server is moved to location without ethernet
   #networking.wireless.enable = true;
   #networking.wireless.networks.morot = {
@@ -63,13 +64,13 @@ in
     };
 
     komga = {
-      enable = false;
+      enable = true;
       port = 4246;
       openFirewall = true;
     };
 
     miniflux = {
-      enable = false;
+      enable = true;
       port = 5656;
       openFirewall = true;
     };
@@ -97,7 +98,7 @@ in
     paperless_ngx.enable = true;
 
     photoOrganizer = {
-      enable = false;
+      enable = true;
       inputDir = "/tank/backup/input";
       outputDir = "/tank/media/photos";
     };
@@ -114,17 +115,13 @@ in
       b2_directories = {
         "/tank/media/photos" = "keeper/tank/media/photos";
         "/tank/media/books" = "keeper/tank/media/books";
-        #"/var/lib/mysql" = "keeper/var/lib/mysql";
-        #"/var/lib/postgresql" = "keeper/var/lib/postgresql";
-        #"/var/lib/paperless" = "keeper/var/lib/paperless";
-        #"/var/lib/photoprism" = "keeper/var/lib/photoprism";
-        #"/var/lib/grafana" = "keeper/var/lib/grafana";
-        #"/var/lib/prometheus2" = "keeper/var/lib/prometheus2";
+        "/tank/media/documents" = "keeper/tank/media/documents";
+        # TODO: DB backups of mysql & postgres
       };
     };
 
     photoprism = {
-      enable = false;
+      enable = true;
       enableTensorflow = true;
       user = "photoprism";
       group = usergroup;
@@ -184,6 +181,7 @@ in
     };
 
     syncthing = {
+      # NOTE: disabled for now since I don't seem to use it
       enable = false;
       user = "johanan";
       expose = true;
@@ -223,7 +221,6 @@ in
       remoteVpn = true;
     };
   };
-
 
   # Allow remote control
   networking.firewall = {
