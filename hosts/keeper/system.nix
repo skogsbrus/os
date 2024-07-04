@@ -40,6 +40,10 @@ in
     listToAttrs (map (x: { name = x; value = { isNormalUser = true; }; }) normalUsers) //
     listToAttrs (map (x: { name = x; value = { isSystemUser = true; }; }) systemUsers);
 
+  private = {
+    keeper.enable = true;
+  };
+
   skogsbrus = {
     fwupd.enable = false;
 

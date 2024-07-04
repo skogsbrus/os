@@ -7,9 +7,10 @@
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
+    private.url = "git+ssh://git@github.com/skogsbrus/os-private";
   };
 
-  outputs = { self, nixpkgs, unstable, home-manager, darwin, agenix }:
+  outputs = { self, nixpkgs, unstable, home-manager, darwin, agenix, private }:
   let
       skogsbrus = import ./lib { inherit nixpkgs; };
   in
@@ -21,11 +22,13 @@
             inherit
               agenix
               skogsbrus
+              private
               unstable;
           };
           modules = [
             ./hosts/keeper
             agenix.nixosModules.age
+            private.keeper
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
