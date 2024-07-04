@@ -12,11 +12,7 @@ let
   ];
   systemUsers = [
     "jellyfin"
-    "lidarr"
     "postgres"
-    "radarr"
-    "sonarr"
-    "transmission"
   ];
   usergroup = "users";
   inherit (builtins) listToAttrs;
@@ -79,13 +75,6 @@ in
       openFirewall = true;
     };
 
-    lidarr = {
-      enable = true;
-      openFirewall = true;
-      user = "lidarr";
-      group = usergroup;
-    };
-
     email.nullmailer = true;
 
     networking = {
@@ -105,13 +94,6 @@ in
       enable = true;
       inputDir = "/tank/backup/input";
       outputDir = "/tank/media/photos";
-    };
-
-    radarr = {
-      enable = true;
-      openFirewall = true;
-      user = "radarr";
-      group = usergroup;
     };
 
     rcloneBackup = {
@@ -166,42 +148,10 @@ in
 
     ssh.enable = true;
 
-    prowlarr = {
-      enable = true;
-      openFirewall = true;
-    };
-
-    sonarr = {
-      enable = true;
-      openFirewall = true;
-      user = "sonarr";
-      group = usergroup;
-    };
-
     sound = {
       enable = false;
       enablePipewire = false;
       channels = 4;
-    };
-
-    syncthing = {
-      # NOTE: disabled for now since I don't seem to use it
-      enable = false;
-      user = "johanan";
-      expose = true;
-    };
-
-    transmission = {
-      enable = true;
-      user = "transmission";
-      group = usergroup;
-      address = "keeper.home";
-      openFirewall = true;
-      # Hard links don't work across different ZFS datasets (different file systems)
-      # so here we need to use the same ZFS dataset as used for /tank/media/videos/{tv,movies}
-      # for optimal storage
-      downloadDir = "/tank/media/videos/downloads";
-      rmUnregisteredTorrents = true;
     };
 
     time_machine = {

@@ -70,43 +70,6 @@ in
             reverse_proxy localhost:8888 { }
           '';
         };
-        "syncthing.${cfg.publicUrl}" = {
-          extraConfig = ''
-            forward_auth localhost:9999 {
-                uri /api/verify?rd=https://auth.${cfg.publicUrl}/
-                copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
-            }
-            reverse_proxy localhost:8384 { }
-          '';
-        };
-        "shows.${cfg.publicUrl}" = {
-          extraConfig = ''
-            forward_auth localhost:9999 {
-                uri /api/verify?rd=https://auth.${cfg.publicUrl}/
-                copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
-            }
-            reverse_proxy localhost:8989 { }
-          '';
-        };
-        "movies.${cfg.publicUrl}" = {
-          extraConfig = ''
-            forward_auth localhost:9999 {
-                uri /api/verify?rd=https://auth.${cfg.publicUrl}/
-                copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
-            }
-            reverse_proxy localhost:7878 { }
-          '';
-        };
-        "music.${cfg.publicUrl}" = {
-          extraConfig = ''
-            forward_auth localhost:9999 {
-                uri /api/verify?rd=https://auth.${cfg.publicUrl}/
-                copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
-            }
-            reverse_proxy localhost:8686 { }
-          '';
-        };
-
         "comics.${cfg.publicUrl}" = {
           extraConfig = ''
             forward_auth localhost:9999 {
