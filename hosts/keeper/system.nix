@@ -12,11 +12,11 @@ let
   ];
   systemUsers = [
     "jellyfin"
-    "transmission"
-    "postgres"
-    "sonarr"
-    "radarr"
     "lidarr"
+    "postgres"
+    "radarr"
+    "sonarr"
+    "transmission"
   ];
   usergroup = "users";
   inherit (builtins) listToAttrs;
@@ -129,7 +129,7 @@ in
       importPath = "/tank/backup/input/photos";
       storagePath = "/var/lib/photoprism";
       httpUrl = "keeper.home";
-      adminUserPassword = "foobar9000";
+      adminUserPassword = "foobar9000"; # temporary password - reset in UI
       adminUser = "johanan";
       readonly = true;
       openFirewall = true;
