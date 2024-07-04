@@ -151,31 +151,12 @@
         "type": "indirect"
       }
     },
-    "private": {
-      "inputs": {
-        "nixpkgs": "nixpkgs_3"
-      },
-      "locked": {
-        "lastModified": 1719947979,
-        "narHash": "sha256-HN/eqZV2dyyE7y5/hWyxnvnEICeXmNrtIf3+c3zsFnk=",
-        "ref": "refs/heads/main",
-        "rev": "c42a701c2390975cf634a5e1bf57d3937097e277",
-        "revCount": 1,
-        "type": "git",
-        "url": "ssh://git@github.com/skogsbrus/os-private"
-      },
-      "original": {
-        "type": "git",
-        "url": "ssh://git@github.com/skogsbrus/os-private"
-      }
-    },
     "root": {
       "inputs": {
         "agenix": "agenix",
         "darwin": "darwin_2",
         "home-manager": "home-manager_2",
         "nixpkgs": "nixpkgs_2",
-        "private": "private",
         "unstable": "unstable"
       }
     },
