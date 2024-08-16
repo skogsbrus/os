@@ -6,12 +6,12 @@
 , ...
 }:
 let
-  cfg = config.skogsbrus.paperless_ngx;
+  cfg = config.skogsbrus.paperless;
   inherit (lib) mkIf mkOption mkEnableOption types;
 in
 {
-  options.skogsbrus.paperless_ngx = {
-    enable = mkEnableOption "paperless_ngx";
+  options.skogsbrus.paperless = {
+    enable = mkEnableOption "paperless";
   };
 
   config = mkIf cfg.enable {
@@ -27,7 +27,7 @@ in
       consumptionDirIsPublic = true;
       port = 8000;
       address = "localhost";
-      extraConfig = {
+      settings = {
         PAPERLESS_OCR_LANGUAGE = "swe+eng";
         PAPERLESS_DBENGINE = "postgresql";
         PAPERLESS_DBHOST = "/run/postgresql";
