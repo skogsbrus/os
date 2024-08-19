@@ -6,12 +6,12 @@
 let
   normalUsers = [
     "emma"
-    "syncthing"
     "postgres-user"
     "photoprism"
   ];
   systemUsers = [
     "jellyfin"
+    "syncthing"
     "postgres"
   ];
   usergroup = "users";
@@ -152,6 +152,12 @@ in
       enable = false;
       enablePipewire = false;
       channels = 4;
+    };
+
+    syncthing = {
+      enable = true;
+      user = "syncthing";
+      enableCaddy = true;
     };
 
     time_machine = {
