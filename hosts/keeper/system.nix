@@ -92,6 +92,7 @@ in
 
     photoOrganizer = {
       enable = true;
+      deleteAfterCopy = true;
       inputDir = "/tank/backup/input";
       outputDir = "/tank/media/photos";
     };

@@ -11,6 +11,7 @@ in
 {
   options.skogsbrus.photoOrganizer = {
     enable = mkEnableOption "photo_organizer";
+    deleteAfterCopy = mkEnableOption "Delete the processed input files after they have been copied";
     inputDir = mkOption {
       type = types.str;
       example = "/tmp/foo/bar";
@@ -32,7 +33,7 @@ in
       enable = true;
       description = "Organize photos by date";
       serviceConfig = {
-        ExecStart = "${photoOrganizer}/bin/photo_organizer.py --dir '${cfg.inputDir}' --out '${cfg.outputDir}' --silent";
+        ExecStart = "${photoOrganizer}/bin/photo_organizer.py ${if cfg.deleteAfterCopy then "--delete-after-copy" else ""} --dir '${cfg.inputDir}' --out '${cfg.outputDir}' --silent";
         ExecStartPost = "systemctl start photoprism_index"; # Hacky dependency to auto-trigger indexing once import is complete
       };
       startAt = "hourly";
