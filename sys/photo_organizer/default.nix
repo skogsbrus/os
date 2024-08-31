@@ -36,7 +36,7 @@ in
         ExecStart = "${photoOrganizer}/bin/photo_organizer.py ${if cfg.deleteAfterCopy then "--delete-after-copy" else ""} --dir '${cfg.inputDir}' --out '${cfg.outputDir}' --silent";
         ExecStartPost = "systemctl start photoprism_index"; # Hacky dependency to auto-trigger indexing once import is complete
       };
-      startAt = "hourly";
+      startAt = "*-*-* 10,18:00:00";
     };
   };
 }
