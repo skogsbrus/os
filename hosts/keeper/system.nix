@@ -230,6 +230,12 @@ in
     /tank/media/photos 10.77.77.0/24(ro,insecure,no_subtree_check,nohide,fsid=4)
     /tank/media/videos 10.77.77.0/24(ro,insecure,no_subtree_check,nohide,fsid=5)
     /tank/backup 10.77.77.0/24(rw,insecure,no_subtree_check,nohide,fsid=6)
+    /tank/media/books 10.66.66.0/24(ro,insecure,no_subtree_check,nohide,fsid=1)
+    /tank/media/games 10.66.66.0/24(ro,insecure,no_subtree_check,nohide,fsid=2)
+    /tank/media/music 10.66.66.0/24(ro,insecure,no_subtree_check,nohide,fsid=3)
+    /tank/media/photos 10.66.66.0/24(ro,insecure,no_subtree_check,nohide,fsid=4)
+    /tank/media/videos 10.66.66.0/24(ro,insecure,no_subtree_check,nohide,fsid=5)
+    /tank/backup 10.66.66.0/24(rw,insecure,no_subtree_check,nohide,fsid=6)
   '';
 
   # This value determines the NixOS release from which the default
