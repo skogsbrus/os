@@ -7,6 +7,10 @@
 
   services.nix-daemon.enable = true;
 
+  imports = [
+    ../../sys/keyboard/darwin
+  ];
+
   # IMPORTANT!
   programs.zsh.enable = true;
 }
