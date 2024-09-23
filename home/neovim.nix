@@ -6,6 +6,16 @@
 }:
 let
   cfg = config.skogsbrus.neovim;
+  obsidianBridge = pkgs.vimUtils.buildVimPlugin {
+    # TODO: contribute to nixpkgs
+    name = "obsidian-bridge";
+    src = pkgs.fetchFromGitHub {
+      owner = "oflisback";
+      repo = "obsidian-bridge.nvim";
+      rev = "b5bc14ae57f5df3f0a6a67a43850ee16a90e956f";
+      sha256 = "mTUPrms1OBQ5ik6sRsHH7SUUUZmD81/fNVfIvnT+JpM=";
+    };
+  };
   delaytrain = pkgs.vimUtils.buildVimPlugin {
     # TODO: contribute to nixpkgs
     name = "delaytrain";
@@ -102,10 +112,13 @@ in
         gen
         gitsigns-nvim
         nerdtree
+        plenary-nvim
         nvim-lspconfig
         nvim-treesitter-context
         onedark-nvim
+        obsidianBridge
         rust-vim
+        telescope-nvim
         vim-airline
         vim-elixir
         vim-fugitive
@@ -211,6 +224,10 @@ in
         lua << EOF
         -- https://github.com/ja-ford/delaytrain.nvim
         require('delaytrain').setup()
+        EOF
+
+        lua << EOF
+        require('obsidian-bridge').setup()
         EOF
 
         lua << EOF
