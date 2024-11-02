@@ -1,6 +1,7 @@
 { config
 , pkgs
 , lib
+, private
 , ...
 }:
 let
@@ -10,7 +11,6 @@ let
   formatHostName = key: value: "${value.ip} ${value.name}";
   formatDhcpRange = x: "dhcp-range=${x}.10,${x}.245,${dhcpLease}";
   formatDnsInterface = x: "interface=${x}";
-  externalIp = "78.82.199.100";
 
   allowedUdpPorts = [
     # https://serverfault.com/a/424226
@@ -49,6 +49,12 @@ in
 {
   options.skogsbrus.router = {
     enable = mkEnableOption "router";
+
+    publicIp = mkOption {
+      type = types.str;
+      example = "192.168.1.1";
+      description = "Public IP of the router";
+    };
 
     privateSubnet = mkOption {
       type = types.str;
@@ -138,11 +144,11 @@ in
 
       extraCommands = lib.concatStrings ([
         # Rewrite destination IP of of incoming HTTP(s) requests to Keeper
-        # TODO: possible to get prerouting working without specifying the external IP?
+        # TODO: possible to get prerouting working without specifying the public IP?
         # Doesn't work with `-i enp2s0` as an alternative.
         ''
-          iptables -A PREROUTING -t nat -p tcp -d ${externalIp} --dport 80 -j DNAT --to-destination 10.77.77.38:80
-          iptables -A PREROUTING -t nat -p tcp -d ${externalIp} --dport 443 -j DNAT --to-destination 10.77.77.38:443
+          iptables -A PREROUTING -t nat -p tcp -d ${cfg.publicIp} --dport 80 -j DNAT --to-destination 10.77.77.38:80
+          iptables -A PREROUTING -t nat -p tcp -d ${cfg.publicIp} --dport 443 -j DNAT --to-destination 10.77.77.38:443
         ''
         # Forward incoming HTTP(s) requests with a destination IP to Keeper
         ''
@@ -335,10 +341,10 @@ in
           networks = {
             wlp1s0 = {
               ssid = "morot";
-              # As per comments from the hostapd module,
-              # bssid is set to the interface MAC with the second character being incremented
-              # 2, 6, A, ...
-              bssid = "06:f0:21:b2:52:07";
+              # BSSID is hidden to prevent geo-lookup from WiFi databases
+              # At the time of writing, the hostapd module requires manually
+              # set BSSIDs for interfaces with multiple networks
+              bssid = private.router.bssids.wlp1s0;
               authentication = {
                 wpaPasswordFile = config.age.secrets.morot_pw.path;
                 mode = "none";
@@ -357,10 +363,10 @@ in
             };
             wlp1s0-1 = {
               ssid = "cybercorp";
-              # As per comments from the hostapd module,
-              # bssid is set to the interface MAC with the second character being incremented
-              # 2, 6, A, ...
-              bssid = "0a:f0:21:b2:52:07";
+              # BSSID is hidden to prevent geo-lookup from WiFi databases
+              # At the time of writing, the hostapd module requires manually
+              # set BSSIDs for interfaces with multiple networks
+              bssid = private.router.bssids.wlp1s01;
               authentication = {
                 wpaPasswordFile = config.age.secrets.cybercorp_pw.path;
                 # tmp hack to allow setting WPA-PSK auth

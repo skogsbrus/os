@@ -1,4 +1,5 @@
 { config
+, private
 , ...
 }:
 {
@@ -21,6 +22,7 @@
 
     router = {
       enable = true;
+      publicIp = private.router.publicIp;
       privateSubnet = "10.77.77";
       guestSubnet = "10.88.88";
       workSubnet = "10.99.99";

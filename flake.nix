@@ -43,7 +43,7 @@
         router = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = {
-            inherit agenix;
+            inherit agenix private;
           };
           modules = [
             ./hosts/router

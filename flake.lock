@@ -208,12 +208,10 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1723703277,
-        "narHash": "sha256-nk0RaUB5f68BwtXAYy3WAjqFhVKqIl9Z89RGycTa2vk=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "8b908192e64224420e2d59dfd9b2e4309e154c5d",
-        "type": "github"
+        "lastModified": 0,
+        "narHash": "sha256-sqLwJcHYeWLOeP/XoLwAtYjr01TISlkOfz+NG82pbdg=",
+        "path": "/nix/store/7sprarsdfz9qcd7859phvr9nvhi14mri-source",
+        "type": "path"
       },
       "original": {
         "id": "nixpkgs",
@@ -226,11 +224,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1720100933,
-        "narHash": "sha256-Z0F+aDAVmuszdb/K/w/nNB9wtNl4V/PS/3R9ybDscpQ=",
+        "lastModified": 1730556547,
+        "narHash": "sha256-0QxwywizxaqASNhHjhU9Y0Himb4Sy/bTvZvHBWoukvs=",
         "ref": "refs/heads/main",
-        "rev": "9c9144877d6e8e2efed0ad122bfb522ebc4531fd",
-        "revCount": 2,
+        "rev": "69a7a2381a06599715f36aa75497564ad83c3ae4",
+        "revCount": 11,
         "type": "git",
         "url": "ssh://git@github.com/skogsbrus/os-private"
       },
