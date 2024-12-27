@@ -79,9 +79,11 @@ let
         # enables pane resizing and text selection with mouse
         set -g mouse on
 
-        # set leader to Alt-a
+        # set prefix to backtick (double press to actually type backtick)
         unbind C-b
-        set-option -g prefix M-a
+        set-option -g prefix '`'
+        bind '`' send-prefix
+        bind '`' send-keys '`'
 
         # for fast & predictable navigation
         set-option -g repeat-time 0
