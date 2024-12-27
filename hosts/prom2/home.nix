@@ -32,7 +32,6 @@
     };
 
     neovim = {
-      autoDarkMode = true;
       allGrammars = true;
     };
   };

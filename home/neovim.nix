@@ -26,34 +26,6 @@ let
       sha256 = "Bt7yJxToUnPv3JqBwWQeywIbVRqzHBqnu3NUaIxFx/M=";
     };
   };
-  auto-dark-mode = pkgs.vimUtils.buildVimPlugin {
-    # TODO: contribute to nixpkgs
-    name = "auto-dark-mode";
-    src = pkgs.fetchFromGitHub {
-      owner = "f-person";
-      repo = "auto-dark-mode.nvim";
-      rev = "79a614f12ec21f99123c61a9b85e441238455113";
-      sha256 = "IQ5bI7KCflxzeTd3QbynX+yzHSuODxOxEzPE1yW4Iaw=";
-    };
-  };
-  darkModeVimCfg = (if cfg.autoDarkMode then ''
-    lua << EOF
-      local auto_dark_mode = require('auto-dark-mode')
-
-      auto_dark_mode.setup({
-      	update_interval = 1000,
-      	set_dark_mode = function()
-      		vim.api.nvim_set_option('background', 'dark')
-      		vim.cmd('colorscheme onedark')
-      	end,
-      	set_light_mode = function()
-      		vim.api.nvim_set_option('background', 'light')
-      		vim.cmd('colorscheme onedark')
-      	end,
-      })
-      auto_dark_mode.init()
-    EOF
-  '' else "");
   treesitterContextCfg = ''
     lua << EOF
       require("nvim-treesitter.configs").setup({
@@ -80,18 +52,11 @@ let
 in
 {
   options.skogsbrus.neovim = {
-    autoDarkMode = mkEnableOption "Enable auto dark mode (Mac only)";
     allGrammars = mkEnableOption "Enable all treesitter grammars";
     copilot = mkEnableOption "Enable Copilot";
   };
 
   config = {
-    assertions = [
-      {
-        assertion = !cfg.autoDarkMode || (cfg.autoDarkMode && pkgs.stdenv.isDarwin);
-        message = "auto-dark-mode for Neovim is only supported on Mac";
-      }
-    ];
     programs.neovim = {
       enable = true;
       package = with unstable.legacyPackages.${pkgs.system}; neovim-unwrapped;
@@ -115,7 +80,7 @@ in
         vim-nix
         vim-obsession
         vim-terraform
-      ] ++ (if cfg.autoDarkMode then [ auto-dark-mode ] else [ ])
+      ]
       ++ (if cfg.allGrammars then [ nvim-treesitter.withAllGrammars ] else [ ])
       ++ (if cfg.copilot then [ copilot-vim ] else [ ]);
 
@@ -251,8 +216,6 @@ in
         })
         require('onedark').load()
         EOF
-
-        ${darkModeVimCfg}
 
         ${treesitterContextCfg}
 
