@@ -51,33 +51,33 @@ in
     services.samba = {
       enable = true;
       openFirewall = true;
-      securityType = "user";
-      extraConfig = ''
-        workgroup = ${cfg.workgroup}
-        server string = ${cfg.name}
-        netbios name = ${cfg.name}
-        security = user
-        # note: localhost is the ipv6 localhost ::1
-        hosts allow = ${cfg.allowedSubnet} 127.0.0.1 localhost
-        hosts deny = 0.0.0.0/0
-        guest account = nobody
-        map to guest = bad user
+      settings = cfg.shares // {
+        global = {
+          "workgroup" = cfg.workgroup;
+          "server string" = cfg.name;
+          "netbios name" = cfg.name;
+          "security" = "user";
 
-        winbind nss info = template
-        winbind enum users = Yes
-        winbind enum groups = Yes
-        winbind use default domain = yes
+          # note: localhost is the ipv6 localhost ::1
+          "hosts allow" = "${cfg.allowedSubnet} 127.0.0.1 localhost";
+          "hosts deny" = "0.0.0.0/0";
+          "guest account" = "nobody";
+          "map to guest" = "bad user";
 
-        min protocol = SMB2
-        max protocol = SMB3
-        client min protocol = SMB2
-        client max protocol = SMB3
-        client ipc min protocol = SMB2
-        client ipc max protocol = SMB3
-        server min protocol = SMB2
-        server max protocol = SMB3
-      '';
-      shares = cfg.shares;
+          "winbind nss info" = "template";
+          "winbind enum users" = "Yes";
+          "winbind enum groups" = "Yes";
+          "winbind use default domain" = "yes";
+          "min protocol" = "SMB2";
+          "max protocol" = "SMB3";
+          "client min protocol" = "SMB2";
+          "client max protocol" = "SMB3";
+          "client ipc min protocol" = "SMB2";
+          "client ipc max protocol" = "SMB3";
+          "server min protocol" = "SMB2";
+          "server max protocol" = "SMB3";
+        };
+      };
     };
   };
 }

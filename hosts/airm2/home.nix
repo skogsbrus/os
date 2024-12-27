@@ -13,7 +13,6 @@
     openscad
   ];
 
-  nix.package = lib.mkForce pkgs.nixFlakes;
   nix.extraOptions = ''
     experimental-features = nix-command flakes
   '';

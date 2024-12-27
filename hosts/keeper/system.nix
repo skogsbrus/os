@@ -88,7 +88,8 @@ in
       gcSchedule = "daily";
     };
 
-    paperless.enable = true;
+    # Disabled for now due to https://github.com/NixOS/nixpkgs/issues/361006
+    paperless.enable = false;
 
     photoOrganizer = {
       enable = true;
@@ -204,15 +205,13 @@ in
   };
 
   services.xserver.videoDrivers = [ "amdgpu" ];
-  hardware.opengl.driSupport = true;
-  hardware.opengl.extraPackages = with pkgs; [
+  hardware.graphics.extraPackages = with pkgs; [
     amdvlk
   ];
 
   # For 32 bit applications
   # Only available on unstable
-  hardware.opengl.driSupport32Bit = true;
-  hardware.opengl.extraPackages32 = with pkgs; [
+  hardware.graphics.extraPackages32 = with pkgs; [
     driversi686Linux.amdvlk
   ];
 

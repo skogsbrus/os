@@ -115,11 +115,11 @@ in
 
       postUp = ''
         # Allow peers from wg0 to connect via router
-        ${pkgs.iproute}/bin/ip route add ${cfg.subnet}.0/24 via ${cfg.serverSubnet}.1
+        ${pkgs.iproute2}/bin/ip route add ${cfg.subnet}.0/24 via ${cfg.serverSubnet}.1
       '';
 
       preDown = ''
-        ${pkgs.iproute}/bin/ip route delete ${cfg.subnet}.0/24
+        ${pkgs.iproute2}/bin/ip route delete ${cfg.subnet}.0/24
       '';
 
       privateKeyFile = "/home/johanan/code/os/secrets/wireguard-private.key";

@@ -26,7 +26,6 @@ in
   };
 
   config = {
-    nix.package = mkIf cfg.flakes pkgs.nixFlakes;
     nix.extraOptions = mkIf cfg.flakes ''
       experimental-features = nix-command flakes
     '';

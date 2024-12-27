@@ -19,7 +19,6 @@ in
     enablePipewire = mkEnableOption "pipewire";
   };
   config = {
-    sound.enable = cfg.enable && ! cfg.enablePipewire;
     hardware.pulseaudio = {
       enable = cfg.enable && ! cfg.enablePipewire;
       extraConfig = ''
