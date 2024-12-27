@@ -42,6 +42,7 @@
     };
 
     neovim = {
+      copilot = true;
       autoDarkMode = true;
       allGrammars = true;
     };

@@ -82,6 +82,7 @@ in
   options.skogsbrus.neovim = {
     autoDarkMode = mkEnableOption "Enable auto dark mode (Mac only)";
     allGrammars = mkEnableOption "Enable all treesitter grammars";
+    copilot = mkEnableOption "Enable Copilot";
   };
 
   config = {
@@ -115,7 +116,8 @@ in
         vim-obsession
         vim-terraform
       ] ++ (if cfg.autoDarkMode then [ auto-dark-mode ] else [ ])
-      ++ (if cfg.allGrammars then [ nvim-treesitter.withAllGrammars ] else [ ]);
+      ++ (if cfg.allGrammars then [ nvim-treesitter.withAllGrammars ] else [ ])
+      ++ (if cfg.copilot then [ copilot-vim ] else [ ]);
 
       extraConfig = ''
         set nocompatible

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   users.users.johanan = {
     name = "johanan";
@@ -13,4 +13,8 @@
 
   # IMPORTANT!
   programs.zsh.enable = true;
+
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "copilot.vim"
+  ];
 }
