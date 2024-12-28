@@ -7,10 +7,14 @@
 let
   cfg = config.skogsbrus.router;
   dhcpLease = "infinite";
-  formatDhcpHost = key: value: "dhcp-host=${key},${value.ip}";
+  dnsMasqFormatDhcpHost = key: value: "${key},${value.ip}";
   formatHostName = key: value: "${value.ip} ${value.name}";
-  formatDhcpRange = x: "dhcp-range=${x}.10,${x}.245,${dhcpLease}";
-  formatDnsInterface = x: "interface=${x}";
+  dnsMasqFormatDhcpRange = x:  "${x}.10,${x}.245,${dhcpLease}";
+  mergeAttrSets = attrsets: builtins.foldl' lib.recursiveUpdate { } attrsets;
+
+  dnsEnabledInterfaces = ["br0" "wlp4s0" "wlp1s0-1" "wg0" ];
+  dhcpEnabledIpSubnets = (map dnsMasqFormatDhcpRange [cfg.privateSubnet cfg.guestSubnet cfg.workSubnet ]);
+  staticIps = lib.mapAttrsToList dnsMasqFormatDhcpHost cfg.hosts;
 
   allowedUdpPorts = [
     # https://serverfault.com/a/424226
@@ -242,31 +246,25 @@ in
 
     services.dnsmasq = {
       enable = true;
-      # TODO: extraConfig deprecated in favor of settings attribute set
-      extraConfig = ''
-        # sensible behaviours
-        domain-needed
-        bogus-priv
-        no-resolv
+      settings = mergeAttrSets [
+          {
+            # sensible behaviours
+            domain-needed = true;
+            bogus-priv = true;
+            no-resolv = true;
 
-        # upstream name servers
-        server=9.9.9.9
-        server=1.1.1.1
+            # upstream name servers
+            server = [ "9.9.9.9" "1.1.1.1" ];
+            expand-hosts = true;
 
-        # local domains
-        expand-hosts
-        domain=home
-        local=/home/
-
-        # Interfaces to use DNS on
-        ${lib.concatStringsSep "\n" (map formatDnsInterface ["br0" "wlp4s0" "wlp1s0-1" "wg0" ])}
-
-        # subnet IP blocks to use DHCP on
-        ${lib.concatStringsSep "\n" (map formatDhcpRange [cfg.privateSubnet cfg.guestSubnet cfg.workSubnet ])}
-
-        # static IPs
-        ${lib.concatStringsSep "\n" (lib.mapAttrsToList formatDhcpHost cfg.hosts)}
-      '';
+            # local domains
+            domain = "home";
+            local = "/home/";
+          }
+          { interface = dnsEnabledInterfaces; }
+          { dhcp-range = dhcpEnabledIpSubnets; }
+          { dhcp-host = staticIps; }
+      ];
     };
 
     # Define host names to make dnsmasq resolve them, e.g. http://router.home
