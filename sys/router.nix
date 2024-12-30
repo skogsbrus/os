@@ -301,17 +301,10 @@ in
               ssid = "icecreamiscream";
               authentication = {
                 wpaPasswordFile = config.age.secrets.icecream_pw.path;
-                # tmp hack to allow setting WPA-PSK auth
-                # TODO: contribute to nixpkgs (allow WPA-PSK)
-                mode = "none";
+                mode = "wpa2-sha1";
               };
               logLevel = 2;
               apIsolate = true;
-              settings = {
-                wpa = 2;
-                wpa_key_mgmt = "WPA-PSK";
-                wpa_pairwise = "CCMP";
-              };
             };
           };
           settings = {
@@ -345,18 +338,12 @@ in
               bssid = private.router.bssids.wlp1s0;
               authentication = {
                 wpaPasswordFile = config.age.secrets.morot_pw.path;
-                mode = "none";
-                # tmp hack to allow setting WPA-PSK auth
-                # TODO: contribute to nixpkgs (allow WPA-PSK)
+                mode = "wpa2-sha1";
               };
               logLevel = 2;
               settings = {
                 # Add to bridge once AP is live
                 bridge = "br0";
-
-                wpa = 2;
-                wpa_key_mgmt = "WPA-PSK";
-                wpa_pairwise = "CCMP";
               };
             };
             wlp1s0-1 = {
