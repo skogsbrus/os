@@ -31,6 +31,7 @@ in
 
       # dev tools
       git
+      jujutsu
       vim
       python3
 
