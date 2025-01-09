@@ -88,8 +88,7 @@ in
       gcSchedule = "daily";
     };
 
-    # Disabled for now due to https://github.com/NixOS/nixpkgs/issues/361006
-    paperless.enable = false;
+    paperless.enable = true;
 
     photoOrganizer = {
       enable = true;
