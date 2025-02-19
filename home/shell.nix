@@ -32,9 +32,6 @@ let
           source "$(fzf-share)/completion.zsh"
         fi
 
-        # enable atuin
-        #eval "$(atuin init zsh)"
-
         # Load version control info
         autoload -Uz vcs_info
         precmd() { vcs_info }
@@ -113,19 +110,6 @@ let
     };
   };
 
-  atuin = {
-    programs.atuin = mkIf cfg.atuin {
-      enable = true;
-      enableZshIntegration = false;
-      settings = {
-        dialect = "uk"; # don't use American date formats
-        update_check = false;
-        filter_mode = "host";
-        filter_mode_shell_up_key_binding = "session";
-      };
-    };
-  };
-
   fzf = {
     programs.fzf = {
       enable = true;
@@ -144,7 +128,6 @@ in
   options.skogsbrus.shell = {
     zsh = mkEnableOption "Enable ZSH shell";
     tmux = mkEnableOption "Enable Tmux config";
-    atuin = mkEnableOption "Enable atuin";
 
     tmuxBgColor = mkOption {
       type = types.str;
@@ -163,7 +146,6 @@ in
   };
 
   config = lib.foldl lib.recursiveUpdate { } [
-    atuin
     direnv
     fzf
     tmux

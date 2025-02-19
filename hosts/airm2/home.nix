@@ -30,7 +30,6 @@
     shell = {
       zsh = true;
       tmux = true;
-      atuin = false;
       tmuxBgColor = "yellow";
       tmuxFgColor = "black";
     };
