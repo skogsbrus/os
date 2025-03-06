@@ -106,6 +106,9 @@ let
         # Restore stuff
         set -g @resurrect-capture-pane-contents 'on'
         set -g @resurrect-processes 'watch ssh psql "git log" '
+
+        set -gu default-command
+        set -g default-shell "$SHELL"
       '';
     };
   };
