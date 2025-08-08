@@ -149,15 +149,28 @@ in
       extraCommands = lib.concatStrings ([
         # Rewrite destination IP of incoming HTTP(s) requests to Keeper
         # Match packets destined to a local address on the WAN interface,
-        # avoiding dependency on a specific public IP.
         ''
           iptables -A PREROUTING -t nat -i enp2s0 -p tcp -m addrtype --dst-type LOCAL --dport 80 -j DNAT --to-destination 10.77.77.38:80
           iptables -A PREROUTING -t nat -i enp2s0 -p tcp -m addrtype --dst-type LOCAL --dport 443 -j DNAT --to-destination 10.77.77.38:443
+        ''
+        # Hairpin NAT so LAN clients can reach Keeper through the public domain
+        ''
+          for IFACE in br0 wlp4s0 wlp1s0-1 wg0; do
+            iptables -A PREROUTING -t nat -i "$IFACE" -p tcp -m addrtype --dst-type LOCAL --dport 80 -j DNAT --to-destination 10.77.77.38:80
+            iptables -A PREROUTING -t nat -i "$IFACE" -p tcp -m addrtype --dst-type LOCAL --dport 443 -j DNAT --to-destination 10.77.77.38:443
+          done
         ''
         # Forward incoming HTTP(s) requests with a destination IP to Keeper
         ''
           iptables -A FORWARD -i enp2s0 -p tcp --dport 80 -d 10.77.77.38 -j ACCEPT -m state --state NEW,RELATED,ESTABLISHED
           iptables -A FORWARD -i enp2s0 -p tcp --dport 443 -d 10.77.77.38 -j ACCEPT -m state --state NEW,RELATED,ESTABLISHED
+        ''
+        # Allow hairpin forwarded traffic from LANs to Keeper
+        ''
+          for IFACE in br0 wlp4s0 wlp1s0-1 wg0; do
+            iptables -A FORWARD -i "$IFACE" -p tcp --dport 80 -d 10.77.77.38 -j ACCEPT -m state --state NEW,RELATED,ESTABLISHED
+            iptables -A FORWARD -i "$IFACE" -p tcp --dport 443 -d 10.77.77.38 -j ACCEPT -m state --state NEW,RELATED,ESTABLISHED
+          done
         ''
         # Rewrite source IP of HTTP(s) requests for Keeper to Router
         ''
