@@ -46,7 +46,8 @@ let
         BindReadOnlyPaths = [
           "/nix/store"
           "/run/agenix" # TODO: bind /run/agenix/name instead
-          "/etc/" # # needed for resolv.conf and ssl cert trust chain
+          "/etc/" # needed for resolv.conf and ssl cert trust chain
+          "/run/credentials" # allow systemd credential lookup in chrooted services
         ];
       }
       options

@@ -66,7 +66,7 @@ in
           IPAddressAllow = [ "0.0.0.0/0" ];
           PrivateNetwork = false;
           #JoinsNamespaceOf = [ "caddy" "postgres" ];
-          RestrictAddressFamilies = [ "AF_INET" ];
+          RestrictAddressFamilies = [ "AF_INET" "AF_INET6" ];
         };
         name = "authelia";
       };
