@@ -34,11 +34,11 @@
         "systems": "systems_2"
       },
       "locked": {
-        "lastModified": 1745630506,
-        "narHash": "sha256-bHCFgGeu8XjWlVuaWzi3QONjDW3coZDqSHvnd4l7xus=",
+        "lastModified": 1754433428,
+        "narHash": "sha256-NA/FT2hVhKDftbHSwVnoRTFhes62+7dxZbxj5Gxvghs=",
         "owner": "ryantm",
         "repo": "agenix",
-        "rev": "96e078c646b711aee04b82ba01aefbff87004ded",
+        "rev": "9edb1787864c4f59ae5074ad498b6272b3ec308d",
         "type": "github"
       },
       "original": {
@@ -224,11 +224,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1746469691,
-        "narHash": "sha256-rQ4KcEuSa+Pbx/FkSInIYJYxTHLSc8Xnn5Vk8pI7rxY=",
+        "lastModified": 1747302191,
+        "narHash": "sha256-TZTsbA0FSmWnMxG8s6ifAyHKb80eTmujZMHmfkUfGpE=",
         "ref": "refs/heads/main",
-        "rev": "afcc8741fb4804082c8230dd45680a3e087264fd",
-        "revCount": 21,
+        "rev": "6a8bf3e6e277d8cac74acec60aab77c8bf80220d",
+        "revCount": 22,
         "type": "git",
         "url": "ssh://git@github.com/skogsbrus/os-private"
       },
