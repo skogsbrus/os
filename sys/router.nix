@@ -147,12 +147,12 @@ in
       trustedInterfaces = [ "br0" "wg0" ];
 
       extraCommands = lib.concatStrings ([
-        # Rewrite destination IP of of incoming HTTP(s) requests to Keeper
-        # TODO: possible to get prerouting working without specifying the public IP?
-        # Doesn't work with `-i enp2s0` as an alternative.
+        # Rewrite destination IP of incoming HTTP(s) requests to Keeper
+        # Match packets destined to a local address on the WAN interface,
+        # avoiding dependency on a specific public IP.
         ''
-          iptables -A PREROUTING -t nat -p tcp -d ${cfg.publicIp} --dport 80 -j DNAT --to-destination 10.77.77.38:80
-          iptables -A PREROUTING -t nat -p tcp -d ${cfg.publicIp} --dport 443 -j DNAT --to-destination 10.77.77.38:443
+          iptables -A PREROUTING -t nat -i enp2s0 -p tcp -m addrtype --dst-type LOCAL --dport 80 -j DNAT --to-destination 10.77.77.38:80
+          iptables -A PREROUTING -t nat -i enp2s0 -p tcp -m addrtype --dst-type LOCAL --dport 443 -j DNAT --to-destination 10.77.77.38:443
         ''
         # Forward incoming HTTP(s) requests with a destination IP to Keeper
         ''
@@ -169,7 +169,9 @@ in
       # Flush config on reload
       extraStopCommands = ''
         iptables -F
+        iptables -t nat -F
         ip6tables -F
+        ip6tables -t nat -F || true
       '';
 
       # TODO: add VLANs
