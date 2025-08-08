@@ -15,4 +15,5 @@ in
   "secrets/morot.age".publicKeys = user_keys ++ host_keys;
   "secrets/icecreamiscream.age".publicKeys = user_keys ++ host_keys;
   "secrets/cybercorp.age".publicKeys = user_keys ++ host_keys;
+  "secrets/ddclient.age".publicKeys = user_keys ++ host_keys;
 }
