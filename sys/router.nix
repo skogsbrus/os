@@ -126,13 +126,20 @@ in
       mode = "400";
     };
 
+    age.secrets.ddclient_pw = {
+      file = ../secrets/ddclient.age;
+      owner = "root";
+      group = "root";
+      mode = "400";
+    };
+
     services.ddclient = {
       enable = true;
       use = "web, web=checkip.amazonaws.com, web-skip=''";
       protocol = "namecheap";
       server = "dynamicdns.park-your-domain.com";
       username = "skogsbrus.xyz";
-      passwordFile = "/home/johanan/code/os/secrets/ddns.pw";
+      passwordFile = config.age.secrets.ddclient_pw.path;
       domains = [ "vpn" "www.vpn" ];
     };
 
