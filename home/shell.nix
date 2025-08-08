@@ -26,6 +26,9 @@ let
         # direnv hook
         eval "$(direnv hook zsh)"
 
+        # enable cursor
+        export PATH="$HOME/.local/bin:$PATH"
+
         # enable fzf
         if command -v fzf-share &> /dev/null; then
           source "$(fzf-share)/key-bindings.zsh"
