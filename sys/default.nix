@@ -11,6 +11,7 @@
     ./docker.nix
     ./fwupd.nix
     ./grafana.nix
+    ./immich.nix
     ./jellyfin.nix
     ./komga.nix
     ./miniflux.nix

@@ -107,6 +107,12 @@ in
       };
     };
 
+    immich = {
+      enable = true;
+      originalsPath = "/tank/media/photos";
+      storagePath = "/var/lib/immich";
+    };
+
     photoprism = {
       enable = true;
       enableTensorflow = true;
