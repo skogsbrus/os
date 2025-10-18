@@ -7,7 +7,6 @@ let
   normalUsers = [
     "emma"
     "postgres-user"
-    "photoprism"
   ];
   systemUsers = [
     "jellyfin"
@@ -111,21 +110,6 @@ in
       enable = true;
       originalsPath = "/tank/media/photos";
       storagePath = "/var/lib/immich";
-    };
-
-    photoprism = {
-      enable = true;
-      enableTensorflow = true;
-      user = "photoprism";
-      group = usergroup;
-      originalsPath = "/tank/media/photos";
-      importPath = "/tank/backup/input/photos";
-      storagePath = "/var/lib/photoprism";
-      httpUrl = "keeper.home";
-      adminUserPassword = "foobar9000"; # temporary password - reset in UI
-      adminUser = "johanan";
-      readonly = true;
-      openFirewall = true;
     };
 
     postgres = {
