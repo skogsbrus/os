@@ -163,59 +163,59 @@ in
           # External access to Keeper via public domain (WAN --> router --> Keeper)
           iptables -A PREROUTING -t nat -i enp2s0 -p tcp -m addrtype --dst-type LOCAL --dport 80 -j DNAT --to-destination 10.77.77.38:80
           iptables -A PREROUTING -t nat -i enp2s0 -p tcp -m addrtype --dst-type LOCAL --dport 443 -j DNAT --to-destination 10.77.77.38:443
-          
+
           # Hairpin NAT for trusted VLAN to reach Keeper via public domain
           iptables -A PREROUTING -t nat -i vlan10trusted -p tcp -m addrtype --dst-type LOCAL --dport 80 -j DNAT --to-destination 10.77.77.38:80
           iptables -A PREROUTING -t nat -i vlan10trusted -p tcp -m addrtype --dst-type LOCAL --dport 443 -j DNAT --to-destination 10.77.77.38:443
-          
+
           # Forward external requests to Keeper (public services)
           iptables -A FORWARD -i enp2s0 -p tcp --dport 80 -d 10.77.77.38 -j ACCEPT -m state --state NEW,RELATED,ESTABLISHED
           iptables -A FORWARD -i enp2s0 -p tcp --dport 443 -d 10.77.77.38 -j ACCEPT -m state --state NEW,RELATED,ESTABLISHED
-          
+
           # SNAT for Keeper requests (source NAT for return traffic)
           iptables -A POSTROUTING -t nat -p tcp -d 10.77.77.38 --dport 80 -j SNAT --to-source 10.77.77.1
           iptables -A POSTROUTING -t nat -p tcp -d 10.77.77.38 --dport 443 -j SNAT --to-source 10.77.77.1
         ''
-        
+
         # VLAN Isolation Rules (within trusted interfaces)
         ''
           # VLAN 10 (Trusted): Can access all VLANs (10.77.77.1-126)
           iptables -A FORWARD -i br0 -s 10.77.77.1/25 -d 10.77.77.0/24 -j ACCEPT
           iptables -A FORWARD -i br0 -d 10.77.77.1/25 -s 10.77.77.0/24 -j ACCEPT
-          
+
           # VLAN 20 (Work): Completely isolated from all other VLANs (10.77.77.129-212)
           # Note: Cisco Meraki (68:3a:1e:34:32:38) is part of the work network
           iptables -A FORWARD -i br0 -s 10.77.77.129/25 -d 10.77.77.1/25 -j DROP
           iptables -A FORWARD -i br0 -s 10.77.77.129/25 -d 10.77.77.214/26 -j DROP
           iptables -A FORWARD -i br0 -d 10.77.77.129/25 -s 10.77.77.1/25 -j DROP
           iptables -A FORWARD -i br0 -d 10.77.77.129/25 -s 10.77.77.214/26 -j DROP
-          
+
           # VLAN 30 (IoT): Isolated from all other VLANs (10.77.77.214-254)
           iptables -A FORWARD -i br0 -s 10.77.77.214/26 -d 10.77.77.1/25 -j DROP
           iptables -A FORWARD -i br0 -s 10.77.77.214/26 -d 10.77.77.129/25 -j DROP
           iptables -A FORWARD -i br0 -d 10.77.77.214/26 -s 10.77.77.1/25 -j DROP
           iptables -A FORWARD -i br0 -d 10.77.77.214/26 -s 10.77.77.129/25 -j DROP
-          
+
           # Allow WireGuard to access all VLANs
           iptables -A FORWARD -i wg0 -d 10.77.77.0/24 -j ACCEPT
           iptables -A FORWARD -o wg0 -s 10.77.77.0/24 -j ACCEPT
-          
+
           # Allow all VLANs internet access
           iptables -A FORWARD -s 10.77.77.0/24 -o enp2s0 -j ACCEPT
           iptables -A FORWARD -i enp2s0 -d 10.77.77.0/24 -m state --state RELATED,ESTABLISHED -j ACCEPT
         ''
-        
+
         # Device-specific isolation rules (by MAC address)
         ''
           # Cisco Meraki (68:3a:1e:34:32:38): Isolated from personal networks
           # Block Meraki from accessing Trusted VLAN (including Keeper at 10.77.77.38)
           iptables -A FORWARD -i br0 -m mac --mac-source 68:3a:1e:34:32:38 -d 10.77.77.1/25 -j DROP
           iptables -A FORWARD -i br0 -d 10.77.77.1/25 -m mac --mac-destination 68:3a:1e:34:32:38 -j DROP
-          
+
           # Block Meraki from accessing IoT VLAN
           iptables -A FORWARD -i br0 -m mac --mac-source 68:3a:1e:34:32:38 -d 10.77.77.214/26 -j DROP
           iptables -A FORWARD -i br0 -d 10.77.77.214/26 -m mac --mac-destination 68:3a:1e:34:32:38 -j DROP
-          
+
           # Allow Meraki internet access
           iptables -A FORWARD -i br0 -m mac --mac-source 68:3a:1e:34:32:38 -o enp2s0 -j ACCEPT
           iptables -A FORWARD -i enp2s0 -o br0 -m mac --mac-destination 68:3a:1e:34:32:38 -m state --state RELATED,ESTABLISHED -j ACCEPT
@@ -282,43 +282,43 @@ in
       vlan10trusted = {
         id = 10;
         interface = "br0";
-        ipv4.addresses = [
-          {
-            address = "10.77.77.1";
-            prefixLength = 25;
-          }
-        ];
       };
-      
+
       # VLAN 20: Work Devices (10.77.77.129/25 - 10.77.77.213/25)
       vlan20work = {
         id = 20;
         interface = "wlp1s0-1";
-        ipv4.addresses = [
-          {
-            address = "10.77.77.129";
-            prefixLength = 25;
-          }
-        ];
       };
-      
+
       # VLAN 30: IoT Devices (10.77.77.214/26 - 10.77.77.255/26)
       vlan30iot = {
         id = 30;
         interface = "wlp4s0";
-        ipv4.addresses = [
-          {
-            address = "10.77.77.214";
-            prefixLength = 26;
-          }
-        ];
       };
-      
+
     };
 
     # Legacy interface configurations (kept for compatibility)
     # These will be replaced by VLAN configurations above
     networking.interfaces = {
+      vlan10trusted.ipv4.addresses = [
+        {
+          address = "10.77.77.1";
+          prefixLength = 25;
+        }
+      ];
+      vlan20work.ipv4.addresses = [
+        {
+          address = "10.77.77.129";
+          prefixLength = 25;
+        }
+      ];
+      vlan30iot.ipv4.addresses = [
+        {
+          address = "10.77.77.214";
+          prefixLength = 26;
+        }
+      ];
       # br0 will be managed by VLAN 10 (trusted)
       # wlp4s0 will be managed by VLAN 30 (IoT)
       # wlp1s0-1 will be managed by VLAN 20 (work)
@@ -489,15 +489,15 @@ in
       text = ''
         # VLAN configuration for hostapd
         # Format: MAC_ADDRESS VLAN_ID
-        # 
+        #
         # Default VLAN assignments by network:
         # - morot network (wlp1s0): default_vlan = 10 (Trusted)
-        # - cybercorp network (wlp1s0-1): default_vlan = 20 (Work)  
+        # - cybercorp network (wlp1s0-1): default_vlan = 20 (Work)
         # - icecreamiscream network (wlp4s0): default_vlan = 30 (IoT)
         #
         # All devices connecting to each network will automatically
         # be assigned to the corresponding VLAN unless overridden below.
-        
+
         # Override specific devices (uncomment and modify as needed):
         # 48:e1:5c:6c:3f:5a 10  # Apple device -> Force Trusted VLAN
         # 68:3a:1e:34:32:38 20  # Cisco Meraki -> Force Work VLAN
