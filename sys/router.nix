@@ -7,18 +7,48 @@
 let
   cfg = config.skogsbrus.router;
   dhcpLease = "infinite";
-  dnsMasqFormatDhcpHost = key: value: "${key},${value.ip}";
-  formatHostName = key: value: "${value.ip} ${value.name}";
-  dnsMasqFormatDhcpRange = x:  "${x}.10,${x}.245,${dhcpLease}";
+  externalEthInterfaceId = "enp2s0";
+  internalEthInterfaceId = "enp3s0";
+  dnsMasqFormatDhcpHost = key: value: "${value.mac},${vlanIpConfigs.${value.vlan}.base}.${value.ipSuffix}";
+  formatHostName = key: value: "${vlanIpConfigs.${value.vlan}.base}.${value.ipSuffix} ${key}";
   mergeAttrSets = attrsets: builtins.foldl' lib.recursiveUpdate { } attrsets;
 
-  dnsEnabledInterfaces = ["vlan10trusted" "vlan20work" "vlan30iot" "wg0" ];
+  dnsEnabledInterfaces = [
+    #"vlan10trusted"
+    "vlan20work"
+    "vlan30iot"
+    "wg0"
+    "br0"
+    "wlp4s0"
+    "wlp1s0-1"
+  ];
   dhcpEnabledIpSubnets = [
-    "10.77.77.10,10.77.77.126,infinite"  # VLAN 10: Trusted (10.77.77.10-126)
-    "10.77.77.130,10.77.77.212,infinite"  # VLAN 20: Work (10.77.77.130-212)
-    "10.77.77.215,10.77.77.254,infinite"  # VLAN 30: IoT (10.77.77.215-254)
+    "br0,${vlanIpConfigs.trusted.start},${vlanIpConfigs.trusted.end},infinite"
+    "wlp1s0-1,${vlanIpConfigs.work.start},${vlanIpConfigs.work.end},infinite"
+    "wlp4s0,${vlanIpConfigs.iot.start},${vlanIpConfigs.iot.end},infinite"
   ];
   staticIps = lib.mapAttrsToList dnsMasqFormatDhcpHost cfg.hosts;
+
+  vlanIpConfigs = {
+    trusted = {
+      start = "10.77.77.2";
+      end = "10.77.77.127";
+      base = "10.77.77";
+      cidr = "10.77.77.0/25";
+    };
+    work = {
+      start = "10.88.88.2";
+      end = "10.88.88.127";
+      base = "10.88.88";
+      cidr = "10.88.88.0/25";
+    };
+    iot = {
+      start = "10.99.99.2";
+      end = "10.99.99.127";
+      base = "10.99.99";
+      cidr = "10.99.99.0/25";
+    };
+  };
 
   allowedUdpPorts = [
     # https://serverfault.com/a/424226
@@ -70,25 +100,14 @@ in
       description = "IP block (/24) to use for the private subnet";
     };
 
-    guestSubnet = mkOption {
-      type = types.str;
-      example = "192.168.2";
-      description = "IP block (/24) to use for the guest subnet";
-    };
-
-    workSubnet = mkOption {
-      type = types.str;
-      example = "192.168.2";
-      description = "IP block (/24) to use for the work subnet.";
-    };
-
     hosts = mkOption {
       type = types.attrsOf (types.attrsOf types.str);
       default = { };
       example = {
-        "00:00:00:00:00:00" = {
-          ip = "192.168.1.1";
-          name = "Bob's phone";
+        bobsPhone = {
+          ipSuffix = "1";
+          mac = "00:00:00:00";
+          vlan = "foobar";
         };
       };
       description = "Known hosts that should be assigned a static IP";
@@ -155,70 +174,63 @@ in
 
     networking.firewall = {
       enable = true;
-      trustedInterfaces = [ "br0" "wg0" ];
-
       extraCommands = lib.concatStrings ([
-        # Keeper NAT rules (Keeper hosts public services on trusted VLAN)
+        # Keeper NAT rules
         ''
           # External access to Keeper via public domain (WAN --> router --> Keeper)
-          iptables -A PREROUTING -t nat -i enp2s0 -p tcp -m addrtype --dst-type LOCAL --dport 80 -j DNAT --to-destination 10.77.77.38:80
-          iptables -A PREROUTING -t nat -i enp2s0 -p tcp -m addrtype --dst-type LOCAL --dport 443 -j DNAT --to-destination 10.77.77.38:443
+          iptables -A PREROUTING -t nat -i ${externalEthInterfaceId} -p tcp -m addrtype --dst-type LOCAL --dport 80 -j DNAT --to-destination ${vlanIpConfigs.trusted.base}.${cfg.hosts.keeper.ipSuffix}:80
+          iptables -A PREROUTING -t nat -i ${externalEthInterfaceId} -p tcp -m addrtype --dst-type LOCAL --dport 443 -j DNAT --to-destination ${vlanIpConfigs.trusted.base}.${cfg.hosts.keeper.ipSuffix}:443
 
           # Hairpin NAT for trusted VLAN to reach Keeper via public domain
-          iptables -A PREROUTING -t nat -i vlan10trusted -p tcp -m addrtype --dst-type LOCAL --dport 80 -j DNAT --to-destination 10.77.77.38:80
-          iptables -A PREROUTING -t nat -i vlan10trusted -p tcp -m addrtype --dst-type LOCAL --dport 443 -j DNAT --to-destination 10.77.77.38:443
+          iptables -A PREROUTING -t nat -i br0 -p tcp -m addrtype --dst-type LOCAL --dport 80 -j DNAT --to-destination ${vlanIpConfigs.trusted.base}.${cfg.hosts.keeper.ipSuffix}:80
+          iptables -A PREROUTING -t nat -i br0 -p tcp -m addrtype --dst-type LOCAL --dport 443 -j DNAT --to-destination ${vlanIpConfigs.trusted.base}.${cfg.hosts.keeper.ipSuffix}:443
 
           # Forward external requests to Keeper (public services)
-          iptables -A FORWARD -i enp2s0 -p tcp --dport 80 -d 10.77.77.38 -j ACCEPT -m state --state NEW,RELATED,ESTABLISHED
-          iptables -A FORWARD -i enp2s0 -p tcp --dport 443 -d 10.77.77.38 -j ACCEPT -m state --state NEW,RELATED,ESTABLISHED
+          iptables -A FORWARD -i ${externalEthInterfaceId} -p tcp --dport 80 -d ${vlanIpConfigs.trusted.base}.${cfg.hosts.keeper.ipSuffix} -j ACCEPT -m state --state NEW,RELATED,ESTABLISHED
+          iptables -A FORWARD -i ${externalEthInterfaceId} -p tcp --dport 443 -d ${vlanIpConfigs.trusted.base}.${cfg.hosts.keeper.ipSuffix} -j ACCEPT -m state --state NEW,RELATED,ESTABLISHED
 
           # SNAT for Keeper requests (source NAT for return traffic)
-          iptables -A POSTROUTING -t nat -p tcp -d 10.77.77.38 --dport 80 -j SNAT --to-source 10.77.77.1
-          iptables -A POSTROUTING -t nat -p tcp -d 10.77.77.38 --dport 443 -j SNAT --to-source 10.77.77.1
+          iptables -A POSTROUTING -t nat -p tcp -d ${vlanIpConfigs.trusted.base}.${cfg.hosts.keeper.ipSuffix} --dport 80 -j SNAT --to-source ${vlanIpConfigs.trusted.base}.${cfg.hosts.router.ipSuffix}
+          iptables -A POSTROUTING -t nat -p tcp -d ${vlanIpConfigs.trusted.base}.${cfg.hosts.keeper.ipSuffix} --dport 443 -j SNAT --to-source ${vlanIpConfigs.trusted.base}.${cfg.hosts.router.ipSuffix}
         ''
 
-        # VLAN Isolation Rules (within trusted interfaces)
+        # VLAN Isolation Rules
         ''
-          # VLAN 10 (Trusted): Can access all VLANs (10.77.77.1-126)
-          iptables -A FORWARD -i br0 -s 10.77.77.1/25 -d 10.77.77.0/24 -j ACCEPT
-          iptables -A FORWARD -i br0 -d 10.77.77.1/25 -s 10.77.77.0/24 -j ACCEPT
+          # VLAN 10 (Trusted): Can access all VLANs
+          #iptables -A FORWARD -i br0 -s ${vlanIpConfigs.trusted.cidr} -d ${vlanIpConfigs.trusted.cidr} -j ACCEPT
+          #iptables -A FORWARD -i br0 -d ${vlanIpConfigs.trusted.cidr} -s ${vlanIpConfigs.trusted.cidr} -j ACCEPT
+          #iptables -A FORWARD -i br0 -s ${vlanIpConfigs.trusted.cidr} -d ${vlanIpConfigs.work.cidr}    -j ACCEPT
+          #iptables -A FORWARD -i br0 -s ${vlanIpConfigs.trusted.cidr} -d ${vlanIpConfigs.work.cidr}    -j ACCEPT
+          #iptables -A FORWARD -i br0 -d ${vlanIpConfigs.trusted.cidr} -s ${vlanIpConfigs.iot.cidr}     -j ACCEPT
+          #iptables -A FORWARD -i br0 -d ${vlanIpConfigs.trusted.cidr} -s ${vlanIpConfigs.iot.cidr}     -j ACCEPT
 
-          # VLAN 20 (Work): Completely isolated from all other VLANs (10.77.77.129-212)
-          # Note: Cisco Meraki (68:3a:1e:34:32:38) is part of the work network
-          iptables -A FORWARD -i br0 -s 10.77.77.129/25 -d 10.77.77.1/25 -j DROP
-          iptables -A FORWARD -i br0 -s 10.77.77.129/25 -d 10.77.77.214/26 -j DROP
-          iptables -A FORWARD -i br0 -d 10.77.77.129/25 -s 10.77.77.1/25 -j DROP
-          iptables -A FORWARD -i br0 -d 10.77.77.129/25 -s 10.77.77.214/26 -j DROP
+          ## VLAN 20 (Work): Isolated from all other VLANs
+          #iptables -A FORWARD -i br0 -s ${vlanIpConfigs.work.cidr} -d ${vlanIpConfigs.trusted.cidr} -j DROP
+          #iptables -A FORWARD -i br0 -s ${vlanIpConfigs.work.cidr} -d ${vlanIpConfigs.iot.cidr}     -j DROP
+          #iptables -A FORWARD -i br0 -d ${vlanIpConfigs.work.cidr} -s ${vlanIpConfigs.trusted.cidr} -j DROP
+          #iptables -A FORWARD -i br0 -d ${vlanIpConfigs.work.cidr} -s ${vlanIpConfigs.iot.cidr}     -j DROP
 
-          # VLAN 30 (IoT): Isolated from all other VLANs (10.77.77.214-254)
-          iptables -A FORWARD -i br0 -s 10.77.77.214/26 -d 10.77.77.1/25 -j DROP
-          iptables -A FORWARD -i br0 -s 10.77.77.214/26 -d 10.77.77.129/25 -j DROP
-          iptables -A FORWARD -i br0 -d 10.77.77.214/26 -s 10.77.77.1/25 -j DROP
-          iptables -A FORWARD -i br0 -d 10.77.77.214/26 -s 10.77.77.129/25 -j DROP
+          ## VLAN 30 (IoT): Isolated from all other VLANs
+          #iptables -A FORWARD -i br0 -s ${vlanIpConfigs.iot.cidr} -d ${vlanIpConfigs.trusted.cidr} -j DROP
+          #iptables -A FORWARD -i br0 -s ${vlanIpConfigs.iot.cidr} -d ${vlanIpConfigs.work.cidr}     -j DROP
+          #iptables -A FORWARD -i br0 -d ${vlanIpConfigs.iot.cidr} -s ${vlanIpConfigs.trusted.cidr} -j DROP
+          #iptables -A FORWARD -i br0 -d ${vlanIpConfigs.iot.cidr} -s ${vlanIpConfigs.work.cidr}     -j DROP
 
-          # Allow WireGuard to access all VLANs
-          iptables -A FORWARD -i wg0 -d 10.77.77.0/24 -j ACCEPT
-          iptables -A FORWARD -o wg0 -s 10.77.77.0/24 -j ACCEPT
+          # WireGuard: can access all VLANs
+          iptables -A FORWARD -i wg0 -d ${vlanIpConfigs.trusted.cidr} -j ACCEPT
+          iptables -A FORWARD -o wg0 -s ${vlanIpConfigs.trusted.cidr} -j ACCEPT
+          iptables -A FORWARD -i wg0 -d ${vlanIpConfigs.iot.cidr} -j ACCEPT
+          iptables -A FORWARD -o wg0 -s ${vlanIpConfigs.iot.cidr} -j ACCEPT
+          iptables -A FORWARD -i wg0 -d ${vlanIpConfigs.work.cidr} -j ACCEPT
+          iptables -A FORWARD -o wg0 -s ${vlanIpConfigs.work.cidr} -j ACCEPT
 
           # Allow all VLANs internet access
-          iptables -A FORWARD -s 10.77.77.0/24 -o enp2s0 -j ACCEPT
-          iptables -A FORWARD -i enp2s0 -d 10.77.77.0/24 -m state --state RELATED,ESTABLISHED -j ACCEPT
-        ''
-
-        # Device-specific isolation rules (by MAC address)
-        ''
-          # Cisco Meraki (68:3a:1e:34:32:38): Isolated from personal networks
-          # Block Meraki from accessing Trusted VLAN (including Keeper at 10.77.77.38)
-          iptables -A FORWARD -i br0 -m mac --mac-source 68:3a:1e:34:32:38 -d 10.77.77.1/25 -j DROP
-          iptables -A FORWARD -i br0 -d 10.77.77.1/25 -m mac --mac-destination 68:3a:1e:34:32:38 -j DROP
-
-          # Block Meraki from accessing IoT VLAN
-          iptables -A FORWARD -i br0 -m mac --mac-source 68:3a:1e:34:32:38 -d 10.77.77.214/26 -j DROP
-          iptables -A FORWARD -i br0 -d 10.77.77.214/26 -m mac --mac-destination 68:3a:1e:34:32:38 -j DROP
-
-          # Allow Meraki internet access
-          iptables -A FORWARD -i br0 -m mac --mac-source 68:3a:1e:34:32:38 -o enp2s0 -j ACCEPT
-          iptables -A FORWARD -i enp2s0 -o br0 -m mac --mac-destination 68:3a:1e:34:32:38 -m state --state RELATED,ESTABLISHED -j ACCEPT
+          iptables -A FORWARD -s ${vlanIpConfigs.trusted.cidr} -o ${externalEthInterfaceId} -j ACCEPT
+          iptables -A FORWARD -i ${externalEthInterfaceId} -d ${vlanIpConfigs.trusted.cidr} -m state --state RELATED,ESTABLISHED -j ACCEPT
+          iptables -A FORWARD -s ${vlanIpConfigs.work.cidr} -o ${externalEthInterfaceId} -j ACCEPT
+          iptables -A FORWARD -i ${externalEthInterfaceId} -d ${vlanIpConfigs.work.cidr} -m state --state RELATED,ESTABLISHED -j ACCEPT
+          iptables -A FORWARD -s ${vlanIpConfigs.iot.cidr} -o ${externalEthInterfaceId} -j ACCEPT
+          iptables -A FORWARD -i ${externalEthInterfaceId} -d ${vlanIpConfigs.iot.cidr} -m state --state RELATED,ESTABLISHED -j ACCEPT
         ''
       ]);
 
@@ -230,9 +242,13 @@ in
         ip6tables -t nat -F || true
       '';
 
-      # TODO: add VLANs
+      trustedInterfaces = [
+        "br0"
+        "wg0"
+        #"vlan10trusted"
+      ];
       interfaces = {
-        enp2s0 = {
+        "${externalEthInterfaceId}" = {
           allowedTCPPorts = [ 80 443 ];
           allowedUDPPorts = [
             # Wireguard
@@ -260,17 +276,17 @@ in
         "wlp4s0"
         "wlp1s0-1"
         "wg0" # ./wireguard.nix
-        "vlan10trusted"
+        #"vlan10trusted"
         "vlan20work"
         "vlan30iot"
       ];
-      externalInterface = "enp2s0";
+      externalInterface = externalEthInterfaceId;
     };
 
     networking.bridges = {
       br0 = {
         interfaces = [
-          "enp3s0"
+          internalEthInterfaceId
           # wireless interface added by hostapd
         ];
       };
@@ -278,19 +294,19 @@ in
 
     # VLAN Configuration for Network Isolation
     networking.vlans = {
-      # VLAN 10: Trusted Devices (10.77.77.1/24 - 10.77.77.85/24)
-      vlan10trusted = {
-        id = 10;
-        interface = "br0";
-      };
+      # VLAN 10: Trusted Devices
+      #vlan10trusted = {
+      #  id = 10;
+      #  interface = "br0";
+      #};
 
-      # VLAN 20: Work Devices (10.77.77.129/25 - 10.77.77.213/25)
+      # VLAN 20: Work Devices
       vlan20work = {
         id = 20;
         interface = "wlp1s0-1";
       };
 
-      # VLAN 30: IoT Devices (10.77.77.214/26 - 10.77.77.255/26)
+      # VLAN 30: IoT Devices and guests
       vlan30iot = {
         id = 30;
         interface = "wlp4s0";
@@ -298,30 +314,31 @@ in
 
     };
 
-    # Legacy interface configurations (kept for compatibility)
-    # These will be replaced by VLAN configurations above
     networking.interfaces = {
-      vlan10trusted.ipv4.addresses = [
+      br0.ipv4.addresses = [
         {
-          address = "10.77.77.1";
+          address = "${vlanIpConfigs.trusted.start}";
           prefixLength = 25;
         }
       ];
+      #vlan10trusted.ipv4.addresses = [
+      #  {
+      #    address = "${vlanIpConfigs.trusted.start}";
+      #    prefixLength = 25;
+      #  }
+      #];
       vlan20work.ipv4.addresses = [
         {
-          address = "10.77.77.129";
+          address = "${vlanIpConfigs.work.start}";
           prefixLength = 25;
         }
       ];
       vlan30iot.ipv4.addresses = [
         {
-          address = "10.77.77.214";
-          prefixLength = 26;
+          address = "${vlanIpConfigs.iot.start}";
+          prefixLength = 25;
         }
       ];
-      # br0 will be managed by VLAN 10 (trusted)
-      # wlp4s0 will be managed by VLAN 30 (IoT)
-      # wlp1s0-1 will be managed by VLAN 20 (work)
     };
 
     networking.networkmanager.enable = false;
@@ -388,14 +405,7 @@ in
               logLevel = 2;
               apIsolate = true;
               settings = {
-                # Assign to VLAN 30 (IoT)
-                vlan_bridge = "br0";
-                vlan_tagged_interface = "br0";
-                vlan_naming = 1;
-                dynamic_vlan = 1;
-                vlan_file = "/etc/hostapd/vlan";
-                # Default VLAN for icecreamiscream network
-                default_vlan = 30;
+                bridge = "vlan30iot";
               };
             };
           };
@@ -434,14 +444,7 @@ in
               };
               logLevel = 2;
               settings = {
-                # Assign to VLAN 10 (Trusted)
-                vlan_bridge = "br0";
-                vlan_tagged_interface = "br0";
-                vlan_naming = 1;
-                dynamic_vlan = 1;
-                vlan_file = "/etc/hostapd/vlan";
-                # Default VLAN for morot network
-                default_vlan = 10;
+                bridge = "br0";
               };
             };
             wlp1s0-1 = {
@@ -452,25 +455,11 @@ in
               bssid = private.router.bssids.wlp1s01;
               authentication = {
                 wpaPasswordFile = config.age.secrets.cybercorp_pw.path;
-                # tmp hack to allow setting WPA-PSK auth
-                # TODO: contribute to nixpkgs (allow WPA-PSK)
-                mode = "none";
+                mode = "wpa2-sha1";
               };
               logLevel = 2;
-              # Remove apIsolate to allow work devices to communicate with each other
-              # apIsolate = true;
               settings = {
-                wpa = 2;
-                wpa_key_mgmt = "WPA-PSK";
-                wpa_pairwise = "CCMP";
-                # Assign to VLAN 20 (Work)
-                vlan_bridge = "br0";
-                vlan_tagged_interface = "br0";
-                vlan_naming = 1;
-                dynamic_vlan = 1;
-                vlan_file = "/etc/hostapd/vlan";
-                # Default VLAN for cybercorp network
-                default_vlan = 20;
+                bridge = "vlan20work";
               };
             };
           };
@@ -482,29 +471,6 @@ in
           };
         };
       };
-    };
-
-    # Create VLAN configuration file for hostapd
-    environment.etc."hostapd/vlan" = {
-      text = ''
-        # VLAN configuration for hostapd
-        # Format: MAC_ADDRESS VLAN_ID
-        #
-        # Default VLAN assignments by network:
-        # - morot network (wlp1s0): default_vlan = 10 (Trusted)
-        # - cybercorp network (wlp1s0-1): default_vlan = 20 (Work)
-        # - icecreamiscream network (wlp4s0): default_vlan = 30 (IoT)
-        #
-        # All devices connecting to each network will automatically
-        # be assigned to the corresponding VLAN unless overridden below.
-
-        # Override specific devices (uncomment and modify as needed):
-        # 48:e1:5c:6c:3f:5a 10  # Apple device -> Force Trusted VLAN
-        # 68:3a:1e:34:32:38 20  # Cisco Meraki -> Force Work VLAN
-        # 7e:4f:5a:95:c1:f2 30  # Unknown device -> Force IoT VLAN
-        # d8:8c:79:1c:d4:00 30  # Google device -> Force IoT VLAN
-      '';
-      mode = "0644";
     };
   };
 }

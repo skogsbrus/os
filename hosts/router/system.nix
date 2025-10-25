@@ -23,21 +23,26 @@
     router = {
       enable = true;
       publicIp = private.router.publicIp;
-      privateSubnet = "10.77.77";
-      guestSubnet = "10.88.88";
-      workSubnet = "10.99.99";
       hosts = {
-        "00:0d:b9:5e:22:91" = {
-          ip = "10.77.77.1";
-          name = "router";
+        router = {
+          ipSuffix = "1";
+          mac = "00:0d:b9:5e:22:91";
+          vlan = "trusted";
         };
-        "9c:6b:00:05:1c:b3" = {
-          ip = "10.77.77.38";
-          name = "keeper";
+        keeper = {
+          ipSuffix = "38";
+          mac ="9c:6b:00:05:1c:b3" ;
+          vlan = "trusted";
         };
-        "30:9c:23:1b:a5:4d" = {
-          ip = "10.77.77.41";
-          name = "workstation";
+        workstation = {
+          ipSuffix = "41";
+          mac ="30:9c:23:1b:a5:4d" ;
+          vlan = "trusted";
+        };
+        merakiMx = {
+          ipSuffix = "140";
+          mac ="68:3a:1e:34:32:38" ;
+          vlan = "work";
         };
       };
     };
