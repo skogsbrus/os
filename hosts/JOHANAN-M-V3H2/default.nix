@@ -10,6 +10,10 @@
 
   stdenv.hostPlatform.system.stateVersion = 5;
 
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+   "copilot.vim"
+  ];
+
   # IMPORTANT!
   programs.zsh.enable = true;
 }
