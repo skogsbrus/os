@@ -60,12 +60,6 @@
       users = [ "johanan" ];
     };
 
-    syncthing = {
-      enable = true;
-      user = "johanan";
-      expose = false;
-    };
-
     users = {
       groups = [ "networkmanager" ];
     };

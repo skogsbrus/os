@@ -20,11 +20,11 @@ in
       };
     };
     home.packages = with pkgs; [
-      gnome.gnome-tweaks
-      gnome.pomodoro
-      gnomeExtensions.bluetooth-quick-connect
-      gnomeExtensions.sound-output-device-chooser
-      gnomeExtensions.tray-icons-reloaded
+      #gnome-tweaks
+      #gnome-pomodoro
+      #gnomeExtensions.bluetooth-quick-connect
+      #gnomeExtensions.sound-output-device-chooser
+      #gnomeExtensions.tray-icons-reloaded
     ];
   };
 }

@@ -1,7 +1,4 @@
-{ config
-, pkgs
-, lib
-, ...
+{ config , pkgs , lib , ...
 }:
 let
   cfg = config.skogsbrus.xserver;
@@ -25,7 +22,7 @@ in
       displayManager.gdm.enable = true;
 
       # Use wayland for now, otherwise USB-C dock doesn't work :(
-      displayManager.gdm.wayland = false;
+      displayManager.gdm.wayland = true;
 
       # Enable the GNOME Desktop Environment.
       desktopManager.gnome.enable = true;

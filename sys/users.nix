@@ -24,6 +24,8 @@ in
     };
   };
 
+  config.home-manager.backupFileExtension = ".bk";
+
   # TODO: parameterize users
   config.home-manager.users.johanan.programs.git = {
     enable = true;

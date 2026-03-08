@@ -41,7 +41,7 @@ in
       terraform-ls
     ] else [ ])
     ++ (if cfg.enableAll || cfg.elixir then [
-      elixir_ls
+      elixir-ls
       rebar3
     ] else [ ])
     ++ (if cfg.enableAll || cfg.python then [

@@ -47,9 +47,7 @@
     [{ device = "/dev/disk/by-uuid/38f1afc0-e3d0-4389-91f3-227d44b75911"; }];
 
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-
-  # high-resolution display
-  hardware.video.hidpi.enable = lib.mkDefault true;
+  hardware.nvidia.open = false;
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
