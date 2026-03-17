@@ -220,7 +220,6 @@ in
         ${treesitterContextCfg}
 
         lua << EOF
-        local nvim_lsp = require('lspconfig')
 
         -- Use an on_attach function to only map the following keys
         -- after the language server attaches to the current buffer
@@ -272,17 +271,17 @@ in
         -- Use a loop to conveniently call 'setup' on multiple servers and
         -- map buffer local keybindings when the language server attaches
         for _, lsp in ipairs(servers) do
-          nvim_lsp[lsp].setup {
+          vim.lsp.config(lsp, {
             on_attach = on_attach,
             flags = {
               debounce_text_changes = 150,
             }
-          }
+          })
         end
 
         -- Configure Nix manually due to non-generic setup
 
-        require('lspconfig').nil_ls.setup({
+        vim.lsp.config("nil_ls", {
           autostart = true,
           cmd = { "nil" },
           settings = {
@@ -292,16 +291,16 @@ in
               },
             },
           },
-        });
+        })
 
         -- do this one manually due to custom cmd
-        nvim_lsp['elixirls'].setup {
+        vim.lsp.config("elixirls", {
           cmd = { "elixir-ls" },
           on_attach = on_attach,
           flags = {
             debounce_text_changes = 150,
           }
-        }
+        })
         EOF
       '';
     };
