@@ -8,8 +8,7 @@
   nix.settings.experimental-features = "nix-command flakes";
   nix.settings.extra-nix-path = "nixpkgs=flake:nixpkgs";
 
-  system.stateVersion = 5;
-  services.nix-daemon.enable = true;
+  stdenv.hostPlatform.system.stateVersion = 5;
 
   # IMPORTANT!
   programs.zsh.enable = true;

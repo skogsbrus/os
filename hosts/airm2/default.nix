@@ -5,8 +5,6 @@
     home = "/Users/johanan";
   };
 
-  services.nix-daemon.enable = true;
-
   imports = [
     ../../sys/keyboard/darwin
   ];
@@ -19,4 +17,9 @@
   ];
 
   system.stateVersion = 5;
+  ids.gids.nixbld = 30000;
+
+  security.pam.services.sudo_local = {
+    text = "auth sufficient pam_tid.so";
+  };
 }

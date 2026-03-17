@@ -5,8 +5,6 @@
     home = "/Users/johanan";
   };
 
-  services.nix-daemon.enable = true;
-
   # IMPORTANT!
   programs.zsh.enable = true;
 }

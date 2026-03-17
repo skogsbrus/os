@@ -3,7 +3,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager/release-25.11";
-    darwin.url = "github:lnl7/nix-darwin";
+    darwin.url = "github:lnl7/nix-darwin/nix-darwin-25.11";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
