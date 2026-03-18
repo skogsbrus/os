@@ -24,6 +24,22 @@
   boot.initrd = {
     availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
     kernelModules = [ "kvm-amd" ];
+
+    network = {
+      enable = true;
+      ssh = {
+        enable = true;
+        port = 2222;
+        hostKeys = [
+          /etc/secrets/initrd/ssh_host_ed25519_key
+        ];
+        authorizedKeys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINug6YZP5It5utF3UALqq+Wq93Taj+xtzaOMv6qwVfWc contact@skogsbrus.xyz" ];
+      };
+    };
+
+    postMountCommands = ''
+      zfs load-key -a
+    '';
   };
 
   nixpkgs.config.packageOverrides = pkgs: {
