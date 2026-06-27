@@ -225,11 +225,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1759564430,
-        "narHash": "sha256-Ch8rkDmXjPaD70IjDjrI2FrtFkdW13xZKyk6wKsTA7g=",
+        "lastModified": 1782560518,
+        "narHash": "sha256-eG3GlYW/iqFfjHsyHUwEnW1mmga6WMyNj3GwuvIHy2k=",
         "ref": "refs/heads/main",
-        "rev": "d5306aabb6317e0ef1af5645e32dc437ac016025",
-        "revCount": 27,
+        "rev": "8e09f0e8508e856b0590f9e5b5df5d900c5f76d5",
+        "revCount": 30,
         "type": "git",
         "url": "ssh://git@github.com/skogsbrus/os-private"
       },
