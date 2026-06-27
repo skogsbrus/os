@@ -19,7 +19,7 @@ in
     enablePipewire = mkEnableOption "pipewire";
   };
   config = {
-    hardware.pulseaudio = {
+    services.pulseaudio = {
       enable = cfg.enable && ! cfg.enablePipewire;
       extraConfig = ''
         default-sample-channels=${toString cfg.channels}
