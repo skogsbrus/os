@@ -5,9 +5,9 @@ let
   inherit (pkgs)
     exiftool
     mkShell
-    python310;
+    python3;
 
-  inherit (pkgs.python310.pkgs)
+  inherit (pkgs.python3.pkgs)
     buildPythonPackage
     fetchPypi
     setuptools;
@@ -43,7 +43,7 @@ let
         sha256 = "sha256-V4s0s8WT/ne75rYliPny7GedymP31IYUjJpv8f3Uvck=";
       };
     };
-  myPython = python310.withPackages (ps: with ps; [ pyexifinfo ]);
+  myPython = python3.withPackages (ps: with ps; [ pyexifinfo ]);
 in
 stdenv.mkDerivation rec {
   pname = "photo_organizer";
