@@ -29,7 +29,7 @@ in
   # TODO: parameterize users
   config.home-manager.users.johanan.programs.git = {
     enable = true;
-    extraConfig.safe.directory = "/home/johanan/os/";
+    settings.safe.directory = "/home/johanan/os/";
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.

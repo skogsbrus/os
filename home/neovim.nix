@@ -62,6 +62,8 @@ in
       package = with unstable.legacyPackages.${pkgs.system}; neovim-unwrapped;
       viAlias = true;
       vimAlias = true;
+      withRuby = false;
+      withPython3 = false;
       plugins = with pkgs.vimPlugins; [
         delaytrain
         fzf-vim

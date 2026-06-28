@@ -22,7 +22,7 @@ let
         gp = "git push origin $(git rev-parse --abbrev-ref HEAD)";
       };
       syntaxHighlighting.enable = true;
-      initExtra = ''
+      initContent = ''
         # direnv hook
         eval "$(direnv hook zsh)"
 

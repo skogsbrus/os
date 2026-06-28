@@ -34,7 +34,7 @@ in
   config = mkIf cfg.enable {
     services.komga = {
       enable = true;
-      port = cfg.port;
+      settings.server.port = cfg.port;
       openFirewall = cfg.openFirewall;
       stateDir = "/tank/media/books/komga";
     };
