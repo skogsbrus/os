@@ -35,6 +35,7 @@ in
       vim
       python3
       beads
+      uv
 
       # monitoring
       htop
