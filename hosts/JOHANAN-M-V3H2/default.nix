@@ -8,12 +8,16 @@
   nix.settings.experimental-features = "nix-command flakes";
   nix.settings.extra-nix-path = "nixpkgs=flake:nixpkgs";
 
-  stdenv.hostPlatform.system.stateVersion = 5;
-
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
    "copilot.vim"
   ];
 
   # IMPORTANT!
   programs.zsh.enable = true;
+
+  system.stateVersion = 5;
+
+  security.pam.services.sudo_local = {
+    text = "auth sufficient pam_tid.so";
+  };
 }
