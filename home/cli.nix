@@ -34,6 +34,7 @@ in
       jujutsu
       vim
       python3
+      beads
 
       # monitoring
       htop
