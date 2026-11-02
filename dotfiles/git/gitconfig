@@ -15,3 +15,5 @@
     editor=vim
 [safe]
 	directory = /home/johanan/code/os
+[beads]
+	role = maintainer
