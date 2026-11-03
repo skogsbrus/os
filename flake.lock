@@ -140,16 +140,15 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1793599112,
-        "narHash": "sha256-fD2WCvbgKiwKcfZ4uPoDMIodPn+CmFz8TzGBrNF+B7M=",
-        "ref": "mvp",
-        "rev": "5b6378816486ae14b6f6a0b4afefc3fe293354e6",
-        "revCount": 58,
+        "lastModified": 1793723772,
+        "narHash": "sha256-ux0wqWb0odFYthQqgXioguSFcQBtPtrEMUjG98cagjQ=",
+        "ref": "refs/heads/main",
+        "rev": "aa21d0dbe3afcdb6f13e60797bf7df2dc147a6a1",
+        "revCount": 87,
         "type": "git",
         "url": "ssh://git@github.com/skogsbrus/foldl"
       },
       "original": {
-        "ref": "mvp",
         "type": "git",
         "url": "ssh://git@github.com/skogsbrus/foldl"
       }

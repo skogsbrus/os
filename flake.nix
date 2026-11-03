@@ -8,7 +8,7 @@
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
     private.url = "git+ssh://git@github.com/skogsbrus/os-private";
-    foldl.url = "git+ssh://git@github.com/skogsbrus/foldl?ref=mvp";
+    foldl.url = "git+ssh://git@github.com/skogsbrus/foldl";
     foldl.inputs.nixpkgs.follows = "unstable";
     foldl.inputs.home-manager.follows = "home-manager";
   };
