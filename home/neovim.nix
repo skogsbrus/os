@@ -28,9 +28,12 @@ let
   };
   treesitterContextCfg = ''
     lua << EOF
-      require("nvim-treesitter.configs").setup({
-        ensure_installed = {},
-        highlight = { enable = true},
+      -- nvim-treesitter (main branch) no longer provides `configs`;
+      -- enable highlighting via the built-in API when a parser exists.
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function(args)
+          pcall(vim.treesitter.start, args.buf)
+        end,
       })
       require("treesitter-context").setup({
         enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
