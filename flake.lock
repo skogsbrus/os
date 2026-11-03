@@ -47,6 +47,21 @@
         "type": "github"
       }
     },
+    "crane": {
+      "locked": {
+        "lastModified": 1792350552,
+        "narHash": "sha256-292lvpvxTGKryKxh3/3tcIVi85CwYGdl4oOi113Sob8=",
+        "owner": "ipetkov",
+        "repo": "crane",
+        "rev": "e675a36b7377bebe41d548388a2501cbb16d380d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ipetkov",
+        "repo": "crane",
+        "type": "github"
+      }
+    },
     "darwin": {
       "inputs": {
         "nixpkgs": [
@@ -111,6 +126,32 @@
         "ref": "master",
         "repo": "nix-darwin",
         "type": "github"
+      }
+    },
+    "foldl": {
+      "inputs": {
+        "crane": "crane",
+        "home-manager": [
+          "home-manager"
+        ],
+        "nixpkgs": [
+          "unstable"
+        ],
+        "rust-overlay": "rust-overlay"
+      },
+      "locked": {
+        "lastModified": 1793599112,
+        "narHash": "sha256-fD2WCvbgKiwKcfZ4uPoDMIodPn+CmFz8TzGBrNF+B7M=",
+        "ref": "mvp",
+        "rev": "5b6378816486ae14b6f6a0b4afefc3fe293354e6",
+        "revCount": 58,
+        "type": "git",
+        "url": "ssh://git@github.com/skogsbrus/foldl"
+      },
+      "original": {
+        "ref": "mvp",
+        "type": "git",
+        "url": "ssh://git@github.com/skogsbrus/foldl"
       }
     },
     "home-manager": {
@@ -243,10 +284,32 @@
       "inputs": {
         "agenix": "agenix",
         "darwin": "darwin_2",
+        "foldl": "foldl",
         "home-manager": "home-manager_2",
         "nixpkgs": "nixpkgs_2",
         "private": "private",
         "unstable": "unstable"
+      }
+    },
+    "rust-overlay": {
+      "inputs": {
+        "nixpkgs": [
+          "foldl",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793523538,
+        "narHash": "sha256-vHPjEGxtV+StSLW9DJpa3c3gt0UD0s1q4nC98AZ0N0c=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "c85ccd343087c57da6021cafa1647142ad03e32e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
       }
     },
     "systems": {

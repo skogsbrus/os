@@ -128,6 +128,10 @@ let
       nix-direnv.enable = true;
     };
   };
+
+  foldl = {
+    programs.foldl.enable = true;
+  };
 in
 {
 
@@ -153,6 +157,7 @@ in
 
   config = lib.foldl lib.recursiveUpdate { } [
     direnv
+    foldl
     fzf
     tmux
     zsh

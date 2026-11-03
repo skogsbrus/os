@@ -8,9 +8,12 @@
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
     private.url = "git+ssh://git@github.com/skogsbrus/os-private";
+    foldl.url = "git+ssh://git@github.com/skogsbrus/foldl?ref=mvp";
+    foldl.inputs.nixpkgs.follows = "unstable";
+    foldl.inputs.home-manager.follows = "home-manager";
   };
 
-  outputs = { self, nixpkgs, unstable, home-manager, darwin, agenix, private }:
+  outputs = { self, nixpkgs, unstable, home-manager, darwin, agenix, private, foldl }:
   let
       skogsbrus = import ./lib { inherit nixpkgs; };
   in
@@ -33,6 +36,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
+              home-manager.sharedModules = [ foldl.homeManagerModules.default ];
               home-manager.users.johanan = { ... }: {
                 _module.args.unstable = unstable;
                 imports = [ ./hosts/keeper/home.nix ];
@@ -52,6 +56,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
+              home-manager.sharedModules = [ foldl.homeManagerModules.default ];
               home-manager.users.johanan = { ... }: {
                 _module.args.unstable = unstable;
                 imports = [ ./hosts/router/home.nix ];
@@ -67,6 +72,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
+              home-manager.sharedModules = [ foldl.homeManagerModules.default ];
               home-manager.users.johanan = { ... }: {
                 _module.args.unstable = unstable;
                 imports = [ ./hosts/void0/home.nix ];
@@ -89,6 +95,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
+              home-manager.sharedModules = [ foldl.homeManagerModules.default ];
               home-manager.users.johanan = { ... }: {
                 _module.args.unstable = unstable;
                 imports = [ ./hosts/vm-airm2/home.nix ];
@@ -111,6 +118,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
+              home-manager.sharedModules = [ foldl.homeManagerModules.default ];
               home-manager.users.johanan = { ... }: {
                 _module.args.unstable = unstable;
                 imports = [ ./hosts/vm-prom2/home.nix ];
@@ -133,6 +141,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
+              home-manager.sharedModules = [ foldl.homeManagerModules.default ];
               home-manager.users.johanan = { ... }: {
                 _module.args.unstable = unstable;
                 imports = [ ./hosts/workstation/home.nix ];
@@ -151,6 +160,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
+              home-manager.sharedModules = [ foldl.homeManagerModules.default ];
               home-manager.users.johanan = { ... }: {
                 _module.args.unstable = unstable;
                 imports = [ ./hosts/airm2/home.nix ];
@@ -166,6 +176,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
+              home-manager.sharedModules = [ foldl.homeManagerModules.default ];
               home-manager.users.johanan = { ... }: {
                 _module.args.unstable = unstable;
                 imports = [ ./hosts/JOHANAN-M-V3H2/home.nix ];
@@ -181,6 +192,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
+              home-manager.sharedModules = [ foldl.homeManagerModules.default ];
               home-manager.users.johanan = { ... }: {
                 _module.args.unstable = unstable;
                 imports = [ ./hosts/prom2/home.nix ];
